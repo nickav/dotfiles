@@ -1,0 +1,36 @@
+[core]
+	excludesfile = ~/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[user]
+	name = Nick Aversano
+	email = nick23hi@gmail.com
+[credential]
+	helper = osxkeychain
+[alias]
+	co = checkout
+	oc = checkout
+	c = checkout
+	br = branch
+	ci = commit -m
+	st = status
+	dd = reset HEAD --
+	unstage = reset HEAD --
+	us = reset HEAD --
+	last = log -1 HEAD
+	amend = commit --amend -C HEAD
+	am = commit --amend
+	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	cia = commit -a -m
+	aa = add .
+	dc = diff --cached
+	ds = diff --staged
+	undo = reset --soft HEAD^
+	day = log --since '1 day ago' --oneline --author nick23hi@gmail.com
+	discard = checkout --
+	di = checkout --
+	master-alias = symbolic-ref refs/heads/m refs/heads/master
