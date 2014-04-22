@@ -39,6 +39,7 @@ Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-notes'
 "Bundle 'c9s/bufexplorer'
 Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'vim-scripts/dbext.vim'
 Bundle 'vim-ruby/vim-ruby'
@@ -55,6 +56,7 @@ Bundle 'vim-scripts/SyntaxRange'
 Bundle 'Rip-Rip/clang_complete'
 Bundle 'eraserhd/vim-ios'
 Bundle 'msanders/cocoa.vim'
+Bundle 'tpope/vim-rails'
 
 filetype plugin indent on " required!
 
@@ -101,6 +103,12 @@ set iskeyword+=_,$,@,%,#
 
 " new window splits go right
 set splitright
+
+" crontab
+if $VIM_CRONTAB == "true"
+set nobackup
+set nowritebackup
+endif
 
 " keybindings
 " recognize function keys:
@@ -296,7 +304,8 @@ function! Setup_HTML()
 endfunction
 
 "autocmd FileType html,xml inoremap <buffer> <tab> <C-o>:call Smart_HTMLTab()<CR>
-autocmd FileType html,xml call Setup_HTML()
+" added php
+autocmd FileType html,xml,php call Setup_HTML()
 
 "Easily switch between h and cpp files
 function! ToggleSourceHeader()
@@ -315,7 +324,7 @@ function! RunApp()
 	call RunBuildCommand("xcodebuild -target Ball -arch x86_64 -configuration Debug")
 endfunction
 
-function RunBuildCommand(cmd)
+function! RunBuildCommand(cmd)
 	echo "Building..."
 	exec "silent !" . a:cmd . " >build/vim.log 2>&1"
 
@@ -337,6 +346,9 @@ function RunBuildCommand(cmd)
 		echo "Building... OK!"
 	endif
 endfunction
+
+" use 2 spaces instead of tabs for the following files
+autocmd FileType ruby,eruby,html setlocal ts=2 sts=2 sw=2
 
 " wildmenu
 set wildignore+=*.a,*.o
