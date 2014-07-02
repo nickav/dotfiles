@@ -39,7 +39,7 @@ Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-notes'
 "Bundle 'c9s/bufexplorer'
 Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
+"Bundle 'scrooloose/nerdtree'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'vim-scripts/dbext.vim'
 Bundle 'vim-ruby/vim-ruby'
@@ -57,6 +57,7 @@ Bundle 'Rip-Rip/clang_complete'
 Bundle 'eraserhd/vim-ios'
 Bundle 'msanders/cocoa.vim'
 Bundle 'tpope/vim-rails'
+Bundle 'danro/rename.vim'
 
 filetype plugin indent on " required!
 
@@ -109,6 +110,9 @@ if $VIM_CRONTAB == "true"
 set nobackup
 set nowritebackup
 endif
+
+" vim auto reload with git
+set autoread
 
 " keybindings
 " recognize function keys:
@@ -197,7 +201,7 @@ nmap + <C-W>5+
 nmap = <C-w>=
 nmap <C-W>> <C-W>5<
 nmap <C-W>< <C-W>5>
-nmap <C-w>v <C-w>v:e<space>
+"nmap <C-w>v <C-w>v:e<space>
 nmap <C-w><C-v> <C-w>v
 nmap <C-w>\ <C-w>v
 nmap <C-w><C-\> <C-w>v
@@ -305,7 +309,7 @@ endfunction
 
 "autocmd FileType html,xml inoremap <buffer> <tab> <C-o>:call Smart_HTMLTab()<CR>
 " added php
-autocmd FileType html,xml,php call Setup_HTML()
+autocmd FileType html,xml,php,eruby call Setup_HTML()
 
 "Easily switch between h and cpp files
 function! ToggleSourceHeader()
@@ -348,13 +352,13 @@ function! RunBuildCommand(cmd)
 endfunction
 
 " use 2 spaces instead of tabs for the following files
-autocmd FileType ruby,eruby,html setlocal ts=2 sts=2 sw=2
+autocmd FileType ruby,eruby,html,yaml,css,scss setlocal tabstop=2 shiftwidth=2 expandtab
 
 " wildmenu
 set wildignore+=*.a,*.o
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
 set wildignore+=.DS_Store,.git,.hg,.svn
-set wildignore+=*~,*.swp,*.tmp
+set wildignore+=*~,*.swp,*.tmp,*.lock
 set wildmenu
 set wildmode=longest,list
 
@@ -408,8 +412,13 @@ let g:easytags_dynamic_files = 1
 "nmap <leader>ft :FufTaggedFile<CR>
 " Sessions
 let g:session_autoload = 'yes'
-let g:session_autosave = 'yes'
+"let g:session_autosave = 'yes'
 let g:session_default_to_last = 'yes'
 " Nerdcommenter (leader)
 imap <C-_> <C-o><space>ci
 nmap <C-_> <space>ci
+
+"let g:ctrlp_custom_ignore = '\|lock\|git'
+let g:ctrlp_show_hidden = 1
+" AutoComplPop
+let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]

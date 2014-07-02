@@ -34,3 +34,6 @@
 	discard = checkout --
 	di = checkout --
 	master-alias = symbolic-ref refs/heads/m refs/heads/master
+	review = remote update -p
+	up = "!git remote update -p; git merge --ff-only @{u}"
+	untrack = git rm --cached 
