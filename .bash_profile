@@ -39,3 +39,9 @@ fi;
 
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# install j2, awesome replacement for cd
+export JPY=~/bin/j2/j.py
+if [ -f ~/bin/j2/j.sh ]; then
+	. ~/bin/j2/j.sh 
+fi

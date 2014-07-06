@@ -23,6 +23,11 @@ function install() {
 		ln -s $f ~/$f
 	done
 	unset f;
+
+	# install some stuff from git
+	if [ ! -d ~/bin/j2/ ]; then
+		git clone https://github.com/rupa/j2 ~/bin/j2
+	fi
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
