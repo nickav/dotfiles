@@ -37,3 +37,5 @@
 	review = remote update -p
 	up = "!git remote update -p; git merge --ff-only @{u}"
 	untrack = git rm --cached 
+[color]
+	diff = auto

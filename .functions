@@ -48,3 +48,9 @@ function o() {
 	fi;
 }
 
+# send a verizon text to a phone number
+# Usage: text [number] [message (default=Done!)]
+function text() {
+	echo ${2:-Done!} | mailx "$1@vtext.com";
+	echo ${2:-Done!};
+}
