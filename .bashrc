@@ -2,8 +2,6 @@
 # .bashrc is run everytime a new shell window is opened
 #
 alias sudo='sudo '
-alias umd='ssh nja23@grace4.umd.edu'
-alias cornsync='cd ~/www/kickstart/sites/all/themes/stevencorn/ && lsync $stevencorn'
 alias wh='echo 60DcD9c1ka'
 alias g='git'
 alias gs='git status'
@@ -71,15 +69,17 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 	alias "$method"="lwp-request -m '$method'"
 done
 
-# vars
-stevencorn='u74859473@s495483029.onlinehome.us:/kunden/homepages/33/d495483010/htdocs/sites/all/themes/stevencorn'
-
 # functions
 function tm () {
 	if [ "$1" ]; then	
 		tmux attach -d -t "$1" || tmux new -s "$1"
 	else
-		tmux attach -d || tmux new -s play
+		#if [ ~/.tmux-session -e ]; then 
+			#tmux-session restore
+			#rm ~/.tmux-session
+		#else
+			tmux attach -d || tmux new -s dev
+		#fi
 	fi
 }
 

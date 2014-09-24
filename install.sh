@@ -20,7 +20,11 @@ function install() {
 	mkdir -p ~/bin
 
 	for f in bin/*; do
-		ln -s $f ~/$f
+		if [ $print_only ]; then
+			echo "ln -sf $dir/$f $HOME/$f"
+		else
+			ln -sf $dir/$f $HOME/$f
+		fi
 	done
 	unset f;
 

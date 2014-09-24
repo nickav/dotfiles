@@ -45,3 +45,5 @@ export JPY=~/bin/j2/j.py
 if [ -f ~/bin/j2/j.sh ]; then
 	. ~/bin/j2/j.sh 
 fi
+
+export PATH=/usr/local/Cellar:$PATH

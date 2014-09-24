@@ -11,8 +11,9 @@ fi
 if [ "$1" != "" ]; then
   publish $current_branch $1
 else
-  echo "Please enter branch you wish to publish to."
-  echo " --> For example: publish_to <some_branch_name>"
+  #echo "Please enter branch you wish to publish to."
+  #echo " --> For example: publish_to <some_branch_name>"
+  publish $current_branch master
 fi
 }
 function publish {

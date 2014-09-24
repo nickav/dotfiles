@@ -39,3 +39,5 @@
 	untrack = git rm --cached 
 [color]
 	diff = auto
+[push]
+	default = simple
