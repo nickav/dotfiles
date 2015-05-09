@@ -11,4 +11,6 @@ install git
 
 install node # and npm
 
+install z
+
 cleanup

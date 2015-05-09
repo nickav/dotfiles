@@ -69,6 +69,8 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 	alias "$method"="lwp-request -m '$method'"
 done
 
+alias rtun='reattach-to-user-namespace' 
+
 # functions
 function tm () {
 	if [ "$1" ]; then	
@@ -133,3 +135,6 @@ export HISTCONTROL=ignoredups;
 export PATH="$(brew --prefix josegonzalez/php/php55)/bin:$PATH";
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+# include z
+. /usr/local/Cellar/z/1.8/etc/profile.d/z.sh

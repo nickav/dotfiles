@@ -47,3 +47,4 @@ if [ -f ~/bin/j2/j.sh ]; then
 fi
 
 export PATH=/usr/local/Cellar:$PATH
+

@@ -21,9 +21,12 @@ Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
 Bundle 'ervandew/supertab'
 " Auto Completions:
+" light:
 Bundle 'vim-scripts/AutoComplPop'
-"Bundle 'Shougo/neocomplcache.vim'
+Bundle 'Rip-Rip/clang_complete'
+" heavy:
 "Bundle 'Valloric/YouCompleteMe'
+" :End Auto Completions
 Bundle 'docunext/closetag.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
@@ -34,9 +37,8 @@ Bundle 'tomtom/tlib_vim'
 Bundle 'garbas/vim-snipmate'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-repeat'
 Bundle 'xolox/vim-misc'
-Bundle 'xolox/vim-notes'
+"Bundle 'xolox/vim-notes'
 "Bundle 'c9s/bufexplorer'
 Bundle 'scrooloose/nerdcommenter'
 "Bundle 'scrooloose/nerdtree'
@@ -53,9 +55,9 @@ Bundle 'vim-ruby/vim-ruby'
 Bundle 'tomasr/molokai'
 Bundle 'vim-scripts/SyntaxRange'
 " iOS dev: 
-Bundle 'Rip-Rip/clang_complete'
 Bundle 'eraserhd/vim-ios'
 Bundle 'msanders/cocoa.vim'
+
 Bundle 'tpope/vim-rails'
 Bundle 'danro/rename.vim'
 
@@ -324,6 +326,8 @@ endfunction
 autocmd FileType h,cpp nnoremap <tab> <C-o>:call ToggleSourceHeader()<CR>
 nnoremap <C-f> <C-o>:CtrlPBuffer<CR>
 
+au BufReadPost *.lzz set syntax=cpp 
+
 function! RunApp()
 	call RunBuildCommand("xcodebuild -target Ball -arch x86_64 -configuration Debug")
 endfunction
@@ -401,6 +405,7 @@ autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=
 nnoremap <leader>. :CtrlPTag<cr>
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 set wildignore+=*.png,*.jpg,*.gif
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 " EasyTags
 let g:easytags_file = '~/.vim/tags'
 set tags=./tags;
