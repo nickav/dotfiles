@@ -132,9 +132,7 @@ export HISTSIZE=2048;
 export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups;
 
-export PATH="$(brew --prefix josegonzalez/php/php55)/bin:$PATH";
-
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 # include z
-. /usr/local/Cellar/z/1.8/etc/profile.d/z.sh
+. `brew --prefix`/etc/profile.d/z.sh

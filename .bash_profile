@@ -48,3 +48,5 @@ fi
 
 export PATH=/usr/local/Cellar:$PATH
 
+
+[ -s "/Users/naversan/.nvm/nvm.sh" ] && . "/Users/naversan/.nvm/nvm.sh" # This loads nvm
