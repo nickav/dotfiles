@@ -28,9 +28,11 @@ function install() {
 	done
 	unset f;
 
-	# install some stuff from git
-	if [ ! -d ~/bin/j2/ ]; then
-		git clone https://github.com/rupa/j2 ~/bin/j2
+	touch ~/.vimrc.local
+
+	if [ "$(uname)" == "Darwin" ]; then
+		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+		brew bundle
 	fi
 }
 

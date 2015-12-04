@@ -18,7 +18,7 @@ Bundle 'terryma/vim-multiple-cursors'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'mattn/emmet-vim'
 Bundle 'Raimondi/delimitMate'
-Bundle 'scrooloose/syntastic'
+"Bundle 'scrooloose/syntastic'
 Bundle 'ervandew/supertab'
 " Auto Completions:
 " light:
@@ -38,28 +38,22 @@ Bundle 'garbas/vim-snipmate'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
 Bundle 'xolox/vim-misc'
-"Bundle 'xolox/vim-notes'
 "Bundle 'c9s/bufexplorer'
 Bundle 'scrooloose/nerdcommenter'
 "Bundle 'scrooloose/nerdtree'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'vim-scripts/dbext.vim'
 Bundle 'vim-ruby/vim-ruby'
-"Bundle 'tpope/vim-haml'
 "Bundle 'spf13/PIV'
 "Bundle 'godlygeek/tabular'
-"Bundle 'xolox/vim-easytags'
 "Bundle 'L9'
-"Bundle 'FuzzyFinder'
 " Color Schemes
 Bundle 'tomasr/molokai'
 Bundle 'vim-scripts/SyntaxRange'
-" iOS dev: 
-Bundle 'eraserhd/vim-ios'
-Bundle 'msanders/cocoa.vim'
-
-Bundle 'tpope/vim-rails'
 Bundle 'danro/rename.vim'
+
+" Include local config:
+source ~/.vimrc.local
 
 filetype plugin indent on " required!
 
@@ -137,6 +131,8 @@ vmap <C-c> y
 vmap <C-x> x
 imap <C-v> <esc>P
 set pastetoggle=<F7>
+" Paste from clipboard
+imap <D-V> ^O"+p
 " saving:
 nmap <silent> <C-s> :w<CR>
 inoremap <C-s> <esc>:w<CR>
@@ -254,7 +250,18 @@ endfunction
 nmap <leader>l :call Build()<CR>
 nmap <leader><CR> :call Build()<CR>
 "nmap <S-B> 
-"autocmd FileType ruby nmap <leader>l :call Build("ruby")<CR>
+
+fun! JavaSetup()
+	nmap <leader>l :call JavaC()<CR>
+	nmap <leader><CR> :call JavaC()<CR>
+endfunction
+
+function! JavaC()
+	execute "w"
+	execute "!javac" . " " . expand("%")
+	execute "!java " . "-cp . " . expand("%:r") 
+endfunction
+autocmd FileType java call JavaSetup()
 
 " Split Tags
 fun! SPLITAG() range
@@ -405,25 +412,17 @@ autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=
 nnoremap <leader>. :CtrlPTag<cr>
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 set wildignore+=*.png,*.jpg,*.gif
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-" EasyTags
-let g:easytags_file = '~/.vim/tags'
-set tags=./tags;
-let g:easytags_dynamic_files = 1
-"g:easytags_auto_highlight = 0
-" FuzzyFinder
-"nmap <leader>ff :FufFileWithCurrentBufferDir<CR>
-"nmap <leader>fb :FufBuffer<CR>
-"nmap <leader>ft :FufTaggedFile<CR>
+set wildignore+=*.pyc
 " Sessions
 let g:session_autoload = 'yes'
-"let g:session_autosave = 'yes'
+let g:session_autosave = 'no'
 let g:session_default_to_last = 'yes'
 " Nerdcommenter (leader)
 imap <C-_> <C-o><space>ci
 nmap <C-_> <space>ci
 
-"let g:ctrlp_custom_ignore = '\|lock\|git'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_max_files=800
 " AutoComplPop
 let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]

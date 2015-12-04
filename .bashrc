@@ -70,6 +70,7 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 done
 
 alias rtun='reattach-to-user-namespace' 
+alias rtn='reattach-to-user-namespace' 
 
 # functions
 function tm () {
@@ -84,6 +85,8 @@ function tm () {
 		#fi
 	fi
 }
+# enable full color on tmux
+TERM=xterm-256color
 
 function s() { 
 	q="$@"
