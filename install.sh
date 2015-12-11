@@ -28,6 +28,8 @@ function install() {
 	done
 	unset f;
 
+	mkdir ~/.tmp
+	touch ~/.extra
 	touch ~/.vimrc.local
 
 	if [ "$(uname)" == "Darwin" ]; then

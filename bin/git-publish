@@ -2,6 +2,7 @@
 #---------------------------------------------------------------------------#
 #--                   publish_to functions                                --#
 #---------------------------------------------------------------------------#
+# TODO: safety check to see if is ancestor: git merge-base --is-ancestor $current_branch $1
 function publish_to {
 current_branch=$(git branch 2>/dev/null | grep -e '^*' | sed -E 's/^\* (.+)$/\1 /')
 

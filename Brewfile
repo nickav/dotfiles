@@ -5,7 +5,7 @@ update
 upgrade
 
 install vim --override-system-vi
-install homebrew/php/php55 --with-gmp
+#install homebrew/php/php55 --with-gmp
 install git
 install node # and npm
 install z
@@ -18,5 +18,6 @@ cask install google-chrome
 cask install iterm2
 cask install spectacle
 cask install quicksilver
+cask install sublime-text3
 
 cleanup
