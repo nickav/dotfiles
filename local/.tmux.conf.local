@@ -1,0 +1,5 @@
+unbind C-b
+
+bind-key C-a last-window
+
+set -g status-bg green

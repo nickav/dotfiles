@@ -7,8 +7,14 @@ function install() {
 	print_only="$1";
 	dir=`pwd`;
 	echo $dir;
+	mkdir ~/.backup;
 	for f in .*; do
 		if [ $f != "." ] && [ $f != ".." ] && [ $f != ".git" ] && [ $f != ".gitignore" ] && [[ $f != *.swp ]]; then
+			# backup existing files
+			if [ $HOME/$f -f ]; then
+				cp $HOME/$f ~/.backup/$f;
+			fi
+
 			if [ $print_only ]; then
 				echo "ln -sf $dir/$f $HOME/$f";
 			else
@@ -31,10 +37,13 @@ function install() {
 	mkdir ~/.tmp
 	touch ~/.extra
 	touch ~/.vimrc.local
+	touch ~/.tmux.conf.local
 
 	if [ "$(uname)" == "Darwin" ]; then
 		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 		brew bundle
+	else
+		apt-get install silversearcher-ag
 	fi
 }
 

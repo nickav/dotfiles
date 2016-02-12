@@ -136,6 +136,3 @@ export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups;
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
-# include z
-. `brew --prefix`/etc/profile.d/z.sh
