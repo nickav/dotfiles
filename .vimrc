@@ -243,9 +243,12 @@ augroup END
 
 " Build commands 
 function! Build() "a:command
-	let command = &filetype
+	let cmd = &filetype
+	if (cmd == 'javascript')
+		let cmd = 'node'
+	endif
 	execute "w"
-	execute "!" . command . " " . expand("%")
+	execute "!" . cmd . " " . expand("%")
 endfunction
 nmap <leader>l :call Build()<CR>
 nmap <leader><CR> :call Build()<CR>
@@ -363,7 +366,7 @@ function! RunBuildCommand(cmd)
 endfunction
 
 " use 2 spaces instead of tabs for the following files
-autocmd FileType ruby,eruby,html,yaml,css,scss setlocal tabstop=2 shiftwidth=2 expandtab
+autocmd FileType ruby,eruby,html,yaml,css,scss,javascript setlocal tabstop=2 shiftwidth=2 expandtab softtabstop=2
 
 " wildmenu
 set wildignore+=*.a,*.o

@@ -136,3 +136,4 @@ export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups;
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$(npm config get prefix)/bin
