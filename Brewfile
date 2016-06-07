@@ -8,6 +8,7 @@ install vim --override-system-vi
 #install homebrew/php/php55 --with-gmp
 install git
 install node # and npm
+install tmux
 install z
 install the_silver_searcher
 install reattach-to-user-namespace
