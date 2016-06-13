@@ -35,10 +35,6 @@ alias l='ls'
 alias e='exit'
 alias v='vi'
 alias h="history"
-alias c='j'
-alias jl='j -l'
-alias jt='j -t recent'
-alias jr='j -t rank'
 alias oc='exec rlwrap /usr/local/bin/ocaml "$@"'
 alias db='~/bin/Dropbox-Uploader/dropbox_uploader.sh'
 alias my='sudo mysqld_safe'
@@ -93,12 +89,17 @@ function s() {
 	open /Applications/Google\ Chrome.app/ "http://www.google.com/search?q=$q";
 }
 
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+	. $(brew --prefix)/etc/bash_completion
+fi
+
 # Source a git completion script
 if [ -f ~/bin/git-completion.sh ]; then
-       . ~/bin/git-completion.sh
-else
-  echo "Could not find git completion script"
+	. ~/bin/git-completion.sh
 fi
+
+# only need to tab once
+bind 'set show-all-if-ambiguous on'
 
 # Git branch
 function parse_git_branch () {

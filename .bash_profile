@@ -40,13 +40,5 @@ fi;
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-# install j2, awesome replacement for cd
-export JPY=~/bin/j2/j.py
-if [ -f ~/bin/j2/j.sh ]; then
-	. ~/bin/j2/j.sh 
-fi
-
 export PATH=/usr/local/Cellar:$PATH
 
-
-[ -s "/Users/naversan/.nvm/nvm.sh" ] && . "/Users/naversan/.nvm/nvm.sh" # This loads nvm

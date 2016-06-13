@@ -15,9 +15,12 @@
 	co = checkout
 	oc = checkout
 	c = checkout
+	count = rev-list --all --count
 	br = branch
+	b = branch
 	ci = commit -m
 	st = status
+	s = status
 	dd = reset HEAD --
 	unstage = reset HEAD --
 	us = reset HEAD --
@@ -26,11 +29,14 @@
 	am = commit --amend
 	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	cia = commit -a -m
+	ca = commit -a -m
 	aa = add .
+	a = add
 	dc = diff --cached
 	ds = diff --staged
 	undo = reset --soft HEAD^
 	day = log --since '1 day ago' --oneline --author nick23hi@gmail.com
+	week = log --since '1 week ago' --oneline --author nick23hi@gmail.com
 	discard = checkout --
 	di = checkout --
 	master-alias = symbolic-ref refs/heads/m refs/heads/master

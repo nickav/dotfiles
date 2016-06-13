@@ -13,6 +13,13 @@ install z
 install the_silver_searcher
 install reattach-to-user-namespace
 
+# better bash autocomplete
+install bash-completion
+tap homebrew/completions
+install ruby-completion
+install rake-completion
+install gem-completion
+
 # Mac apps
 install caskroom/cask/brew-cask
 cask install google-chrome

@@ -177,8 +177,7 @@ nnoremap <silent> <CR> :nohlsearch<CR>
 " forgot to sudo? really write the file
 cmap w!! w !sudo tee % >/dev/null
 " jump to closing brace
-imap }} <esc>]}i<right>
-imap <C-j> }}
+nmap }} <esc>]}i<right>
 " disable arrow keys:
 "noremap <up> <nop>
 "noremap <down> <nop>
@@ -319,7 +318,7 @@ function! Setup_HTML()
 	inoremap <buffer> <expr> <Enter> Expand_Enter()
 endfunction
 
-"autocmd FileType html,xml inoremap <buffer> <tab> <C-o>:call Smart_HTMLTab()<CR>
+autocmd FileType html,xml inoremap <buffer> <tab> <C-o>:call Smart_HTMLTab()<CR>
 " added php
 autocmd FileType html,xml,php,eruby call Setup_HTML()
 
@@ -366,7 +365,24 @@ function! RunBuildCommand(cmd)
 endfunction
 
 " use 2 spaces instead of tabs for the following files
-autocmd FileType ruby,eruby,html,yaml,css,scss,javascript setlocal tabstop=2 shiftwidth=2 expandtab softtabstop=2
+autocmd FileType ruby,eruby,html,yaml,css,scss,javascript,coffee setlocal tabstop=2 shiftwidth=2 expandtab softtabstop=2
+au BufRead,BufNewFile *.tag,*.vue set ft=html
+
+command CC CoffeeCompile
+
+" auto open index.js and template.html split screen (when index is opened)
+autocmd FileType javascript call VueJS_Split()
+
+function! VueJS_Split()
+	if (expand('%:t') == 'index.js')
+		let dir = expand('%:p:h')
+		let temp = dir . '/template.html'
+		if (filereadable(temp))
+			execute "lefta vsp " . temp
+			execute "set ft=html"
+		endif
+	endif
+endfunction
 
 " wildmenu
 set wildignore+=*.a,*.o

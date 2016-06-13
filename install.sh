@@ -49,13 +49,15 @@ function install() {
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
 	install;
-elif [ "$1" == "--sandbox" -o "$1" == "-s" ]; then
+elif [ "$1" == "--print" -o "$1" == "-p" ]; then
 	install false;
+elif [ "$1" == "--local" -o "$1" == "-l" ]; then
+	install;
+	# copy all local files
+	for f in 'local/*'; do
+		ln -sf $dir/$f $HOME/$f
+	done
 else
-	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
-	echo "";
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		install;
-	fi;
+	install;
 fi;
 
