@@ -67,7 +67,9 @@ set softtabstop=4
 set smartindent
 set autoindent
 set ruler
-set rnu " relative line numbers
+if version >= 703
+	set rnu " relative line numbers
+endif
 
 " dont' wrap text
 "set textwidth=0
