@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 cd "$(dirname "${BASH_SOURCE}")";
 
-#git pull origin master;
-
 function install() {
 	print_only="$1";
 	dir=`pwd`;
@@ -40,8 +38,7 @@ function install() {
 	touch ~/.tmux.conf.local
 
 	if [ "$(uname)" == "Darwin" ]; then
-		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-		brew bundle
+		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew bundle
 	else
 		apt-get install silversearcher-ag
 	fi

@@ -1,31 +1,54 @@
 # Install command-line tools using homebrew
 # Usage: `brew bundle Brewfile`
+# Create new one from installed brew packages: `brew bundle dump`
 
-update
-upgrade
+# what's on tap?
+tap 'caskroom/cask'
+tap 'homebrew/bundle'
+tap 'homebrew/completions'
+tap 'homebrew/core'
+tap 'homebrew/dupes'
+tap 'homebrew/python'
+tap 'homebrew/science'
+tap 'homebrew/versions'
+tap 'phinze/cask'
+brew 'cask'
 
-install vim --override-system-vi
-#install homebrew/php/php55 --with-gmp
-install git
-install node # and npm
-install tmux
-install z
-install the_silver_searcher
-install reattach-to-user-namespace
+# the essentials
+brew 'macvim', args: ['override-system-vim']
+brew 'tmux'
 
-# better bash autocomplete
-install bash-completion
-tap homebrew/completions
-install ruby-completion
-install rake-completion
-install gem-completion
+# language upgrades
+brew 'node'
+brew 'ruby'
+brew 'python'
 
-# Mac apps
-install caskroom/cask/brew-cask
-cask install google-chrome
-cask install iterm2
-cask install spectacle
-cask install quicksilver
-cask install sublime-text3
+# web
+brew 'postgresql'
+brew 'mysql'
+brew 'mongodb'
+brew 'nginx'
 
-cleanup
+# helpful command line tools
+brew 'reattach-to-user-namespace'
+brew 'ssh-copy-id'
+brew 'the_silver_searcher'
+brew 'wget'
+brew 'fzf'
+
+# media manipulation
+brew 'imagemagick'
+brew 'ffmpeg'
+
+# quick look enhancements
+cask 'betterzipql'
+cask 'qlimagesize'
+cask 'qlcolorcode'
+cask 'qlmarkdown'
+cask 'qlprettypatch'
+cask 'qlstephen'
+cask 'quicklook-csv'
+cask 'quicklook-json'
+cask 'suspicious-package'
+cask 'webp-quicklook'
+
