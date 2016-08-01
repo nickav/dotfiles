@@ -42,6 +42,9 @@ function install() {
 	else
 		apt-get install silversearcher-ag
 	fi
+
+	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && . ~/.fzf/install
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
