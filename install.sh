@@ -49,6 +49,9 @@ function install() {
 		# link os-specific commands
 		ln -sf $dir/.$os $HOME/.system
 	fi
+
+	# install vim plugins
+	vim +PluginInstall +qall
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
