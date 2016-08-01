@@ -21,13 +21,7 @@ alias lsync='. ~/bin/lsync.sh'
 # command aliases
 alias tma='tmux attach -d -t'
 alias tmn='tmux new -s'
-# Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-	colorflag="--color"
-else # OS X `ls`
-	colorflag="-G"
-fi
-alias ls='ls ${colorflag}'
+alias ls='ls --color'
 alias la='ls -al'
 alias lsa='ls -a'
 alias ll='ls -l'
@@ -35,12 +29,9 @@ alias l='ls'
 alias e='exit'
 alias v='vi'
 alias h="history"
-alias oc='exec rlwrap /usr/local/bin/ocaml "$@"'
 alias db='~/bin/Dropbox-Uploader/dropbox_uploader.sh'
 alias my='sudo mysqld_safe'
 alias mroe='more'
-alias artisan='php artisan'
-alias rocketeer='php vendor/bin/rocketeer'
 alias crontab="VIM_CRONTAB=true crontab"
 # stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
@@ -54,11 +45,6 @@ alias dev="cd ~/dev"
 # OS X has no md5sum, use md5 as fallback
 command -v md5sum > /dev/null || alias md5sum="md5"
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
-# recursively delete .DS_Store
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-# Empty the Trash on all mounted volumes and the main HDD
-# Also, clear Apple’s System Logs to improve shell startup speed
-alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
 
 # One of @janmoesen’s ProTips
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
@@ -73,25 +59,17 @@ function tm () {
 	if [ "$1" ]; then	
 		tmux attach -d -t "$1" || tmux new -s "$1"
 	else
-		#if [ ~/.tmux-session -e ]; then 
-			#tmux-session restore
-			#rm ~/.tmux-session
-		#else
-			tmux attach -d || tmux new -s dev
-		#fi
+		tmux attach -d || tmux new -s dev
 	fi
 }
 # enable full color on tmux
 TERM=xterm-256color
 
+# quick google search
 function s() { 
 	q="$@"
 	open /Applications/Google\ Chrome.app/ "http://www.google.com/search?q=$q";
 }
-
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-	. $(brew --prefix)/etc/bash_completion
-fi
 
 # Source a git completion script
 if [ -f ~/bin/git-completion.sh ]; then
@@ -113,9 +91,7 @@ GREEN="\[\033[0;32m\]"
 NO_COLOR="\[\033[0m\]"
 
 PS1="$GREEN\u$NO_COLOR:\w$YELLOW\$(parse_git_branch)$NO_COLOR\$ "
-#PS1="\u$NO_COLOR:\w$YELLOW\$(parse_git_branch) $NO_COLOR\$ "
 
-# unbind C-s & C-q
 bind -r '\C-s'
 stty -ixon
 # map C-k to Up

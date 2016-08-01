@@ -32,19 +32,23 @@ function install() {
 	done
 	unset f;
 
+	# commmon install stuff
 	mkdir ~/.tmp
 	touch ~/.extra
 	touch ~/.vimrc.local
 	touch ~/.tmux.conf.local
 
-	if [ "$(uname)" == "Darwin" ]; then
-		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew bundle
-	else
-		apt-get install silversearcher-ag
-	fi
-
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && . ~/.fzf/install
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+	# get lowercase os name
+	os=`echo \`uname\` | tr '[A-Z]' '[a-z]'`
+	# run os-specific install script (if it exists)
+	if [ "${os}_install.sh" -f ]; then
+		chmod +x "${os}_install.sh" && . "./${os}_install.sh"
+		# link os-specific commands
+		ln -sf $dir/.$os $HOME/.system
+	fi
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then

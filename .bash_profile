@@ -14,7 +14,7 @@ fi
 
 # load shell dotfiles
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{exports,extra,aliases,bash_aliases,functions}; do
+for file in ~/.{exports,extra,aliases,bash_aliases,functions,system}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
