@@ -38,6 +38,7 @@ function install() {
 	touch ~/.vimrc.local
 	touch ~/.tmux.conf.local
 
+	# clone repos
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && . ~/.fzf/install
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 

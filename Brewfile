@@ -40,6 +40,16 @@ brew 'fzf'
 brew 'imagemagick'
 brew 'ffmpeg'
 
+# applications
+cask_args appdir: '/Applications'
+cask 'google-chrome'
+cask 'iterm2'
+cask 'spotify'
+cask 'appcleaner'
+cask 'spectacle'
+cask 'quicksilver'
+cask 'karabiner'
+
 # quick look enhancements
 cask 'betterzipql'
 cask 'qlimagesize'
