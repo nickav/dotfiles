@@ -167,11 +167,6 @@ nnoremap <silent> <CR> :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
 " jump to closing brace
 nmap }} <esc>]}i<right>
-" disable arrow keys:
-noremap <up> <nop>
-noremap <down> <nop>
-noremap <left> <nop>
-noremap <right> <nop>
 " control-hjkl as navigation
 inoremap <C-k> <up>
 inoremap <C-j> <down>
