@@ -14,7 +14,6 @@ call vundle#rc()
 " let Vundle manage Vundle - required!
 Bundle 'gmarik/vundle'
 " Bundles
-Bundle 'terryma/vim-multiple-cursors'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'mattn/emmet-vim'
 Bundle 'Raimondi/delimitMate'
@@ -30,7 +29,6 @@ Bundle 'Rip-Rip/clang_complete'
 Bundle 'docunext/closetag.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'xolox/vim-session'
 Bundle 'tpope/vim-repeat'
 Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
@@ -67,13 +65,13 @@ set softtabstop=4
 set smartindent
 set autoindent
 set ruler
+
 if version >= 703
 	set rnu " relative line numbers
+	" toggle relative / absolute line numbers on insert mode
+	au InsertEnter * set nornu
+	au InsertLeave * set rnu
 endif
-
-" dont' wrap text
-"set textwidth=0
-"set wrapmargin=0
 
 set showmatch
 set incsearch
@@ -84,7 +82,7 @@ set nohidden
 "set nobackup
 "set nowritebackup
 "set noswapfile
-set backupdir=~/.tmp
+set backupdir=~/.vim/.backup//
 
 set history=1000
 set undolevels=1000
@@ -112,6 +110,10 @@ endif
 " vim auto reload with git
 set autoread
 
+" vim project-specific .vimrc files
+set exrc
+set secure
+
 " keybindings
 " recognize function keys:
 execute "set <F1>=\eOP"
@@ -133,11 +135,9 @@ vmap <C-c> y
 vmap <C-x> x
 imap <C-v> <esc>P
 set pastetoggle=<F7>
-" Paste from clipboard
-imap <D-V> ^O"+p
 " saving:
 nmap <silent> <C-s> :w<CR>
-inoremap <C-s> <esc>:w<CR>
+inoremap <C-s> <esc>:w<CR>i
 nmap <silent> <leader>s <esc>:wq<CR>
 nmap <silent> <leader>q <esc>:q!<CR>
 " semi-colon
@@ -181,10 +181,11 @@ cmap w!! w !sudo tee % >/dev/null
 " jump to closing brace
 nmap }} <esc>]}i<right>
 " disable arrow keys:
-"noremap <up> <nop>
-"noremap <down> <nop>
-"noremap <left> <nop>
-"noremap <right> <nop>
+noremap <up> <nop>
+noremap <down> <nop>
+noremap <left> <nop>
+noremap <right> <nop>
+" control-hjkl as navigation
 inoremap <C-k> <up>
 inoremap <C-j> <down>
 inoremap <C-h> <left>
@@ -195,27 +196,25 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 imap <C-w> <C-o><C-w>
+" window resizing:
 nmap - <C-W>5-
 nmap + <C-W>5+
 nmap = <C-w>=
 nmap <C-W>> <C-W>5<
 nmap <C-W>< <C-W>5>
-"nmap <C-w>v <C-w>v:e<space>
+" window splitting:
 nmap <C-w><C-v> <C-w>v
 nmap <C-w>\ <C-w>v
 nmap <C-w><C-\> <C-w>v
 nmap <C-w>- <C-w>s
 nmap <silent> <C-w>N :vnew<CR>
-" Make C-w C-L resize and C-w > swap
-"nnoremap <C-w>L <C-w>>
 " scroll viewport faster
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>
 " Open def in new tab, open def in vs:
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-" Increment Number (re-map)
-nmap <C-z> <C-a>
+
 " Disable auto-commenting on enter
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
@@ -231,10 +230,6 @@ nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 inoremap ; <esc>:pclose<CR>i<right>;
 
-" toggle relative / absolute line numbers
-au InsertEnter * set nu
-au InsertLeave * set rnu
-
 " highlight current cursorline
 augroup CursorLine
   au!
@@ -242,30 +237,21 @@ augroup CursorLine
   au WinLeave * setlocal nocursorline
 augroup END
 
-" Build commands 
-function! Build() "a:command
+" Build/run command
+function! Run()
 	let cmd = &filetype
-	if (cmd == 'javascript')
-		let cmd = 'node'
-	endif
+	let g:run = get(g:, 'run', "!" . &filetype . " " . expand("%"))
+	" save and run:
 	execute "w"
-	execute "!" . cmd . " " . expand("%")
-endfunction
-nmap <leader>l :call Build()<CR>
-nmap <leader><CR> :call Build()<CR>
-"nmap <S-B> 
-
-fun! JavaSetup()
-	nmap <leader>l :call JavaC()<CR>
-	nmap <leader><CR> :call JavaC()<CR>
+	execute g:run
 endfunction
 
-function! JavaC()
-	execute "w"
-	execute "!javac" . " " . expand("%")
-	execute "!java " . "-cp . " . expand("%:r") 
-endfunction
-autocmd FileType java call JavaSetup()
+nmap <leader>l :call Run()<CR>
+nmap <leader><CR> :call Run()<CR>
+
+" custom build commands
+autocmd FileType java let g:run="!javac % | java -cp . %:r"
+autocmd FileType javascript let g:run="!node %"
 
 " Split Tags
 fun! SPLITAG() range
@@ -286,43 +272,23 @@ fun! SPLITAG() range
 endfun
 nmap <C-]> :call SPLITAG()<CR>z.
 
-" HTML Emment Tab binding
+" HTML Emmet Tab binding
 function! Smart_HTMLTab()
   let line = getline('.')
   let substr = strpart(line, -1, col('.'))
   let substr = matchstr(substr, "[^ \t]*$")
   let has_slash = match(line, '\/') != -1
+  let should_expand = match(line, '>') != -1 && match(line, '<') == -1
   if (strlen(substr)==0)
     call feedkeys("\<C-t>")
   elseif (has_slash)	
     call feedkeys("\<C-y>n")
-  else
+  elseif (should_expand)
     call feedkeys("\<C-y>,")
   endif
 endfunction
 
-function! Expand_Enter()
-	let line = getline('.')
-	let col = col('.')
-	let first = line[col-2]
-	let second = line[col-1]
-	let third = line[col]
-	if (first ==# ">" && second ==# "<" && third ==# "/")
-		return "\<CR>\<C-o>==\<C-o>O"
-	else
-		return "\<CR>"
-	endif
-endfunction
-
-function! Setup_HTML()
-	inoremap <buffer> <tab> <C-o>:call Smart_HTMLTab()<CR>
-	inoremap <buffer> <S-tab> <C-y>N
-	inoremap <buffer> <expr> <Enter> Expand_Enter()
-endfunction
-
-autocmd FileType html,xml inoremap <buffer> <tab> <C-o>:call Smart_HTMLTab()<CR>
-" added php
-autocmd FileType html,xml,php,eruby call Setup_HTML()
+autocmd FileType html,xml,javascript,eruby inoremap <buffer> <tab> <C-o>:call Smart_HTMLTab()<CR>
 
 "Easily switch between h and cpp files
 function! ToggleSourceHeader()
@@ -337,38 +303,12 @@ endfunction
 autocmd FileType h,cpp nnoremap <tab> <C-o>:call ToggleSourceHeader()<CR>
 nnoremap <C-f> <C-o>:CtrlPBuffer<CR>
 
-au BufReadPost *.lzz set syntax=cpp 
-
-function! RunApp()
-	call RunBuildCommand("xcodebuild -target Ball -arch x86_64 -configuration Debug")
-endfunction
-
-function! RunBuildCommand(cmd)
-	echo "Building..."
-	exec "silent !" . a:cmd . " >build/vim.log 2>&1"
-
-	silent !grep -q '^\*\* BUILD FAILED' build/vim.log
-	redraw!
-	if !v:shell_error
-		set errorformat=
-			\%f:%l:%c:{%*[^}]}:\ error:\ %m,
-			\%f:%l:%c:{%*[^}]}:\ fatal error:\ %m,
-			\%f:%l:%c:{%*[^}]}:\ warning:\ %m,
-			\%f:%l:%c:\ error:\ %m,
-			\%f:%l:%c:\ fatal\ error:\ %m,
-			\%f:%l:%c:\ warning:\ %m,
-			\%f:%l:\ error:\ %m,
-			\%f:%l:\ fatal\ error:\ %m,
-			\%f:%l:\ warning:\ %m
-		cfile! build/vim.log
-	else
-		echo "Building... OK!"
-	endif
-endfunction
-
 " use 2 spaces instead of tabs for the following files
 autocmd FileType ruby,eruby,html,yaml,css,scss,javascript,coffee setlocal tabstop=2 shiftwidth=2 expandtab softtabstop=2
+
 au BufRead,BufNewFile *.tag,*.vue set ft=html
+au BufRead,BufNewFile *.md,*.txt set tw=80
+au BufReadPost *.lzz set syntax=cpp 
 
 command CC CoffeeCompile
 
@@ -409,11 +349,6 @@ noremap <leader>m <Esc>:marks<CR>
 let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 " packages setup
-" multi cursors:
-let g:multi_cursor_next_key='<C-n>'
-let g:multi_cursor_prev_key='<C-p>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
 " Easy Motion - f, t, w:
 let g:EasyMotion_leader_key = '<Leader>'
 " Super tab:
@@ -434,10 +369,6 @@ nnoremap <leader>. :CtrlPTag<cr>
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.pyc
-" Sessions
-let g:session_autoload = 'yes'
-let g:session_autosave = 'no'
-let g:session_default_to_last = 'yes'
 " Nerdcommenter (leader)
 imap <C-_> <C-o><space>ci
 nmap <C-_> <space>ci

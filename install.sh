@@ -33,7 +33,7 @@ function install() {
 	unset f;
 
 	# commmon install stuff
-	mkdir ~/.tmp
+	mkdir -p ~/.vim/.backup
 	touch ~/.extra
 	touch ~/.vimrc.local
 	touch ~/.tmux.conf.local
