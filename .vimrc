@@ -67,10 +67,11 @@ set autoindent
 set ruler
 
 if version >= 703
+	au BufRead,BufNewFile * set nu
 	set rnu " relative line numbers
 	" toggle relative / absolute line numbers on insert mode
-	au InsertEnter * set nornu
-	au InsertLeave * set rnu
+	"au InsertEnter * set nornu
+	"au InsertLeave * set rnu
 endif
 
 set showmatch
@@ -159,22 +160,8 @@ nnoremap <silent> <F1> :set nu<CR>
 nnoremap <silent> <F2> :set nornu!<CR>
 " reload current file
 noremap <F5> <esc>:so %<CR>
-function! ToggleFocusMode()
-  if (&laststatus != 0)
-    set laststatus=0
-    set noruler
-	set nornu
-  else
-    set laststatus=2
-    set ruler
-	set rnu
-  endif
-endfunc
-nnoremap <silent> <F3> :call ToggleFocusMode()<cr>
 
-"au BufWritePost .vimrc so $VIMRC
 " clear search:
-"nmap <silent> <leader>/ :nohlsearch<CR>
 nnoremap <silent> <CR> :nohlsearch<CR>
 " forgot to sudo? really write the file
 cmap w!! w !sudo tee % >/dev/null
@@ -238,20 +225,22 @@ augroup CursorLine
 augroup END
 
 " Build/run command
+
 function! Run()
-	let cmd = &filetype
-	let g:run = get(g:, 'run', "!" . &filetype . " " . expand("%"))
+	let b:run = get(b:, 'run', "!" . &filetype . " " . expand("%"))
 	" save and run:
 	execute "w"
-	execute g:run
+	execute b:run
 endfunction
 
-nmap <leader>l :call Run()<CR>
-nmap <leader><CR> :call Run()<CR>
+command Run :call Run()
+nmap <leader>l :Run<CR>
+nmap <leader><CR> :Run<CR>
 
 " custom build commands
-autocmd FileType java let g:run="!javac % | java -cp . %:r"
-autocmd FileType javascript let g:run="!node %"
+autocmd FileType java let b:run="!javac % | java -cp . %:r"
+autocmd FileType javascript let b:run="!node %"
+autocmd FileType vim let b:run="so %"
 
 " Split Tags
 fun! SPLITAG() range
@@ -369,12 +358,14 @@ nnoremap <leader>. :CtrlPTag<cr>
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.pyc
-" Nerdcommenter (leader)
-imap <C-_> <C-o><space>ci
-nmap <C-_> <space>ci
 
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_files=800
+
+" Nerdcommenter (leader)
+imap <C-_> <C-o><space>ci
+nmap <C-_> <space>ci
+
 " AutoComplPop
 let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]
