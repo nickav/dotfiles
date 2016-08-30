@@ -278,7 +278,7 @@ fun! SPLITAG() range
 endfun
 nmap <C-]> :call SPLITAG()<CR>z.
 
-Easily switch between h and cpp files
+" Easily switch between h and cpp files
 function! ToggleSourceHeader()
 	if (expand ("%:e") == "cpp")
 		call feedkeys(":e %<.h\<CR>")
