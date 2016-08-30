@@ -75,13 +75,23 @@ filetype plugin indent on " required!
 set bs=indent,eol,start
 set smartcase
 set scrolloff=4 " show at least _ lines
-set ts=4 " tab width
-set shiftwidth=4
-set softtabstop=4
-"set expandtab " use spaces instead
 set smartindent
 set autoindent
 set ruler
+
+" whitespace
+" use tabs:
+set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
+" use 2 spaces instead of tabs for the following files:
+autocmd FileType ruby,eruby,html,yaml,css,scss,javascript,coffee
+	\ setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+" max line width:
+set textwidth=80
+autocmd BufEnter * highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+autocmd BufEnter * match OverLength /\%81v.\+/
+
+" understand special filetypes:
+au BufRead,BufNewFile *.tag,*.vue set ft=html
 
 set nu
 if version >= 703
@@ -115,8 +125,8 @@ set splitright
 
 " crontab
 if $VIM_CRONTAB == "true"
-set nobackup
-set nowritebackup
+	set nobackup
+	set nowritebackup
 endif
 
 " vim auto reload with git
@@ -127,13 +137,11 @@ set exrc
 set secure
 
 " wildmenu
-set wildignore+=*.a,*.o
+set wildignore+=*.a,*.o,*.pyc,*.class
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
 set wildignore+=.DS_Store,.git,.hg,.svn
-set wildignore+=*~,*.swp,*.tmp,*.lock
+set wildignore+=*~,*.tmp,*.lock
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-set wildignore+=*.png,*.jpg,*.gif
-set wildignore+=*.pyc
 set wildmenu
 set wildmode=longest,list
 
@@ -242,15 +250,23 @@ augroup CursorLine
 augroup END
 
 " Build/run command
-
 function! Run()
-	let b:run = get(b:, 'run', "!" . &filetype . " " . expand("%"))
+	let run = "!" . &filetype . " " . expand("%")
+	if exists("b:run")
+		let run = b:run
+	elseif exists("t:run")
+		let run = t:run
+	elseif exists("w:run")
+		let run = w:run
+	elseif exists("g:run")
+		let run = g:run
+	endif
 	" save and run:
 	execute "w"
-	execute b:run
+	execute run
 endfunction
 
-command Run :call Run()
+command! Run :call Run()
 nmap <leader>l :Run<CR>
 nmap <leader><CR> :Run<CR>
 
@@ -290,13 +306,6 @@ endfunction
 
 autocmd FileType h,cpp nnoremap <tab> <C-o>:call ToggleSourceHeader()<CR>
 nnoremap <C-f> <C-o>:CtrlPBuffer<CR>
-
-" whitespace:
-" use 2 spaces instead of tabs for the following files
-autocmd FileType ruby,eruby,html,yaml,css,scss,javascript,coffee setlocal tabstop=2 shiftwidth=2 expandtab softtabstop=2
-
-au BufRead,BufNewFile *.tag,*.vue set ft=html
-au BufRead,BufNewFile *.md,*.txt set tw=80
 
 " auto open index.js and template.html split screen (when index is opened)
 function! VueJS_Split()
