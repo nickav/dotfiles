@@ -12,43 +12,60 @@ endif
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 " let Vundle manage Vundle - required!
-Bundle 'gmarik/vundle'
-" Bundles
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'mattn/emmet-vim'
-Bundle 'Raimondi/delimitMate'
-"Bundle 'scrooloose/syntastic'
-Bundle 'ervandew/supertab'
-" Auto Completions:
+Plugin 'gmarik/vundle'
+
+" Plugins
+Plugin 'Lokaltog/vim-easymotion'
+let g:EasyMotion_leader_key = '<Leader>'
+
+Plugin 'mattn/emmet-vim'
+Plugin 'Raimondi/delimitMate'
+let g:delimitMate_expand_cr = 1
+let delimitMate_matchpairs = "(:),[:],{:}"
+
+Plugin 'ervandew/supertab'
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+
+" auto completions:
 " light:
-Bundle 'vim-scripts/AutoComplPop'
-Bundle 'Rip-Rip/clang_complete'
+Plugin 'vim-scripts/AutoComplPop'
+let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]
+Plugin 'Rip-Rip/clang_complete'
 " heavy:
-"Bundle 'Valloric/YouCompleteMe'
-" :End Auto Completions
-Bundle 'docunext/closetag.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'tpope/vim-repeat'
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'tomtom/tlib_vim'
-Bundle 'garbas/vim-snipmate'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-surround'
-Bundle 'xolox/vim-misc'
-"Bundle 'c9s/bufexplorer'
-Bundle 'scrooloose/nerdcommenter'
-"Bundle 'scrooloose/nerdtree'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'vim-scripts/dbext.vim'
-Bundle 'vim-ruby/vim-ruby'
-"Bundle 'spf13/PIV'
-"Bundle 'godlygeek/tabular'
-"Bundle 'L9'
-" Color Schemes
-Bundle 'tomasr/molokai'
-Bundle 'vim-scripts/SyntaxRange'
-Bundle 'danro/rename.vim'
+"Plugin 'Valloric/YouCompleteMe'
+
+Plugin 'docunext/closetag.vim'
+" only load for html files:
+let b:closetag_html_style=0
+autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
+
+Plugin 'kien/ctrlp.vim'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_max_files=800
+nnoremap <C-f> <C-o>:CtrlPBuffer<CR>
+
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'tpope/vim-repeat'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'xolox/vim-misc'
+Plugin 'scrooloose/nerdcommenter'
+imap <C-_> <C-o><space>ci
+nmap <C-_> <space>ci
+
+Plugin 'scrooloose/nerdtree'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'vim-scripts/dbext.vim'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tomasr/molokai'
+Plugin 'tpope/vim-eunuch'
+Plugin 'pangloss/vim-javascript'
+let g:javascript_plugin_flow = 1
 
 " Include local config:
 source ~/.vimrc.local
@@ -66,12 +83,9 @@ set smartindent
 set autoindent
 set ruler
 
+set nu
 if version >= 703
-	au BufRead,BufNewFile * set nu
 	set rnu " relative line numbers
-	" toggle relative / absolute line numbers on insert mode
-	"au InsertEnter * set nornu
-	"au InsertLeave * set rnu
 endif
 
 set showmatch
@@ -80,9 +94,6 @@ set hlsearch
 set ignorecase
 
 set nohidden
-"set nobackup
-"set nowritebackup
-"set noswapfile
 set backupdir=~/.vim/.backup//
 
 set history=1000
@@ -115,6 +126,23 @@ set autoread
 set exrc
 set secure
 
+" wildmenu
+set wildignore+=*.a,*.o
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+set wildignore+=.DS_Store,.git,.hg,.svn
+set wildignore+=*~,*.swp,*.tmp,*.lock
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*.pyc
+set wildmenu
+set wildmode=longest,list
+
+" color scheme setup
+let &t_Co=256
+set t_ut=
+colorscheme molokai
+let g:solarized_termcolors = 256
+
 " keybindings
 " recognize function keys:
 execute "set <F1>=\eOP"
@@ -143,21 +171,12 @@ nmap <silent> <leader>s <esc>:wq<CR>
 nmap <silent> <leader>q <esc>:q!<CR>
 " semi-colon
 nmap ; :
-inoremap jj <esc>
-cnoremap jj <esc>
 inoremap jk <esc>
 cnoremap jk <esc>
-"inoremap dw <c-o>dw
 " tabs:
 nnoremap <silent> tt :tabnew<CR>
 nnoremap <silent> tn :tabnext<CR>
 nnoremap <silent> tp :tabprevious<CR>
-nnoremap <silent> tq :tabclose<CR>
-"nmap <silent> <S-Tab> :tabprevious<CR>
-"nmap <silent> <Tab> :tabnext<CR>
-" function keys: TODO fix laststatus
-nnoremap <silent> <F1> :set nu<CR>
-nnoremap <silent> <F2> :set nornu!<CR>
 " reload current file
 noremap <F5> <esc>:so %<CR>
 
@@ -172,6 +191,9 @@ inoremap <C-k> <up>
 inoremap <C-j> <down>
 inoremap <C-h> <left>
 inoremap <C-l> <right>
+" console navigation
+cmap <C-k> <up>
+cmap <C-j> <down>
 " window navigation:
 nnoremap <C-k> <C-w>k
 nnoremap <C-j> <C-w>j
@@ -237,7 +259,7 @@ autocmd FileType java let b:run="!javac % | java -cp . %:r"
 autocmd FileType javascript let b:run="!node %"
 autocmd FileType vim let b:run="so %"
 
-" Split Tags
+" When jumping on a tag, automatically split the window if the current buffer has been modified
 fun! SPLITAG() range
   let oldfile=expand("%:p")
   if &modified
@@ -256,25 +278,7 @@ fun! SPLITAG() range
 endfun
 nmap <C-]> :call SPLITAG()<CR>z.
 
-" HTML Emmet Tab binding
-function! Smart_HTMLTab()
-  let line = getline('.')
-  let substr = strpart(line, -1, col('.'))
-  let substr = matchstr(substr, "[^ \t]*$")
-  let has_slash = match(line, '\/') != -1
-  let should_expand = match(line, '>') != -1 && match(line, '<') == -1
-  if (strlen(substr)==0)
-    call feedkeys("\<C-t>")
-  elseif (has_slash)	
-    call feedkeys("\<C-y>n")
-  elseif (should_expand)
-    call feedkeys("\<C-y>,")
-  endif
-endfunction
-
-autocmd FileType html,xml,javascript,eruby inoremap <buffer> <tab> <C-o>:call Smart_HTMLTab()<CR>
-
-"Easily switch between h and cpp files
+Easily switch between h and cpp files
 function! ToggleSourceHeader()
 	if (expand ("%:e") == "cpp")
 		call feedkeys(":e %<.h\<CR>")
@@ -287,18 +291,14 @@ endfunction
 autocmd FileType h,cpp nnoremap <tab> <C-o>:call ToggleSourceHeader()<CR>
 nnoremap <C-f> <C-o>:CtrlPBuffer<CR>
 
+" whitespace:
 " use 2 spaces instead of tabs for the following files
 autocmd FileType ruby,eruby,html,yaml,css,scss,javascript,coffee setlocal tabstop=2 shiftwidth=2 expandtab softtabstop=2
 
 au BufRead,BufNewFile *.tag,*.vue set ft=html
 au BufRead,BufNewFile *.md,*.txt set tw=80
-au BufReadPost *.lzz set syntax=cpp 
-
-command CC CoffeeCompile
 
 " auto open index.js and template.html split screen (when index is opened)
-autocmd FileType javascript call VueJS_Split()
-
 function! VueJS_Split()
 	if (expand('%:t') == 'index.js')
 		let dir = expand('%:p:h')
@@ -309,58 +309,6 @@ function! VueJS_Split()
 		endif
 	endif
 endfunction
+autocmd FileType javascript call VueJS_Split()
 
-" wildmenu
-set wildignore+=*.a,*.o
-set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
-set wildignore+=.DS_Store,.git,.hg,.svn
-set wildignore+=*~,*.swp,*.tmp,*.lock
-set wildmenu
-set wildmode=longest,list
-
-" console bindings
-cmap <C-k> <up>
-cmap <C-j> <down>
-
-" color scheme setup
-let &t_Co=256
-set t_ut=
-colorscheme molokai
-let g:solarized_termcolors = 256
-
-" marks
-noremap <leader>m <Esc>:marks<CR>
 let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-" packages setup
-" Easy Motion - f, t, w:
-let g:EasyMotion_leader_key = '<Leader>'
-" Super tab:
-"let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-" delimitMate:
-"autocmd FileType vim let g:delimitMate_autoclose = 0
-"autocmd FileType php,c,cpp,objc,h,m,java,javascript let g:delimitMate_autoclose = 1
-let g:delimitMate_expand_cr = 1
-let delimitMate_matchpairs = "(:),[:],{:}"
-" Close Tags - only load for html files:
-let b:closetag_html_style=0
-autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
-"autocmd FileType html,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag/plugin/closetag.vim
-" Ctrl-P
-nnoremap <leader>. :CtrlPTag<cr>
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-set wildignore+=*.png,*.jpg,*.gif
-set wildignore+=*.pyc
-
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_max_files=800
-
-" Nerdcommenter (leader)
-imap <C-_> <C-o><space>ci
-nmap <C-_> <space>ci
-
-" AutoComplPop
-let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]
