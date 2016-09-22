@@ -1,5 +1,9 @@
 alias ls='ls -G'
 
+# OS X has no md5sum, use md5 as fallback
+command -v md5sum > /dev/null || alias md5sum="md5"
+command -v sha1sum > /dev/null || alias sha1sum="shasum"
+
 # recursively delete .DS_Store
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 

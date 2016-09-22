@@ -28,12 +28,7 @@ let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
 " auto completions:
-" light:
-Plugin 'vim-scripts/AutoComplPop'
 let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]
-Plugin 'Rip-Rip/clang_complete'
-" heavy:
-"Plugin 'Valloric/YouCompleteMe'
 
 Plugin 'docunext/closetag.vim'
 " only load for html files:
@@ -46,7 +41,7 @@ let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_files=800
 nnoremap <C-f> <C-o>:CtrlPBuffer<CR>
 
-Plugin 'Lokaltog/vim-powerline'
+Plugin 'vim-airline/vim-airline'
 Plugin 'tpope/vim-repeat'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
@@ -58,14 +53,30 @@ Plugin 'scrooloose/nerdcommenter'
 imap <C-_> <C-o><space>ci
 nmap <C-_> <space>ci
 
-Plugin 'scrooloose/nerdtree'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-scripts/dbext.vim'
-Plugin 'vim-ruby/vim-ruby'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-eunuch'
 Plugin 'pangloss/vim-javascript'
 let g:javascript_plugin_flow = 1
+Plugin 'mxw/vim-jsx'
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Fast and respects .gitignore
+  let g:ctrlp_user_command = ['ag %s -l --nocolor --hidden -g ""']
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR><CR>
+command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Ag<SPACE>
 
 " Include local config:
 source ~/.vimrc.local
@@ -80,20 +91,16 @@ set autoindent
 set ruler
 
 " whitespace
-" use tabs:
-set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
-" use 2 spaces instead of tabs for the following files:
-autocmd FileType ruby,eruby,html,yaml,css,scss,javascript,coffee
-	\ setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+" use spaces:
+set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+" use tabs for the following files:
+autocmd FileType c,cpp
+	\ setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
 " max line width:
 set textwidth=80
-autocmd BufEnter * highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-autocmd BufEnter * match OverLength /\%81v.\+/
+"autocmd BufEnter * highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+"autocmd BufEnter * match OverLength /\%81v.\+/
 
-" understand special filetypes:
-au BufRead,BufNewFile *.tag,*.vue set ft=html
-
-set nu
 if version >= 703
 	set rnu " relative line numbers
 endif
@@ -307,6 +314,8 @@ endfunction
 autocmd FileType h,cpp nnoremap <tab> <C-o>:call ToggleSourceHeader()<CR>
 nnoremap <C-f> <C-o>:CtrlPBuffer<CR>
 
+" understand special filetypes:
+au BufRead,BufNewFile *.tag,*.vue set ft=html
 " auto open index.js and template.html split screen (when index is opened)
 function! VueJS_Split()
 	if (expand('%:t') == 'index.js')

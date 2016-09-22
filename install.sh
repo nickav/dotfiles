@@ -44,11 +44,11 @@ function install() {
 
 	# get lowercase os name
 	os=`echo \`uname\` | tr '[A-Z]' '[a-z]'`
+  # link os-specific commands
+  ln -sf $dir/.$os $HOME/.system
 	# run os-specific install script (if it exists)
 	if [ "${os}_install.sh" -f ]; then
 		chmod +x "${os}_install.sh" && . "./${os}_install.sh"
-		# link os-specific commands
-		ln -sf $dir/.$os $HOME/.system
 	fi
 
 	# install vim plugins

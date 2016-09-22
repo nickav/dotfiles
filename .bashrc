@@ -2,7 +2,6 @@
 # .bashrc is run everytime a new shell window is opened
 #
 alias sudo='sudo '
-alias wh='echo 60DcD9c1ka'
 alias g='git'
 alias gs='git status'
 alias gc='git checkout'
@@ -21,7 +20,6 @@ alias lsync='. ~/bin/lsync.sh'
 # command aliases
 alias tma='tmux attach -d -t'
 alias tmn='tmux new -s'
-alias ls='ls --color'
 alias la='ls -al'
 alias lsa='ls -a'
 alias ll='ls -l'
@@ -42,21 +40,18 @@ alias d="cd ~/Documents"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev="cd ~/dev"
-# OS X has no md5sum, use md5 as fallback
-command -v md5sum > /dev/null || alias md5sum="md5"
-command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
 # One of @janmoesen’s ProTips
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 	alias "$method"="lwp-request -m '$method'"
 done
 
-alias rtun='reattach-to-user-namespace' 
-alias rtn='reattach-to-user-namespace' 
+alias rtun='reattach-to-user-namespace'
+alias rtn='reattach-to-user-namespace'
 
 # functions
 function tm () {
-	if [ "$1" ]; then	
+	if [ "$1" ]; then
 		tmux attach -d -t "$1" || tmux new -s "$1"
 	else
 		tmux attach -d || tmux new -s dev
@@ -66,7 +61,7 @@ function tm () {
 TERM=xterm-256color
 
 # quick google search
-function s() { 
+function s() {
 	q="$@"
 	open /Applications/Google\ Chrome.app/ "http://www.google.com/search?q=$q";
 }
@@ -92,14 +87,7 @@ NO_COLOR="\[\033[0m\]"
 
 PS1="$GREEN\u$NO_COLOR:\w$YELLOW\$(parse_git_branch)$NO_COLOR\$ "
 
-bind -r '\C-s'
 stty -ixon
-# map C-k to Up
-#bind "'\C-k':'\e[A'"
-
-# vi-style navigation
-set -o vi
-bind "Control-J":vi-movement-mode
 
 # remove files from tab auto-completion
 export FIGNORE=DS_Store;
@@ -114,3 +102,5 @@ export HISTCONTROL=ignoredups;
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 PATH=$PATH:$(npm config get prefix)/bin
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
