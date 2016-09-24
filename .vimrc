@@ -15,8 +15,8 @@ call vundle#rc()
 Plugin 'gmarik/vundle'
 
 " Plugins
-Plugin 'Lokaltog/vim-easymotion'
-let g:EasyMotion_leader_key = '<Leader>'
+Plugin 'easymotion/vim-easymotion'
+map <Leader> <Plug>(easymotion-prefix)
 
 Plugin 'mattn/emmet-vim'
 Plugin 'Raimondi/delimitMate'
@@ -35,7 +35,7 @@ Plugin 'docunext/closetag.vim'
 let b:closetag_html_style=0
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_files=800
@@ -56,6 +56,7 @@ nmap <C-_> <space>ci
 Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-scripts/dbext.vim'
 Plugin 'tomasr/molokai'
+Plugin 'flazz/vim-colorschemes'
 Plugin 'tpope/vim-eunuch'
 Plugin 'pangloss/vim-javascript'
 let g:javascript_plugin_flow = 1
@@ -155,6 +156,7 @@ set wildmode=longest,list
 " color scheme setup
 let &t_Co=256
 set t_ut=
+set background=dark
 colorscheme molokai
 let g:solarized_termcolors = 256
 
@@ -199,8 +201,6 @@ noremap <F5> <esc>:so %<CR>
 nnoremap <silent> <CR> :nohlsearch<CR>
 " forgot to sudo? really write the file
 cmap w!! w !sudo tee % >/dev/null
-" jump to closing brace
-nmap }} <esc>]}i<right>
 " control-hjkl as navigation
 inoremap <C-k> <up>
 inoremap <C-j> <down>
@@ -243,7 +243,7 @@ autocmd InsertEnter * match BadWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match BadWhitespace /\s\+$/
 highlight BadWhitespace ctermbg=1
 " Remove trailing whitespace on <leader>S
-nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
+nnoremap <leader>S :%s/\s\+$//<CR>
 
 " auto close preview window
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif

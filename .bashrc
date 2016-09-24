@@ -11,7 +11,6 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-alias -- -="cd -"
 # mac
 alias lock='chflags uchg'
 alias unlock='chflags nouchg'
