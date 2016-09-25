@@ -35,11 +35,16 @@ Plugin 'docunext/closetag.vim'
 let b:closetag_html_style=0
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 
-Plugin 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_max_files=800
-nnoremap <C-f> <C-o>:CtrlPBuffer<CR>
+if executable('fzf')
+  Plugin 'junegunn/fzf'
+  nmap <C-p> :FZF<CR>
+else
+  " fallback to CtrlP
+  Plugin 'kien/ctrlp.vim'
+  let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+  let g:ctrlp_show_hidden = 1
+  let g:ctrlp_max_files=800
+endif
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'tpope/vim-repeat'
@@ -63,17 +68,6 @@ let g:javascript_plugin_flow = 1
 Plugin 'mxw/vim-jsx'
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Fast and respects .gitignore
-  let g:ctrlp_user_command = ['ag %s -l --nocolor --hidden -g ""']
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR><CR>
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
@@ -233,6 +227,9 @@ nnoremap <C-y> 5<C-y>
 " Open def in new tab, open def in vs:
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+" Shortcut to edit HTML tag
+nmap ci< cit
+nmap ci> cit
 
 " Disable auto-commenting on enter
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
