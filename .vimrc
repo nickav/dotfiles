@@ -37,6 +37,7 @@ autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=
 
 if executable('fzf')
   Plugin 'junegunn/fzf'
+  Plugin 'junegunn/fzf.vim'
   nmap <C-p> :FZF<CR>
 else
   " fallback to CtrlP
@@ -68,6 +69,10 @@ let g:javascript_plugin_flow = 1
 Plugin 'mxw/vim-jsx'
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR><CR>
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
@@ -231,6 +236,10 @@ map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 nmap ci< cit
 nmap ci> cit
 
+" tab shift-tab to go back/forth in buffers
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+
 " Disable auto-commenting on enter
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
@@ -297,19 +306,6 @@ fun! SPLITAG() range
   endif
 endfun
 nmap <C-]> :call SPLITAG()<CR>z.
-
-" Easily switch between h and cpp files
-function! ToggleSourceHeader()
-	if (expand ("%:e") == "cpp")
-		call feedkeys(":e %<.h\<CR>")
-	else
-		"filereadable(
-		call feedkeys(":e %<.cpp\<CR>")
-	endif
-endfunction
-
-autocmd FileType h,cpp nnoremap <tab> <C-o>:call ToggleSourceHeader()<CR>
-nnoremap <C-f> <C-o>:CtrlPBuffer<CR>
 
 " understand special filetypes:
 au BufRead,BufNewFile *.tag,*.vue set ft=html
