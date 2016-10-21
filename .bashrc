@@ -39,6 +39,7 @@ alias d="cd ~/Documents"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev="cd ~/dev"
+alias gg='git grep'
 
 # One of @janmoesen’s ProTips
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
@@ -105,4 +106,4 @@ PATH=$PATH:$(npm config get prefix)/bin
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # dont exclude hidden files
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='ag -U --hidden --ignore .git -g ""'
