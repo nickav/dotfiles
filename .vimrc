@@ -90,6 +90,9 @@ set smartindent
 set autoindent
 set ruler
 
+" use faster, older regex engine
+set re=1
+
 " whitespace
 " use spaces:
 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
