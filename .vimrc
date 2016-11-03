@@ -92,6 +92,8 @@ set ruler
 
 " use faster, older regex engine
 set re=1
+set ttyfast
+set lazyredraw
 
 " whitespace
 " use spaces:
