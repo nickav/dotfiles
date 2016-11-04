@@ -28,7 +28,9 @@ let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
 " auto completions:
+Plugin 'vim-scripts/AutoComplPop'
 let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]
+Plugin 'Rip-Rip/clang_complete'
 
 Plugin 'docunext/closetag.vim'
 " only load for html files:
@@ -326,5 +328,21 @@ function! VueJS_Split()
 	endif
 endfunction
 autocmd FileType javascript call VueJS_Split()
+
+function! GithubLink()
+  let remote = system("git remote -v | sed -n '1 p' | awk '{print $2}'")
+  let remote = substitute(remote, ".git\n", "", "")
+  let line = line(".")
+  let fname = expand("%@")
+
+  let linestr = "#L" . line
+  if line == 1
+    let linestr = ''
+  endif
+
+  echo remote . "/blob/master/" . fname . linestr
+endfunction
+command! GithubLink :call GithubLink()
+command! Glink :call GithubLink()
 
 let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
