@@ -3,10 +3,10 @@ filetype off      " required!
 
 let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
 if !filereadable(vundle_readme)
-	echo "Installing Vundle..."
-	echo ""
-	silent !mkdir -p ~/.vim/bundle
-	silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+  echo "Installing Vundle..."
+  echo ""
+  silent !mkdir -p ~/.vim/bundle
+  silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
 endif
 
 set rtp+=~/.vim/bundle/vundle/
@@ -30,7 +30,7 @@ let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 " auto completions:
 Plugin 'vim-scripts/AutoComplPop'
 let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]
-Plugin 'Rip-Rip/clang_complete'
+"Plugin 'Rip-Rip/clang_complete'
 
 Plugin 'docunext/closetag.vim'
 " only load for html files:
@@ -102,14 +102,14 @@ set lazyredraw
 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 " use tabs for the following files:
 autocmd FileType c,cpp
-	\ setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
+  \ setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
 " max line width:
 set textwidth=80
 "autocmd BufEnter * highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 "autocmd BufEnter * match OverLength /\%81v.\+/
 
 if version >= 703
-	set rnu " relative line numbers
+  set rnu " relative line numbers
 endif
 
 set showmatch
@@ -139,8 +139,8 @@ set splitright
 
 " crontab
 if $VIM_CRONTAB == "true"
-	set nobackup
-	set nowritebackup
+  set nobackup
+  set nowritebackup
 endif
 
 " vim auto reload with git
@@ -271,19 +271,19 @@ augroup END
 
 " Build/run command
 function! Run()
-	let run = "!" . &filetype . " " . expand("%")
-	if exists("b:run")
-		let run = b:run
-	elseif exists("t:run")
-		let run = t:run
-	elseif exists("w:run")
-		let run = w:run
-	elseif exists("g:run")
-		let run = g:run
-	endif
-	" save and run:
-	execute "w"
-	execute run
+  let run = "!" . &filetype . " " . expand("%")
+  if exists("b:run")
+    let run = b:run
+  elseif exists("t:run")
+    let run = t:run
+  elseif exists("w:run")
+    let run = w:run
+  elseif exists("g:run")
+    let run = g:run
+  endif
+  " save and run:
+  execute "w"
+  execute run
 endfunction
 
 command! Run :call Run()
@@ -318,14 +318,14 @@ nmap <C-]> :call SPLITAG()<CR>z.
 au BufRead,BufNewFile *.tag,*.vue set ft=html
 " auto open index.js and template.html split screen (when index is opened)
 function! VueJS_Split()
-	if (expand('%:t') == 'index.js')
-		let dir = expand('%:p:h')
-		let temp = dir . '/template.html'
-		if (filereadable(temp))
-			execute "lefta vsp " . temp
-			execute "set ft=html"
-		endif
-	endif
+  if (expand('%:t') == 'index.js')
+    let dir = expand('%:p:h')
+    let temp = dir . '/template.html'
+    if (filereadable(temp))
+      execute "lefta vsp " . temp
+      execute "set ft=html"
+    endif
+  endif
 endfunction
 autocmd FileType javascript call VueJS_Split()
 

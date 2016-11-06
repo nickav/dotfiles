@@ -58,7 +58,8 @@ function tm () {
 	fi
 }
 # enable full color on tmux
-TERM=xterm-256color
+#TERM=xterm-256color
+TERM=screen-256color
 
 # quick google search
 function s() {
@@ -100,10 +101,10 @@ export HISTSIZE=2048;
 export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups;
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$HOME/.rvm/bin
 PATH=$PATH:$(npm config get prefix)/bin
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # dont exclude hidden files
-export FZF_DEFAULT_COMMAND='ag -U --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
