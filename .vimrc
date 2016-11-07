@@ -208,31 +208,16 @@ nnoremap <silent> <CR> :nohlsearch<CR>
 " forgot to sudo? really write the file
 cmap w!! w !sudo tee % >/dev/null
 " control-hjkl as navigation
-inoremap <C-k> <up>
-inoremap <C-j> <down>
-inoremap <C-h> <left>
-inoremap <C-l> <right>
+nnoremap <C-k> <up>
+nnoremap <C-j> <down>
+nnoremap <C-h> <left>
+nnoremap <C-l> <right>
 " console navigation
 cmap <C-k> <up>
 cmap <C-j> <down>
-" window navigation:
-nnoremap <C-k> <C-w>k
-nnoremap <C-j> <C-w>j
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-imap <C-w> <C-o><C-w>
-" window resizing:
-nmap - <C-W>5-
-nmap + <C-W>5+
-nmap = <C-w>=
-nmap <C-W>> <C-W>5<
-nmap <C-W>< <C-W>5>
 " window splitting:
-nmap <C-w><C-v> <C-w>v
 nmap <C-w>\ <C-w>v
-nmap <C-w><C-\> <C-w>v
 nmap <C-w>- <C-w>s
-nmap <silent> <C-w>N :vnew<CR>
 " scroll viewport faster
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>
