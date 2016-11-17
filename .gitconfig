@@ -1,54 +1,49 @@
 [core]
 	excludesfile = ~/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [user]
 	name = Nick Aversano
 	email = nick23hi@gmail.com
 [credential]
 	helper = osxkeychain
 [alias]
-	co = checkout
-	oc = checkout
-	c = checkout
-	count = rev-list --all --count
-	br = branch
-	b = branch
-	ci = commit -m
-	st = status
-	s = status
-	dd = reset HEAD --
-	unstage = reset HEAD --
-	us = reset HEAD --
-	last = log -1 HEAD
-	amend = commit --amend -C HEAD
-	am = commit --amend
-	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	cia = commit -a -m
-	ca = commit -a -m
-	aa = add .
 	a = add
-	dc = diff --cached
-	ds = diff --staged
-	undo = reset --soft HEAD^
+	aa = add .
+	am = commit --amend
+	amend = commit --amend -C HEAD
+	b = branch
+	br = branch
+	c = checkout
+	ca = commit -a -m
+	cia = commit -a -m
+	cm = commit -m
+	co = checkout
+	count = rev-list --all --count
 	day = log --since '1 day ago' --oneline --author nick23hi@gmail.com
-	week = log --since '1 week ago' --oneline --author nick23hi@gmail.com
-	discard = checkout --
+	dc = diff --cached
+	dd = reset HEAD --
 	di = checkout --
+	discard = checkout --
+	ds = diff --staged
+	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	last = log -1 HEAD
 	master-alias = symbolic-ref refs/heads/m refs/heads/master
-	review = remote update -p
-	up = "!git remote update -p; git merge --ff-only @{u}"
-	untrack = git rm --cached 
 	me = "!git log --author=\"$(git config user.name)\""
+	oc = checkout
+  pub = publish
+	review = remote update -p
+	s = status
+	st = status
+	undo = reset --soft HEAD^
+	unstage = reset HEAD --
+	untrack = git rm --cached
+	up = "!git remote update -p; git merge --ff-only @{u}"
+	us = reset HEAD --
+	week = log --since '1 week ago' --oneline --author nick23hi@gmail.com
 [color]
 	diff = auto
 [push]
 	default = simple
 [filter "lfs"]
 	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
 	required = true
+	smudge = git-lfs smudge -- %f
