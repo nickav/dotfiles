@@ -75,10 +75,10 @@ if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
 
-  Plugin 'vim-scripts/ag.vim'
   command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-  nnoremap \ :Ag<SPACE>
+  nnoremap \ :Ag<space>
 endif
+
 " Include local config:
 source ~/.vimrc.local
 
@@ -202,15 +202,24 @@ nnoremap <silent> tp :tabprevious<CR>
 " reload current file
 noremap <F5> <esc>:so %<CR>
 
+" replace all occurences of current word
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+
 " clear search:
 nnoremap <silent> <CR> :nohlsearch<CR>
 " forgot to sudo? really write the file
 cmap w!! w !sudo tee % >/dev/null
+
 " control-hjkl as navigation
-nnoremap <C-k> <up>
-nnoremap <C-j> <down>
-nnoremap <C-h> <left>
-nnoremap <C-l> <right>
+noremap <C-k> <up>
+noremap <C-j> <down>
+noremap <C-h> <left>
+noremap <C-l> <right>
+imap <C-k> <up>
+imap <C-j> <down>
+imap <C-h> <left>
+imap <C-l> <right>
+
 " console navigation
 cmap <C-k> <up>
 cmap <C-j> <down>
@@ -330,3 +339,6 @@ command! GithubLink :call GithubLink()
 command! Glink :call GithubLink()
 
 let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+au! BufEnter,BufRead,BufNewFile * silent! exec "!echo -ne \"\033];%\007\" && tmux set -g set-titles-string \"%\""
+au! VimLeave,FocusLost * silent! exec "!echo -ne \"\033];\007\" && tmux set -g set-titles-string \"\""
