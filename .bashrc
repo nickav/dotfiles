@@ -106,5 +106,7 @@ PATH=$PATH:$(npm config get prefix)/bin
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+PROMPT_COMMAND='echo -ne "\033]0;\007" && tmux set -g set-titles-string ""'
+
 # dont exclude hidden files
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'

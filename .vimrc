@@ -340,5 +340,5 @@ command! Glink :call GithubLink()
 
 let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-au! BufEnter,BufRead,BufNewFile * silent! exec "!echo -ne \"\033];%\007\" && tmux set -g set-titles-string \"%\""
-au! VimLeave,FocusLost * silent! exec "!echo -ne \"\033];\007\" && tmux set -g set-titles-string \"\""
+au! BufEnter,BufRead,BufNewFile,InsertEnter * silent! exec '!echo -ne "\033];%\007" && tmux set -g set-titles-string "%"'
+au! VimLeave,FocusLost * silent! exec '!echo -ne "\033];\007" && tmux set -g set-titles-string ""'
