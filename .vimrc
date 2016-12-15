@@ -131,7 +131,7 @@ let mapleader = " "
 set laststatus=2 " show status bar
 
 " none of these should be word dividers
-set iskeyword+=_,$,@,%,#
+set iskeyword+=_,$,@,%,#,-
 
 " new window splits go right
 set splitright

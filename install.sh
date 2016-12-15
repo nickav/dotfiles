@@ -61,7 +61,7 @@ elif [ "$1" == "--print" -o "$1" == "-p" ]; then
 	install false;
 elif [ "$1" == "--local" -o "$1" == "-l" ]; then
 	install;
-	# copy all local files
+	# link all local files
 	for f in 'local/*'; do
 		ln -sf $dir/$f $HOME/$f
 	done
