@@ -24,7 +24,7 @@ alias lsa='ls -a'
 alias ll='ls -l'
 alias l='ls'
 alias e='exit'
-alias v='vi'
+alias vi='vim'
 alias h="history"
 alias db='~/bin/Dropbox-Uploader/dropbox_uploader.sh'
 alias my='sudo mysqld_safe'
@@ -106,7 +106,7 @@ PATH=$PATH:$(npm config get prefix)/bin
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-PROMPT_COMMAND='echo -ne "\033]0;\007" && tmux set -g set-titles-string ""'
+PROMPT_COMMAND='echo -ne "\033]0;\007" && [ ! -z $TMUX ] && tmux set -g set-titles-string ""'
 
 # dont exclude hidden files
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
