@@ -93,7 +93,9 @@ set autoindent
 set ruler
 
 " use faster, older regex engine
-set re=1
+if has('re')
+  set re=1
+endif
 set ttyfast
 set lazyredraw
 
