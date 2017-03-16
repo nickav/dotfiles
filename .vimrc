@@ -76,7 +76,8 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 
   command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-  nnoremap \ :Ag<space>
+  nnoremap \ :Ag<space><C-r><C-w><CR>
+  cnoreabbrev ag Ag
 endif
 
 " Include local config:

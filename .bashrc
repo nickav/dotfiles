@@ -24,7 +24,6 @@ alias lsa='ls -a'
 alias ll='ls -l'
 alias l='ls'
 alias e='exit'
-alias v='vi'
 alias h="history"
 alias db='~/bin/Dropbox-Uploader/dropbox_uploader.sh'
 alias my='sudo mysqld_safe'
@@ -40,6 +39,7 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev="cd ~/dev"
 alias gg='git grep'
+alias tm="tmux attach -d || tmux new"
 
 # One of @janmoesen’s ProTips
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
@@ -49,17 +49,8 @@ done
 alias rtun='reattach-to-user-namespace'
 alias rtn='reattach-to-user-namespace'
 
-# functions
-function tm () {
-	if [ "$1" ]; then
-		tmux attach -d -t "$1" || tmux new -s "$1"
-	else
-		tmux attach -d || tmux new -s dev
-	fi
-}
 # enable full color on tmux
-#TERM=xterm-256color
-TERM=screen-256color
+TERM=xterm-256color
 
 # quick google search
 function s() {
