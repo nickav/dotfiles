@@ -105,8 +105,8 @@ autocmd FileType c,cpp
   \ setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
 " max line width:
 set textwidth=80
-"autocmd BufEnter * highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-"autocmd BufEnter * match OverLength /\%81v.\+/
+" error on lines longer than 80 characters
+autocmd BufEnter,BufReadPost,InsertLeave * match Error /\%81v.\+/
 
 if version >= 703
   set rnu " relative line numbers
@@ -249,6 +249,7 @@ autocmd BufReadPost * match BadWhitespace /\s\+$/
 autocmd InsertEnter * match BadWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match BadWhitespace /\s\+$/
 highlight BadWhitespace ctermbg=1
+
 " Remove trailing whitespace on <leader>S
 nnoremap <leader>S :%s/\s\+$//<CR>
 
