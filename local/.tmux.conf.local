@@ -2,6 +2,7 @@ unbind C-b
 set -g prefix C-a
 
 bind-key C-a last-window
+bind-key a send-prefix
 
 # status bar
 set -g status-fg white
