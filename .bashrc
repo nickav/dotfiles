@@ -102,6 +102,7 @@ export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups;
 
 PATH=$PATH:$HOME/.rvm/bin
+PATH=$PATH:$(yarn global bin)
 PATH=$PATH:$(npm config get prefix)/bin
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
