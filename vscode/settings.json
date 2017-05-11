@@ -1,0 +1,74 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "window.zoomLevel": 0,
+    "editor.fontSize": 13,
+    "editor.tabSize": 4,
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 80,
+    "editor.lineNumbers": "relative",
+    "editor.codeLens": false,
+    "editor.fontFamily": "Inconsolata, Monaco, 'Courier New', monospace",
+    "workbench.colorTheme": "Atom One Dark",
+    "workbench.colorCustomizations": {
+        "statusBar.background" : "#1A1A1A",
+        "statusBar.noFolderBackground" : "#212121",
+        "statusBar.debuggingBackground": "#263238"
+    },
+    "vim.leader": "<space>",
+    "vim.useSystemClipboard": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "k"],
+            "after": ["<esc>"]
+        }
+    ],
+    "vim.otherModesKeyBindingsNonRecursive": [
+        {
+            "before": [":"],
+            "after": [],
+            "commands": [{
+                "command": "workbench.action.showCommands",
+                "args": []
+            }]
+        },
+        {
+            "before": ["<CR>"],
+            "after": [],
+            "commands": [{
+                "command": ":nohl"
+            }]
+        },
+        {
+            "before": ["leader", "w"],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.files.save",
+                    "args": []
+                }
+            ]
+        },
+        {
+            "before": [";", "w"],
+            "after": [],
+            "commands": [{
+                "command": "workbench.action.files.save"
+            }]
+        },
+        {
+            "before": ["t", "n"],
+            "after": [],
+            "commands": [{
+                "command": "workbench.action.nextEditor"
+            }]
+        },
+        {
+            "before": ["t", "p"],
+            "after": [],
+            "commands": [{
+                "command": "workbench.action.previousEditor"
+            }]
+        }
+    ]
+}

@@ -14,8 +14,7 @@
 	br = branch
 	c = checkout
 	ca = commit -a -m
-	ci = commit
-	cia = commit -a -m
+	ci = commit -m
 	cm = commit -m
 	co = checkout
 	count = rev-list --all --count
