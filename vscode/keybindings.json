@@ -16,14 +16,5 @@
         "key": "ctrl+`",
         "command": "workbench.action.terminal.focus",
         "when": "!terminalFocus"
-    },
-    {
-        "key": "shift+1",
-        "command": "workbench.action.terminal.toggleTerminal"
-    },
-    {
-        "key": "shift+1",
-        "command": "workbench.action.terminal.focus",
-        "when": "!terminalFocus"
     }
 ]

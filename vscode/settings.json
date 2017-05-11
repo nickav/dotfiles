@@ -26,7 +26,6 @@
     "vim.otherModesKeyBindingsNonRecursive": [
         {
             "before": [":"],
-            "after": [],
             "commands": [{
                 "command": "workbench.action.showCommands",
                 "args": []
@@ -34,14 +33,12 @@
         },
         {
             "before": ["<CR>"],
-            "after": [],
             "commands": [{
                 "command": ":nohl"
             }]
         },
         {
             "before": ["leader", "w"],
-            "after": [],
             "commands": [
                 {
                     "command": "workbench.action.files.save",
@@ -51,23 +48,26 @@
         },
         {
             "before": [";", "w"],
-            "after": [],
             "commands": [{
                 "command": "workbench.action.files.save"
             }]
         },
         {
             "before": ["t", "n"],
-            "after": [],
             "commands": [{
                 "command": "workbench.action.nextEditor"
             }]
         },
         {
             "before": ["t", "p"],
-            "after": [],
             "commands": [{
                 "command": "workbench.action.previousEditor"
+            }]
+        },
+        {
+            "before": ["!"],
+            "commands": [{
+                "command": "workbench.action.terminal.toggleTerminal"
             }]
         }
     ]
