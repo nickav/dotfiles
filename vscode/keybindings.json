@@ -16,5 +16,13 @@
         "key": "ctrl+`",
         "command": "workbench.action.terminal.focus",
         "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+tab",
+        "command": "workbench.action.nextEditor"
+    },
+    {
+        "key": "ctrl+shift+tab",
+        "command": "workbench.action.previousEditor"
     }
 ]
