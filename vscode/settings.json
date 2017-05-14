@@ -1,12 +1,15 @@
 // Place your settings in this file to overwrite the default settings
 {
     "window.zoomLevel": 0,
-    "editor.fontSize": 13,
+    "files.eol": "\n",
+    "editor.fontSize": 12,
     "editor.tabSize": 4,
-    "editor.wordWrap": "bounded",
+    "editor.wordWrap": "on",
     "editor.wordWrapColumn": 80,
     "editor.lineNumbers": "relative",
+    "editor.insertSpaces": true,
     "editor.codeLens": false,
+    "editor.renderWhitespace": "boundary",
     "editor.fontFamily": "Inconsolata, Monaco, 'Courier New', monospace",
     "workbench.colorTheme": "Atom One Dark",
     "workbench.colorCustomizations": {
@@ -65,10 +68,32 @@
             }]
         },
         {
+            "before": ["ctrl+w", "\\"],
+            "commands": [{
+                "command": "workbench.action.splitEditor"
+            }]
+        },
+        {
+            "before": ["left"],
+            "after": ["ctrl+w", "h"]
+        },
+        {
+            "before": ["right"],
+            "after": ["ctrl+w", "l"]
+        },
+        {
             "before": ["!"],
             "commands": [{
                 "command": "workbench.action.terminal.toggleTerminal"
             }]
+        },
+        {
+            "before": ["ctrl+d"],
+            "after": ["j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j"]
+        },
+        {
+            "before": ["ctrl+u"],
+            "after": ["k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k"]
         }
     ]
 }

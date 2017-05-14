@@ -47,3 +47,4 @@
 	clean = git-lfs clean -- %f
 	required = true
 	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
