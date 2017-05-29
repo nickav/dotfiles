@@ -96,8 +96,6 @@ set ruler
 if has('re')
   set re=1
 endif
-set ttyfast
-set lazyredraw
 
 " whitespace
 " use spaces:
@@ -313,18 +311,6 @@ nmap <C-]> :call SPLITAG()<CR>z.
 
 " understand special filetypes:
 au BufRead,BufNewFile *.tag,*.vue set ft=html
-" auto open index.js and template.html split screen (when index is opened)
-function! VueJS_Split()
-  if (expand('%:t') == 'index.js')
-    let dir = expand('%:p:h')
-    let temp = dir . '/template.html'
-    if (filereadable(temp))
-      execute "lefta vsp " . temp
-      execute "set ft=html"
-    endif
-  endif
-endfunction
-autocmd FileType javascript call VueJS_Split()
 
 function! GithubLink()
   let remote = system("git remote -v | sed -n '1 p' | awk '{print $2}'")
@@ -344,5 +330,4 @@ command! Glink :call GithubLink()
 
 let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-au! BufEnter,BufRead,BufNewFile,InsertEnter * silent! exec '!echo -ne "\033];%\007" && tmux set -g set-titles-string "%"'
-au! VimLeave,FocusLost * silent! exec '!echo -ne "\033];\007" && tmux set -g set-titles-string ""'
+autocmd BufEnter,BufRead,BufNewFile * silent! exec '!echo -ne "\033];%\007" && tmux set -g set-titles-string "%"'

@@ -2,12 +2,19 @@
 # .bashrc is run everytime a new shell window is opened
 #
 alias sudo='sudo '
+# git aliases
 alias g='git'
+alias ga='git add'
+alias gb='git branch'
+alias gau='git add -u'
 alias gs='git status'
 alias gc='git checkout'
+alias gci='git commit -m '
 alias gcm='git checkout master'
 alias gd='git diff'
 alias gdm='git diff master'
+alias gdh='git diff HEAD'
+alias gdh1='git diff HEAD~1'
 # navigation
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -49,12 +56,6 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 	alias "$method"="lwp-request -m '$method'"
 done
 
-alias rtun='reattach-to-user-namespace'
-alias rtn='reattach-to-user-namespace'
-
-# enable full color on tmux
-TERM=xterm-256color
-
 # quick google search
 function s() {
 	q="$@"
@@ -82,8 +83,6 @@ NO_COLOR="\[\033[0m\]"
 
 PS1="$GREEN\u$NO_COLOR:\w$YELLOW\$(parse_git_branch)$NO_COLOR\$ "
 
-stty -ixon
-
 # remove files from tab auto-completion
 export FIGNORE=DS_Store;
 # default editor for tmuxinator
@@ -97,7 +96,6 @@ export HISTCONTROL=ignoredups;
 
 PATH=$PATH:$HOME/.rvm/bin
 PATH=$PATH:$(yarn global bin)
-PATH=$PATH:$(npm config get prefix)/bin
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
