@@ -2,6 +2,16 @@
 {
     "window.zoomLevel": 0,
     "files.eol": "\n",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true,
+        "**/dist": true,
+        "**/build": true
+    },
     "editor.fontSize": 12,
     "editor.tabSize": 4,
     "editor.wordWrap": "off",
@@ -10,6 +20,8 @@
     "editor.insertSpaces": true,
     "editor.codeLens": false,
     "editor.renderWhitespace": "boundary",
+    "css.colorDecorators.enable": false,
+    "scss.colorDecorators.enable": false,
     "editor.fontFamily": "Inconsolata, Monaco, 'Courier New', monospace",
     "workbench.colorTheme": "Atom One Dark",
     "workbench.colorCustomizations": {
@@ -89,11 +101,24 @@
         },
         {
             "before": ["ctrl+d"],
-            "after": ["j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j", "j"]
+            "after": ["3", "2", "j"]
         },
         {
             "before": ["ctrl+u"],
-            "after": ["k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k", "k"]
+            "after": ["3", "2", "k"]
+        },
+        {
+            "before": ["ctrl+e"],
+            "after": ["5", "ctrl+e"]
+        },
+        {
+            "before": ["ctrl+e"],
+            "after": ["5", "ctrl+e"]
+        },
+        {
+            "before": ["ctrl+y"],
+            "after": ["5", "ctrl+y"]
         }
-    ]
+    ],
+    "workbench.welcome.enabled": false
 }

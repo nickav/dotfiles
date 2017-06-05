@@ -10,6 +10,7 @@ alias gau='git add -u'
 alias gs='git status'
 alias gc='git checkout'
 alias gci='git commit -m '
+alias gc-='git checkout -'
 alias gcm='git checkout master'
 alias gd='git diff'
 alias gdm='git diff master'
@@ -62,6 +63,9 @@ function s() {
 	open /Applications/Google\ Chrome.app/ "http://www.google.com/search?q=$q";
 }
 
+# enable full color on tmux
+TERM=xterm-256color
+
 # Source a git completion script
 if [ -f ~/bin/git-completion.sh ]; then
 	. ~/bin/git-completion.sh
@@ -95,7 +99,7 @@ export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups;
 
 PATH=$PATH:$HOME/.rvm/bin
-PATH=$PATH:$(yarn global bin)
+PATH=$PATH:"$(yarn global bin)/node_modules/.bin"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 

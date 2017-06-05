@@ -70,6 +70,7 @@ Plugin 'pangloss/vim-javascript'
 let g:javascript_plugin_flow = 1
 Plugin 'mxw/vim-jsx'
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+Plugin 'posva/vim-vue'
 
 if executable('ag')
   " Use ag over grep
@@ -96,6 +97,8 @@ set ruler
 if has('re')
   set re=1
 endif
+set ttyfast
+set lazyredraw
 
 " whitespace
 " use spaces:
@@ -214,8 +217,10 @@ cmap w!! w !sudo tee % >/dev/null
 " control-hjkl as navigation
 noremap <C-k> <up>
 noremap <C-j> <down>
-noremap <C-h> <left>
-noremap <C-l> <right>
+noremap <C-h> <C-w>h
+noremap <left> <C-w>h
+noremap <C-l> <C-w>l
+noremap <right> <C-w>l
 imap <C-k> <up>
 imap <C-j> <down>
 imap <C-h> <left>
@@ -310,7 +315,7 @@ endfun
 nmap <C-]> :call SPLITAG()<CR>z.
 
 " understand special filetypes:
-au BufRead,BufNewFile *.tag,*.vue set ft=html
+autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
 
 function! GithubLink()
   let remote = system("git remote -v | sed -n '1 p' | awk '{print $2}'")
