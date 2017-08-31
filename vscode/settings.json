@@ -20,6 +20,7 @@
     "editor.insertSpaces": true,
     "editor.codeLens": false,
     "editor.renderWhitespace": "boundary",
+    "editor.minimap.enabled": false,
     "css.colorDecorators.enable": false,
     "scss.colorDecorators.enable": false,
     "editor.fontFamily": "Inconsolata, Monaco, 'Courier New', monospace",
@@ -32,6 +33,7 @@
     "vim.leader": "<space>",
     "vim.useSystemClipboard": true,
     "vim.hlsearch": true,
+    "vim.enableNeovim": true,
     "vim.insertModeKeyBindings": [
         {
             "before": ["j", "k"],
@@ -120,5 +122,6 @@
             "after": ["5", "ctrl+y"]
         }
     ],
-    "workbench.welcome.enabled": false
+    "workbench.welcome.enabled": false,
+    "vim.disableAnnoyingNeovimMessage": true
 }
