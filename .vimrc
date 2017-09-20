@@ -119,6 +119,7 @@ autocmd BufEnter,BufReadPost,InsertLeave * match Error /\%81v.\+/
 if version >= 703
   set rnu " relative line numbers
 endif
+let g:netrw_bufsettings = "set rnu"
 
 set showmatch
 set incsearch
