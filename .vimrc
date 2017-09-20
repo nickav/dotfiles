@@ -2,6 +2,7 @@ set nocompatible  " be iMproved
 filetype off      " required!
 
 let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+  set grepprg=ag\ --nogroup\ --nocolor
 if !filereadable(vundle_readme)
   echo "Installing Vundle..."
   echo ""
@@ -97,8 +98,8 @@ set ruler
 if has('re')
   set re=1
 endif
-set ttyfast
-set lazyredraw
+"set ttyfast
+"set lazyredraw
 
 " whitespace
 " use spaces:
@@ -106,6 +107,10 @@ set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 " use tabs for the following files:
 autocmd FileType c,cpp
   \ setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
+" commands to quickly set tabbing:
+cmap t2 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+cmap t4 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+
 " max line width:
 set textwidth=80
 " error on lines longer than 80 characters
@@ -164,10 +169,12 @@ set wildmode=longest,list
 
 " color scheme setup
 let &t_Co=256
-set t_ut=
+if &term =~ '256color'
+  set t_ut=
+endif
 set background=dark
 colorscheme molokai
-let g:solarized_termcolors = 256
+autocmd BufEnter * colorscheme molokai
 
 " keybindings
 " recognize function keys:
