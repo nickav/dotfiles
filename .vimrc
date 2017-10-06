@@ -38,17 +38,12 @@ Plugin 'docunext/closetag.vim'
 let b:closetag_html_style=0
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 
-if executable('fzf')
-  Plugin 'junegunn/fzf'
-  Plugin 'junegunn/fzf.vim'
-  nmap <C-p> :FZF<CR>
-else
-  " fallback to CtrlP
-  Plugin 'kien/ctrlp.vim'
-  let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-  let g:ctrlp_show_hidden = 1
-  let g:ctrlp_max_files=800
-endif
+" fallback to CtrlP
+Plugin 'kien/ctrlp.vim'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_max_files=800
+nnoremap <silent> <C-O> :ClearCtrlPCache<cr>\|:CtrlP<cr>
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'tpope/vim-repeat'
@@ -115,6 +110,9 @@ cmap t4 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 set textwidth=80
 " error on lines longer than 80 characters
 autocmd BufEnter,BufReadPost,InsertLeave * match Error /\%81v.\+/
+
+"macvim disable scrollbars
+set guioptions=
 
 if version >= 703
   set rnu " relative line numbers
@@ -302,6 +300,8 @@ nmap <leader><CR> :Run<CR>
 autocmd FileType java let b:run="!javac % | java -cp . %:r"
 autocmd FileType javascript let b:run="!node %"
 autocmd FileType vim let b:run="so %"
+
+nmap <S-F> :!yarn f %<CR>
 
 " When jumping on a tag, automatically split the window if the current buffer has been modified
 fun! SPLITAG() range

@@ -16,6 +16,7 @@ brew 'cask'
 
 # the essentials
 brew 'macvim', args: ['override-system-vim']
+brew 'macvim'
 brew 'tmux'
 
 # language upgrades

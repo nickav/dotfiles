@@ -16,6 +16,7 @@ alias gd='git diff'
 alias gdm='git diff master'
 alias gdh='git diff HEAD'
 alias gdh1='git diff HEAD~1'
+alias grbm='git rebase master'
 # navigation
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -25,7 +26,6 @@ alias .....='cd ../../../..'
 alias lock='chflags uchg'
 alias unlock='chflags nouchg'
 export login='/Users/Nick/Library/Preferences/loginwindow.plist'
-alias lsync='. ~/bin/lsync.sh'
 # command aliases
 alias tma='tmux attach -d -t'
 alias tmn='tmux new -s'
@@ -36,7 +36,6 @@ alias l='ls'
 alias e='exit'
 alias vi='vim'
 alias h="history"
-alias db='~/bin/Dropbox-Uploader/dropbox_uploader.sh'
 alias my='sudo mysqld_safe'
 alias mroe='more'
 alias crontab="VIM_CRONTAB=true crontab"
@@ -45,7 +44,8 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm update npm -g; npm update -g; sudo gem update --system; sudo gem update'
 # folder shortcuts
-alias d="cd ~/Documents"
+alias doc="cd ~/Documents"
+alias docs="cd ~/Documents"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev="cd ~/dev"
