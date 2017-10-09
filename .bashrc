@@ -17,6 +17,7 @@ alias gdm='git diff master'
 alias gdh='git diff HEAD'
 alias gdh1='git diff HEAD~1'
 alias grbm='git rebase master'
+alias gl='git log'
 # navigation
 alias ..='cd ..'
 alias ...='cd ../..'

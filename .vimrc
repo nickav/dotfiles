@@ -61,7 +61,6 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-scripts/dbext.vim'
 Plugin 'tomasr/molokai'
 Plugin 'flazz/vim-colorschemes'
-Plugin 'tpope/vim-eunuch'
 Plugin 'pangloss/vim-javascript'
 let g:javascript_plugin_flow = 1
 Plugin 'mxw/vim-jsx'
@@ -133,7 +132,7 @@ set title
 set visualbell " don't beep
 set noerrorbells
 
-set term=ansi
+"set term=ansi
 syntax on
 let mapleader = " "
 set laststatus=2 " show status bar
@@ -301,7 +300,8 @@ autocmd FileType java let b:run="!javac % | java -cp . %:r"
 autocmd FileType javascript let b:run="!node %"
 autocmd FileType vim let b:run="so %"
 
-nmap <S-F> :!yarn f %<CR>
+" yarn format
+autocmd FileType javascript, json, scss, css nmap <S-F> :w \| !yarn f %<CR>
 
 " When jumping on a tag, automatically split the window if the current buffer has been modified
 fun! SPLITAG() range
