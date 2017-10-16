@@ -301,7 +301,7 @@ autocmd FileType javascript let b:run="!node %"
 autocmd FileType vim let b:run="so %"
 
 " yarn format
-autocmd FileType javascript, json, scss, css nmap <S-F> :w \| !yarn f %<CR>
+autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :w \| !yarn f %<CR>
 
 " When jumping on a tag, automatically split the window if the current buffer has been modified
 fun! SPLITAG() range
