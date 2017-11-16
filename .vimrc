@@ -114,6 +114,11 @@ if has("gui_macvim")
   "macvim disable scrollbars
   set guioptions=
 
+  "set default font size on larger screens
+  if winheight(0) > 80
+    set guifont=Menlo\ Regular:h14
+  endif
+
   " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
   " the right side. Ctrl-Shift-Tab goes the other way.
   noremap <C-Tab> :tabnext<CR>

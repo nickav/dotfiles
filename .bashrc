@@ -18,6 +18,7 @@ alias gdh='git diff HEAD'
 alias gdh1='git diff HEAD~1'
 alias grbm='git rebase master'
 alias gl='git log'
+alias gpu='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
 # navigation
 alias ..='cd ..'
 alias ...='cd ../..'
