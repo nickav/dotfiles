@@ -117,6 +117,8 @@ if has("gui_macvim")
   "set default font size on larger screens
   if winheight(0) > 80
     set guifont=Menlo\ Regular:h14
+  else
+    set guifont=Menlo\ Regular:h12
   endif
 
   " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
