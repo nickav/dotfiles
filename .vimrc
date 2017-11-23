@@ -1,71 +1,71 @@
 set nocompatible  " be iMproved
 filetype off      " required!
 
-let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-  set grepprg=ag\ --nogroup\ --nocolor
-if !filereadable(vundle_readme)
-  echo "Installing Vundle..."
+" Install package manager
+let plug_vim=expand('~/.vim/autoload/plug.vim')
+if !filereadable(plug_vim)
+  echo "Installing Plug..."
   echo ""
-  silent !mkdir -p ~/.vim/bundle
-  silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+  silent !mkdir -p ~/.vim/autoload/
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-" let Vundle manage Vundle - required!
-Plugin 'gmarik/vundle'
-
 " Plugins
-Plugin 'easymotion/vim-easymotion'
+call plug#begin('~/.vim/plugged')
+
+Plug 'gmarik/vundle'
+Plug 'easymotion/vim-easymotion'
 map <Leader> <Plug>(easymotion-prefix)
 
-Plugin 'mattn/emmet-vim'
-Plugin 'Raimondi/delimitMate'
+Plug 'mattn/emmet-vim'
+Plug 'Raimondi/delimitMate'
 let g:delimitMate_expand_cr = 1
 let delimitMate_matchpairs = "(:),[:],{:}"
 
-Plugin 'ervandew/supertab'
+Plug 'ervandew/supertab'
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
 " auto completions:
-Plugin 'vim-scripts/AutoComplPop'
+Plug 'vim-scripts/AutoComplPop'
 let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]
-"Plugin 'Rip-Rip/clang_complete'
+"Plug 'Rip-Rip/clang_complete'
 
-Plugin 'docunext/closetag.vim'
+Plug 'docunext/closetag.vim'
 " only load for html files:
 let b:closetag_html_style=0
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 
 " fallback to CtrlP
-Plugin 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_files=800
 nnoremap <silent> <C-O> :ClearCtrlPCache<cr>\|:CtrlP<cr>
 
-Plugin 'vim-airline/vim-airline'
-Plugin 'tpope/vim-repeat'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'xolox/vim-misc'
-Plugin 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-repeat'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'xolox/vim-misc'
+Plug 'scrooloose/nerdcommenter'
 imap <C-_> <C-o><space>ci
 nmap <C-_> <space>ci
 
-Plugin 'airblade/vim-gitgutter'
-Plugin 'vim-scripts/dbext.vim'
-Plugin 'tomasr/molokai'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'pangloss/vim-javascript'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-scripts/dbext.vim'
+Plug 'tomasr/molokai'
+Plug 'flazz/vim-colorschemes'
+Plug 'pangloss/vim-javascript'
 let g:javascript_plugin_flow = 1
-Plugin 'mxw/vim-jsx'
+Plug 'mxw/vim-jsx'
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-Plugin 'posva/vim-vue'
+Plug 'posva/vim-vue'
+
+" Initialize plugin system
+call plug#end()
 
 if executable('ag')
   " Use ag over grep
@@ -115,7 +115,7 @@ if has("gui_macvim")
   set guioptions=
 
   "set default font size on larger screens
-  if winheight(0) > 80
+  if winheight(0) > 60
     set guifont=Menlo\ Regular:h14
   else
     set guifont=Menlo\ Regular:h12
