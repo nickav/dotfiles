@@ -52,7 +52,7 @@ function install() {
 	fi
 
 	# install vim plugins
-	vim +PluginInstall +qall
+	vim +PlugInstall +qall
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
