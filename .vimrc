@@ -64,6 +64,8 @@ Plug 'mxw/vim-jsx'
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 Plug 'posva/vim-vue'
 
+Plug 'sbdchd/neoformat'
+
 " Initialize plugin system
 call plug#end()
 
@@ -325,8 +327,9 @@ autocmd FileType java let b:run="!javac % | java -cp . %:r"
 autocmd FileType javascript let b:run="!node %"
 autocmd FileType vim let b:run="so %"
 
-" yarn format
-autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :w \| !yarn f %<CR>
+" code formatting
+nmap <S-F> :Neoformat<CR>
+autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :Neoformat prettier<CR>
 
 " When jumping on a tag, automatically split the window if the current buffer has been modified
 fun! SPLITAG() range
