@@ -39,7 +39,9 @@ autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=
 " fallback to CtrlP
 Plug 'kien/ctrlp.vim'
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_mruf_case_sensitive = 0
 let g:ctrlp_max_files=800
 nnoremap <silent> <C-O> :ClearCtrlPCache<cr>\|:CtrlP<cr>
 
@@ -50,6 +52,8 @@ Plug 'garbas/vim-snipmate'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'xolox/vim-misc'
+Plug 'danro/rename.vim'
+cmap mv<space> Rename<space>
 Plug 'scrooloose/nerdcommenter'
 imap <C-_> <C-o><space>ci
 nmap <C-_> <space>ci
