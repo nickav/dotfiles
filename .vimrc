@@ -48,7 +48,6 @@ nnoremap <silent> <C-O> :ClearCtrlPCache<cr>\|:CtrlP<cr>
 Plug 'tpope/vim-repeat'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'xolox/vim-misc'
@@ -69,6 +68,15 @@ let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 Plug 'posva/vim-vue'
 
 Plug 'sbdchd/neoformat'
+
+if has("gui_macvim")
+  Plug 'SirVer/ultisnips'
+  let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
+  let g:UltiSnipsSnippetDirectories=["ultisnips"]
+  let g:UltiSnipsExpandTrigger="<tab>"
+  let g:UltiSnipsJumpForwardTrigger="<c-b>"
+  let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+end
 
 " Initialize plugin system
 call plug#end()
@@ -356,6 +364,7 @@ nmap <C-]> :call SPLITAG()<CR>z.
 
 " understand special filetypes:
 autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
+autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
 
 function! GithubLink()
   let remote = system("git remote -v | sed -n '1 p' | awk '{print $2}'")
