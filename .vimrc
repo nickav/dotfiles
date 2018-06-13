@@ -1,3 +1,5 @@
+" ------------------------------
+" Package Manager
 set nocompatible  " be iMproved
 filetype off      " required!
 
@@ -10,33 +12,39 @@ if !filereadable(plug_vim)
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
+" ------------------------------
 " Plugins
 call plug#begin('~/.vim/plugged')
 
-Plug 'gmarik/vundle'
+" file navigation
 Plug 'easymotion/vim-easymotion'
 map <Leader> <Plug>(easymotion-prefix)
 
-Plug 'mattn/emmet-vim'
+" editing
+" automatic closing of quotes, parenthesis, brackets
 Plug 'Raimondi/delimitMate'
 let g:delimitMate_expand_cr = 1
 let delimitMate_matchpairs = "(:),[:],{:}"
+" parentheses, brackets, quotes, XML tags
+Plug 'tpope/vim-surround'
 
+" html
+Plug 'mattn/emmet-vim'
+Plug 'docunext/closetag.vim'
+let b:closetag_html_style=0
+autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
+" Shortcut to edit inside HTML tags
+nmap ci< cit
+nmap ci> cit
+
+" auto completions
 Plug 'ervandew/supertab'
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-
-" auto completions:
 Plug 'vim-scripts/AutoComplPop'
 let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]
-"Plug 'Rip-Rip/clang_complete'
 
-Plug 'docunext/closetag.vim'
-" only load for html files:
-let b:closetag_html_style=0
-autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
-
-" fallback to CtrlP
+" ctrlp fuzzy finder
 Plug 'kien/ctrlp.vim'
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
@@ -45,30 +53,43 @@ let g:ctrlp_mruf_case_sensitive = 0
 let g:ctrlp_max_files=800
 nnoremap <silent> <C-O> :ClearCtrlPCache<cr>\|:CtrlP<cr>
 
-Plug 'tpope/vim-repeat'
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'xolox/vim-misc'
+" rename current file
 Plug 'danro/rename.vim'
-cmap mv<space> Rename<space>
+
+" comments
 Plug 'scrooloose/nerdcommenter'
 imap <C-_> <C-o><space>ci
 nmap <C-_> <space>ci
 
+" git
+Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-scripts/dbext.vim'
+
+" color scheme
 Plug 'tomasr/molokai'
-Plug 'flazz/vim-colorschemes'
+set background=dark
+colorscheme molokai
+autocmd BufEnter * colorscheme molokai
+" more colors in terminals
+let &t_Co=256
+if &term =~ '256color'
+  set t_ut=
+endif
+
+" code formatting
+Plug 'sbdchd/neoformat'
+nmap <S-F> :Neoformat<CR>
+
+" javascript
 Plug 'pangloss/vim-javascript'
 let g:javascript_plugin_flow = 1
 Plug 'mxw/vim-jsx'
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-Plug 'posva/vim-vue'
+autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :Neoformat prettier<CR>
+" typescript
+autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
 
-Plug 'sbdchd/neoformat'
-
+" macvim-specific plugins
 if has("gui_macvim")
   Plug 'SirVer/ultisnips'
   let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
@@ -80,36 +101,20 @@ end
 
 " Initialize plugin system
 call plug#end()
-
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-  nnoremap \ :Ag<space><C-r><C-w><CR>
-  cnoreabbrev ag Ag
-endif
+filetype plugin indent on " required!
+" ------------------------------
 
 " Include local config:
-source ~/.vimrc.local
+if filereadable(expand('~/.vimrc.local'))
+  source ~/.vimrc.local
+end
 
-filetype plugin indent on " required!
+" ------------------------------
+" Whitespace
 
-set bs=indent,eol,start
-set smartcase
-set scrolloff=4 " show at least _ lines
-set smartindent
+" indentation
 set autoindent
-set ruler
-
-" use faster, older regex engine
-if has('re')
-  set re=1
-endif
-"set ttyfast
-"set lazyredraw
-
-" whitespace
+set smartindent
 " use spaces:
 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 " use tabs for the following files:
@@ -118,12 +123,99 @@ autocmd FileType c,cpp
 " commands to quickly set tabbing:
 cmap t2 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 cmap t4 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
-
 " max line width:
 set textwidth=80
 " error on lines longer than 80 characters
 autocmd BufEnter,BufReadPost,InsertLeave * match Error /\%81v.\+/
+" highlight trailing whitespace
+autocmd BufReadPost * match Error /\s\+$/
+autocmd InsertEnter * match Error /\s\+\%#\@<!$/
+autocmd InsertLeave * match Error /\s\+$/
+" Remove trailing whitespace on <leader>S
+nnoremap <leader>S :%s/\s\+$//<CR>
 
+
+" ------------------------------
+" Editor
+
+" make backspace key work
+set bs=indent,eol,start
+
+" always show a minimum number of lines (scroll if needed)
+set scrolloff=4
+
+" line numbers
+if version >= 703
+  " default to relative line numbers
+  set rnu
+  let g:netrw_bufsettings = "set rnu"
+else
+  " fallback to normal line numbers
+  set nu
+endif
+
+" better searching
+set showmatch
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+
+" backups
+set nohidden
+set backupdir=~/.vim/.backup/
+
+" history
+set history=1000
+set undolevels=1000
+
+" window
+set title
+set visualbell " don't beep
+set noerrorbells
+
+" enable syntax highlighting
+syntax on
+" use faster, older regex engine
+if has('re')
+  set re=1
+endif
+
+" set leader key
+let mapleader = " "
+
+" status bar
+set laststatus=2
+" show current line number (and file percentage)
+set ruler
+
+" variable names
+" none of these characters should be word dividers
+set iskeyword+=_,$,@,%,#,-
+
+" work in crontab
+if $VIM_CRONTAB == "true"
+  set nobackup
+  set nowritebackup
+endif
+
+" auto reload files if modified outside of vim (git, etc)
+set autoread
+
+" wildmenu command mode tab completion
+set wildmenu
+set wildmode=longest,list
+set wildignore+=*.a,*.o,*.pyc,*.class
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+set wildignore+=.DS_Store,.git,.hg,.svn
+set wildignore+=*~,*.tmp,*.lock
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+
+let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+" ------------------------------
+" GUI editor
 if has("gui_macvim")
   "macvim disable scrollbars
   set guioptions=
@@ -152,101 +244,33 @@ if has("gui_macvim")
   noremap <D-9> :tablast<CR>
 endif
 
-if version >= 703
-  set rnu " relative line numbers
-endif
-let g:netrw_bufsettings = "set rnu"
 
-set showmatch
-set incsearch
-set hlsearch
-set ignorecase
+" ------------------------------
+" Keybindings
 
-set nohidden
-set backupdir=~/.vim/.backup//
-
-set history=1000
-set undolevels=1000
-set title
-set visualbell " don't beep
-set noerrorbells
-
-"set term=ansi
-syntax on
-let mapleader = " "
-set laststatus=2 " show status bar
-
-" none of these should be word dividers
-set iskeyword+=_,$,@,%,#,-
-
-" new window splits go right
-set splitright
-
-" crontab
-if $VIM_CRONTAB == "true"
-  set nobackup
-  set nowritebackup
-endif
-
-" vim auto reload with git
-set autoread
-
-" vim project-specific .vimrc files
-set exrc
-set secure
-
-" wildmenu
-set wildignore+=*.a,*.o,*.pyc,*.class
-set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
-set wildignore+=.DS_Store,.git,.hg,.svn
-set wildignore+=*~,*.tmp,*.lock
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-set wildmenu
-set wildmode=longest,list
-
-" color scheme setup
-let &t_Co=256
-if &term =~ '256color'
-  set t_ut=
-endif
-set background=dark
-colorscheme molokai
-autocmd BufEnter * colorscheme molokai
-
-" keybindings
-" recognize function keys:
-execute "set <F1>=\eOP"
-execute "set <F2>=\eOQ"
-execute "set <F3>=\eOR"
-execute "set <F4>=\eOS"
-execute "set <F5>=\e[15;*~"
-execute "set <F6>=\e[17;*~"
-execute "set <F7>=\e[18;*~"
-execute "set <F8>=\e[19;*~"
-execute "set <F9>=\e[20;*~"
-execute "set <F10>=\e[21;*~"
-execute "set <F11>=\e[23;*~"
-execute "set <F12>=\e[24;*~"
 " duplicate line:
 imap <C-d> <esc>:t.<CR>i
-" copy, cut, pase:
-vmap <C-c> y
-vmap <C-x> x
-imap <C-v> <esc>P
+
+" toggle paste mode on/off:
 set pastetoggle=<F7>
+
 " saving:
 nmap <silent> <C-s> :w<CR>
 inoremap <C-s> <esc>:w<CR>i
-nmap <silent> <leader>s <esc>:wq<CR>
 nmap <silent> <leader>q <esc>:q!<CR>
-" semi-colon
+
+" semi-colon acts as colon
 nmap ; :
+
+" exit insert/command mode:
 inoremap jk <esc>
 cnoremap jk <esc>
+
 " tabs:
 nnoremap <silent> tt :tabnew<CR>
 nnoremap <silent> tn :tabnext<CR>
 nnoremap <silent> tp :tabprevious<CR>
+
 " reload current file
 noremap <F5> <esc>:so %<CR>
 
@@ -255,36 +279,31 @@ nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
 " clear search:
 nnoremap <silent> <CR> :nohlsearch<CR>
+
 " forgot to sudo? really write the file
 cmap w!! w !sudo tee % >/dev/null
 
 " control-hjkl as navigation
 noremap <C-k> <up>
 noremap <C-j> <down>
-noremap <C-h> <C-w>h
-noremap <left> <C-w>h
-noremap <C-l> <C-w>l
-noremap <right> <C-w>l
-imap <C-k> <up>
-imap <C-j> <down>
-imap <C-h> <left>
-imap <C-l> <right>
-
-" console navigation
 cmap <C-k> <up>
 cmap <C-j> <down>
+
 " window splitting:
+" new window splits go right
+set splitright
+" use \ and - as vertical and horizontal splits
 nmap <C-w>\ <C-w>v
 nmap <C-w>- <C-w>s
+" control h and l to switch between windows
+noremap <C-h> <C-w>h
+noremap <C-l> <C-w>l
+noremap <left> <C-w>h
+noremap <right> <C-w>l
+
 " scroll viewport faster
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>
-" Open def in new tab, open def in vs:
-map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
-map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-" Shortcut to edit HTML tag
-nmap ci< cit
-nmap ci> cit
 
 " tab shift-tab to go back/forth in buffers
 nnoremap <Tab> :bnext<CR>
@@ -293,27 +312,21 @@ nnoremap <S-Tab> :bprevious<CR>
 " Disable auto-commenting on enter
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" highlight bad whitespace
-autocmd BufReadPost * match BadWhitespace /\s\+$/
-autocmd InsertEnter * match BadWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match BadWhitespace /\s\+$/
-highlight BadWhitespace ctermbg=1
-
-" Remove trailing whitespace on <leader>S
-nnoremap <leader>S :%s/\s\+$//<CR>
-
 " auto close preview window
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 inoremap ; <esc>:pclose<CR>i<right>;
 
-" highlight current cursorline
+" highlight current cursorline (only enable for one buffer at a time)
 augroup CursorLine
   au!
   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
   au WinLeave * setlocal nocursorline
 augroup END
 
-" Build/run command
+" ------------------------------
+" Commands
+
+" build/run command
 function! Run()
   let run = "!" . &filetype . " " . expand("%")
   if exists("b:run")
@@ -334,15 +347,12 @@ command! Run :call Run()
 nmap <leader>l :Run<CR>
 nmap <leader><CR> :Run<CR>
 
-" custom build commands
+" file-specific build commands:
 autocmd FileType java let b:run="!javac % | java -cp . %:r"
 autocmd FileType javascript let b:run="!node %"
 autocmd FileType vim let b:run="so %"
 
-" code formatting
-nmap <S-F> :Neoformat<CR>
-autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :Neoformat prettier<CR>
-
+" http://vim.wikia.com/wiki/When_jumping_on_a_tag,_automatically_split_the_window_if_the_current_buffer_has_been_modified
 " When jumping on a tag, automatically split the window if the current buffer has been modified
 fun! SPLITAG() range
   let oldfile=expand("%:p")
@@ -362,10 +372,7 @@ fun! SPLITAG() range
 endfun
 nmap <C-]> :call SPLITAG()<CR>z.
 
-" understand special filetypes:
-autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
-autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
-
+" get link to current file in github
 function! GithubLink()
   let remote = system("git remote -v | sed -n '1 p' | awk '{print $2}'")
   let remote = substitute(remote, ".git\n", "", "")
@@ -382,18 +389,29 @@ endfunction
 command! GithubLink :call GithubLink()
 command! Glink :call GithubLink()
 
-let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+" ------------------------------
+" Terminal Emulation
 
-autocmd BufEnter,BufRead,BufNewFile * silent! exec '!echo -ne "\033];%\007" && tmux set -g set-titles-string "%"'
-
-" Because Vim doesn't like pasting that works
+" system pasting in terminal:
 let &t_SI .= "\<Esc>[?2004h"
 let &t_EI .= "\<Esc>[?2004l"
-
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
 function! XTermPasteBegin()
     set pastetoggle=<Esc>[201~
     set paste
     return ""
 endfunction
+
+" recognize function keys:
+execute "set <F1>=\eOP"
+execute "set <F2>=\eOQ"
+execute "set <F3>=\eOR"
+execute "set <F4>=\eOS"
+execute "set <F5>=\e[15;*~"
+execute "set <F6>=\e[17;*~"
+execute "set <F7>=\e[18;*~"
+execute "set <F8>=\e[19;*~"
+execute "set <F9>=\e[20;*~"
+execute "set <F10>=\e[21;*~"
+execute "set <F11>=\e[23;*~"
+execute "set <F12>=\e[24;*~"

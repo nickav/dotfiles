@@ -39,6 +39,7 @@
 	up = "!git remote update -p; git merge --ff-only @{u}"
 	us = reset HEAD --
 	week = log --since '1 week ago' --oneline --author nick23hi@gmail.com
+  code = "!git diff $(git rev-list --max-parents=0 HEAD)"
 [color]
 	diff = auto
 [push]
