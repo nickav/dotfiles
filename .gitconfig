@@ -1,5 +1,6 @@
 [core]
 	excludesfile = ~/.gitignore_global
+	pager = more -R
 [user]
 	name = Nick Aversano
 	email = nick23hi@gmail.com

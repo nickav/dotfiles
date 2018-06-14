@@ -2,67 +2,11 @@
 # .bashrc is run everytime a new shell window is opened
 #
 alias sudo='sudo '
-# git aliases
-alias g='git'
-alias ga='git add'
-alias gb='git branch'
-alias gau='git add -u'
-alias gs='git status'
-alias gci='git commit -m '
-alias gc='git checkout'
-alias gc-='git checkout -'
-alias gcm='git checkout master'
-alias gd='git diff'
-alias gdm='git diff master'
-alias gdh='git diff HEAD'
-alias gdh1='git diff HEAD~1'
-alias grbm='git rebase master'
-alias gl='git log'
-alias gp='git push'
-alias gpu='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
-alias gpl='git pull'
-alias gsh='git stash'
-alias gsp='git stash pop'
 # navigation
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-# mac
-alias lock='chflags uchg'
-alias unlock='chflags nouchg'
-export login='/Users/Nick/Library/Preferences/loginwindow.plist'
-# command aliases
-alias tma='tmux attach -d -t'
-alias tmn='tmux new -s'
-alias la='ls -al'
-alias lsa='ls -a'
-alias ll='ls -l'
-alias l='ls'
-alias e='exit'
-alias vi='vim'
-alias h="history"
-alias my='sudo mysqld_safe'
-alias mroe='more'
-alias crontab="VIM_CRONTAB=true crontab"
-# stopwatch
-alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
-# Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm update npm -g; npm update -g; sudo gem update --system; sudo gem update'
-alias ys='yarn start'
-# folder shortcuts
-alias doc="cd ~/Documents"
-alias docs="cd ~/Documents"
-alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
-alias dev="cd ~/dev"
-alias gg='git grep'
-alias tm="tmux attach -d || tmux new"
-
-# One of @janmoesen’s ProTips
-for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-	alias "$method"="lwp-request -m '$method'"
-done
 
 # quick google search
 function s() {

@@ -65,16 +65,8 @@ nmap <C-_> <space>ci
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" color scheme
+" colorscheme
 Plug 'tomasr/molokai'
-set background=dark
-colorscheme molokai
-autocmd BufEnter * colorscheme molokai
-" more colors in terminals
-let &t_Co=256
-if &term =~ '256color'
-  set t_ut=
-endif
 
 " code formatting
 Plug 'sbdchd/neoformat'
@@ -176,6 +168,15 @@ set noerrorbells
 
 " enable syntax highlighting
 syntax on
+" colorscheme
+set background=dark
+colorscheme molokai
+autocmd BufEnter * colorscheme molokai
+" more colors in terminals
+let &t_Co=256
+if &term =~ '256color'
+  set t_ut=
+endif
 " use faster, older regex engine
 if has('re')
   set re=1
