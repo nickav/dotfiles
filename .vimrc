@@ -27,6 +27,7 @@ let g:delimitMate_expand_cr = 1
 let delimitMate_matchpairs = "(:),[:],{:}"
 " parentheses, brackets, quotes, XML tags
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 
 " html
 Plug 'mattn/emmet-vim'
@@ -45,13 +46,25 @@ Plug 'vim-scripts/AutoComplPop'
 let g:acp_behaviorKeywordIgnores = ["end", "if", "do", "while", "else", "elseif", "true", "false", "break", "continue"]
 
 " ctrlp fuzzy finder
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_mruf_case_sensitive = 0
 let g:ctrlp_max_files=800
 nnoremap <silent> <C-O> :ClearCtrlPCache<cr>\|:CtrlP<cr>
+
+" ack / grep project search
+Plug 'mileszs/ack.vim'
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+nnoremap \ :Ack!<SPACE>
+cnoreabbrev Ack Ack!
+nnoremap \* :Ack! <cword><CR>
+
+" linting
+"Plug 'w0rp/ale'
 
 " rename current file
 Plug 'danro/rename.vim'
@@ -63,6 +76,7 @@ nmap <C-_> <space>ci
 
 " git
 Plug 'tpope/vim-fugitive'
+Plug 'christoomey/vim-conflicted'
 Plug 'airblade/vim-gitgutter'
 
 " colorscheme
@@ -82,7 +96,7 @@ autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :Neoformat p
 autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
 
 " macvim-specific plugins
-if has("gui_macvim")
+if version >= 800
   Plug 'SirVer/ultisnips'
   let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
   let g:UltiSnipsSnippetDirectories=["ultisnips"]
@@ -134,7 +148,7 @@ nnoremap <leader>S :%s/\s\+$//<CR>
 set bs=indent,eol,start
 
 " always show a minimum number of lines (scroll if needed)
-set scrolloff=4
+set scrolloff=10
 
 " line numbers
 if version >= 703
@@ -324,6 +338,10 @@ augroup CursorLine
   au WinLeave * setlocal nocursorline
 augroup END
 
+" shortcuts for vimrc
+command! Vimrc e ~/.vimrc
+command! Reload so $MYVIMRC
+
 " ------------------------------
 " Commands
 
@@ -389,6 +407,17 @@ function! GithubLink()
 endfunction
 command! GithubLink :call GithubLink()
 command! Glink :call GithubLink()
+
+" aliases
+function! CommandCabbr(abbreviation, expansion)
+  execute 'cabbr ' . a:abbreviation . ' <c-r>=getcmdpos() == 1 && getcmdtype() == ":" ? "' . a:expansion . '" : "' . a:abbreviation . '"<CR>'
+endfunction
+command! -nargs=+ CommandCabbr call CommandCabbr(<f-args>)
+" Use it on itself to define a simpler abbreviation for itself.
+CommandCabbr ccab CommandCabbr
+CommandCabbr ag Ack!
+CommandCabbr eh e<space>~/
+CommandCabbr ep e<space>~/dev/
 
 " ------------------------------
 " Terminal Emulation
