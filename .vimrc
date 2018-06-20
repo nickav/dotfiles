@@ -1,6 +1,3 @@
-" ------------------------------
-filetype off      " required!
-
 " Install package manager
 let plug_vim=expand('~/.vim/autoload/plug.vim')
 if !filereadable(plug_vim)
@@ -93,7 +90,7 @@ Plug 'sbdchd/neoformat'
 nmap <S-F> :Neoformat<CR>
 
 " javascript
-Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript' , { 'tag': '1.2.5.1' }
 let g:javascript_plugin_flow = 1
 Plug 'mxw/vim-jsx'
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
@@ -113,7 +110,6 @@ end
 
 " Initialize plugin system
 call plug#end()
-filetype plugin indent on " required!
 " ------------------------------
 
 " Include local config:
