@@ -1,6 +1,4 @@
 " ------------------------------
-" Package Manager
-set nocompatible  " be iMproved
 filetype off      " required!
 
 " Install package manager
@@ -37,6 +35,8 @@ autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=
 " Shortcut to edit inside HTML tags
 nmap ci< cit
 nmap ci> cit
+nmap di< dit
+nmap di> dit
 
 " auto completions
 Plug 'ervandew/supertab'
@@ -64,7 +64,13 @@ cnoreabbrev Ack Ack!
 nnoremap \* :Ack! <cword><CR>
 
 " linting
-"Plug 'w0rp/ale'
+Plug 'w0rp/ale'
+let g:ale_enabled = 0
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_linters = {'javascript': ['eslint']}
+let g:ale_linter_aliases = {'javascript.jsx': 'javascript', 'jsx': 'javascript'}
+let g:ale_fixers = {'javascript': ['prettier', 'eslint']}
+let g:ale_echo_msg_format = '%linter%: %s'
 
 " rename current file
 Plug 'danro/rename.vim'
@@ -206,7 +212,7 @@ set ruler
 
 " variable names
 " none of these characters should be word dividers
-set iskeyword+=_,$,@,%,#,-
+set iskeyword+=_,$,@
 
 " work in crontab
 if $VIM_CRONTAB == "true"
@@ -416,8 +422,8 @@ command! -nargs=+ CommandCabbr call CommandCabbr(<f-args>)
 " Use it on itself to define a simpler abbreviation for itself.
 CommandCabbr ccab CommandCabbr
 CommandCabbr ag Ack!
-CommandCabbr eh e<space>~/
-CommandCabbr ep e<space>~/dev/
+CommandCabbr eh e<space>~
+CommandCabbr ep e<space>~/dev
 
 " ------------------------------
 " Terminal Emulation
