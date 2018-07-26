@@ -1,6 +1,7 @@
 # git aliases
 alias g='git'
 alias ga='git add'
+alias gam='git amend'
 alias gb='git branch'
 alias gau='git add -u'
 alias gs='git status'
@@ -14,8 +15,9 @@ alias gdh='git diff HEAD'
 alias gdh1='git diff HEAD~1'
 alias grbm='git rebase master'
 alias gl='git log'
-alias gp='git push'
+alias gps='git push'
 alias gpu='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
+alias gp='git push'
 alias gpl='git pull'
 alias gsh='git stash'
 alias gsp='git stash pop'
@@ -43,3 +45,4 @@ alias dt="cd ~/Desktop"
 alias dev="cd ~/dev"
 alias gg='git grep'
 alias tm="tmux attach -d || tmux new"
+alias npr="npm run"

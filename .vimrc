@@ -98,6 +98,9 @@ autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :Neoformat p
 " typescript
 autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
 
+" rust
+Plug 'rust-lang/rust.vim'
+
 " macvim-specific plugins
 if version >= 800
   Plug 'SirVer/ultisnips'
@@ -116,6 +119,10 @@ call plug#end()
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 end
+
+" Inlcude project-specific config (secure means with limiited subset of commmands):
+set exrc
+set secure
 
 " ------------------------------
 " Whitespace
@@ -372,6 +379,7 @@ nmap <leader><CR> :Run<CR>
 autocmd FileType java let b:run="!javac % | java -cp . %:r"
 autocmd FileType javascript let b:run="!node %"
 autocmd FileType vim let b:run="so %"
+autocmd FileType rust let b:run="!cargo run"
 
 " http://vim.wikia.com/wiki/When_jumping_on_a_tag,_automatically_split_the_window_if_the_current_buffer_has_been_modified
 " When jumping on a tag, automatically split the window if the current buffer has been modified
@@ -409,6 +417,38 @@ function! GithubLink()
 endfunction
 command! GithubLink :call GithubLink()
 command! Glink :call GithubLink()
+
+" Easily switch between h and cpp files
+function! ToggleSourceHeader()
+	if (expand ("%:e") == "cpp")
+		call feedkeys(":e %<.h\<CR>")
+	else
+		"filereadable(
+		call feedkeys(":e %<.cpp\<CR>")
+	endif
+endfunction
+
+autocmd FileType h,cpp nnoremap <leader>] :call ToggleSourceHeader()<CR>
+autocmd FileType h,cpp nnoremap <leader>[ :call ToggleSourceHeader()<CR>
+
+" Automatic C / C++ header guards
+function! s:insert_gates()
+  let gatename = "__" . substitute(toupper(expand("%:t")), "\\.", "_", "g")
+  execute "normal! i#ifndef " . gatename
+  execute "normal! o#define " . gatename
+  normal! o
+  execute "normal! Go#endif /* " . gatename . " */"
+  normal! k
+endfunction
+autocmd! BufNewFile *.{h,hpp} call <SID>insert_gates()
+
+" Automatic header file inclusion (foo.c includes foo.h)
+function! s:insert_header_incl()
+  let filename = expand("%:t")
+  execute "normal! i#include " . "\"" . substitute(filename, "\\.c", "\\.h", "g") . "\""
+  normal! o
+endfunction
+autocmd! BufNewFile *.{c,cpp} call <SID>insert_header_incl()
 
 " aliases
 function! CommandCabbr(abbreviation, expansion)

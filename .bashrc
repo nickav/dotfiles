@@ -58,3 +58,5 @@ PROMPT_COMMAND='echo -ne "\033]0;\007" && [ ! -z $TMUX ] && tmux set -g set-titl
 
 # dont exclude hidden files
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+
+export PATH=$PATH:~/bin/depot_tools
