@@ -21,8 +21,8 @@ brew 'tmux'
 
 # language upgrades
 brew 'node'
-brew 'ruby'
 brew 'python'
+brew 'rust'
 
 # web
 brew 'postgresql'
@@ -32,7 +32,6 @@ brew 'nginx'
 
 # helpful command line tools
 brew 'ssh-copy-id'
-brew 'the_silver_searcher'
 brew 'wget'
 brew 'fzf'
 
@@ -41,17 +40,27 @@ brew 'imagemagick'
 brew 'ffmpeg'
 
 # applications
+
+## core
 cask_args appdir: '/Applications'
 cask 'google-chrome'
 cask 'iterm2'
 cask 'spectacle'
 cask 'hammerspoon'
-cask 'flux'
+cask 'spotify'
+
+## utils
 cask 'caffeine'
 cask 'appcleaner'
 cask 'imageoptim'
-cask 'spotify'
+cask 'disk-inventory-x'
+
+## extra
+cask 'aesprite'
+cask 'bfxr'
+cask 'steam'
 cask 'sketch'
+cask 'visual-studio-code'
 
 # quick look enhancements
 cask 'betterzipql'
