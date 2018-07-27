@@ -1,0 +1,12 @@
+{
+  "name": "dotfiles",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/nickaversano/dotfiles",
+  "author": "Nick Aversano <nick23hi@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^7.1.2",
+    "minimist": "^1.2.0"
+  }
+}
