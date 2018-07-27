@@ -1,4 +1,8 @@
 const fs = require('fs');
+const path = require('path');
+const os = require('os');
+const child_process = require('child_process');
+
 const glob = require('glob');
 const minimist = require('minimist');
 
@@ -44,13 +48,52 @@ function main(platform) {
 
   const log = argv.verbose ? paint(Color.yellow) : () => {};
 
-  dirs.forEach(dir => {
-    // get all dotfiles to install
-    const dotfiles = glob.sync(`${dir}/dotfiles/**`, { nodir: true });
-    log(dotfiles);
+  const home = os.homedir();
 
-    if (!argv.preview) {
-      //dotfiles.forEach(dot => fs.symlinkSync(dot, ))
+  paint(Color.green)('Home dir:', home);
+
+  dirs.forEach(dir => {
+    paint(Color.red)('dotfiles', dir);
+
+    // get all dotfiles to install
+    const rootPath = path.resolve(__dirname, dir);
+    const globPath = path.join(rootPath, `dotfiles/**`);
+    const dotfiles = glob.sync(globPath, { nodir: true });
+
+    dotfiles.forEach(src => {
+      const dotfileName = path.basename(src);
+      const dest = path.join(
+        home,
+        dotfileName.startsWith('.') ? dotfileName : `.${dotfileName}`
+      );
+
+      log(src, '->', dest);
+
+      if (argv.preview) {
+        return;
+      }
+
+      fs.unlinkSync(dest);
+      fs.symlinkSync(src, dest);
+    });
+
+    // run any install scripts
+    const installScript = path.resolve(rootPath, 'install.sh');
+    if (fs.existsSync(installScript)) {
+      log(`Running install script...`);
+      child_process.execSync(`chmod +x ${installScript}`);
+      child_process.execSync(installScript, { stdio: 'inherit' });
+    }
+
+    const indexJs = path.resolve(rootPath, 'index.js');
+    if (fs.existsSync(indexJs) && indexJs !== __filename) {
+      log(`Executing index.js`);
+
+      try {
+        require(indexJs)(argv, { dotfiles, path: rootPath });
+      } catch (err) {
+        console.error(err);
+      }
     }
   });
 }
