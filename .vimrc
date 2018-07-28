@@ -139,16 +139,17 @@ autocmd FileType c,cpp
 cmap t2 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 cmap t4 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 " max line width:
-set textwidth=80
+set textwidth=80 colorcolumn=80
+autocmd FileType h,cpp set textwidth=100 colorcolumn=100
 " error on lines longer than 80 characters
-autocmd BufEnter,BufReadPost,InsertLeave * match Error /\%81v.\+/
+highlight ColorColumn ctermbg=gray
+
 " highlight trailing whitespace
 autocmd BufReadPost * match Error /\s\+$/
 autocmd InsertEnter * match Error /\s\+\%#\@<!$/
 autocmd InsertLeave * match Error /\s\+$/
 " Remove trailing whitespace on <leader>S
 nnoremap <leader>S :%s/\s\+$//<CR>
-
 
 " ------------------------------
 " Editor
