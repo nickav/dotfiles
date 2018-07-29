@@ -16,13 +16,10 @@ brew 'cask'
 
 # the essentials
 brew 'macvim', args: ['override-system-vim']
-brew 'macvim'
 brew 'tmux'
 
 # language upgrades
 brew 'node'
-brew 'python'
-brew 'rust'
 
 # web
 brew 'postgresql'
@@ -45,6 +42,7 @@ brew 'ffmpeg'
 cask_args appdir: '/Applications'
 cask 'google-chrome'
 cask 'iterm2'
+cask 'macvim'
 cask 'spectacle'
 cask 'hammerspoon'
 cask 'spotify'
@@ -56,14 +54,14 @@ cask 'imageoptim'
 cask 'disk-inventory-x'
 
 ## extra
-cask 'aesprite'
+cask 'aseprite'
 cask 'bfxr'
 cask 'steam'
 cask 'sketch'
 cask 'visual-studio-code'
+cask 'firefox'
 
 # quick look enhancements
-cask 'betterzipql'
 cask 'qlimagesize'
 cask 'qlcolorcode'
 cask 'qlmarkdown'
