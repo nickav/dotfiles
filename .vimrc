@@ -30,10 +30,10 @@ Plug 'docunext/closetag.vim'
 let b:closetag_html_style=0
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 " Shortcut to edit inside HTML tags
-nmap ci< cit
-nmap ci> cit
-nmap di< dit
-nmap di> dit
+autocmd FileType html,eruby,javascript,javascript.jsx nmap ci< cit
+autocmd FileType html,eruby,javascript,javascript.jsx nmap ci> cit
+autocmd FileType html,eruby,javascript,javascript.jsx nmap di< dit
+autocmd FileType html,eruby,javascript,javascript.jsx nmap di> dit
 
 " auto completions
 Plug 'ervandew/supertab'

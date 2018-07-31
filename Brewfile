@@ -28,6 +28,7 @@ brew 'mongodb'
 brew 'nginx'
 
 # helpful command line tools
+brew 'the_silver_searcher'
 brew 'ssh-copy-id'
 brew 'wget'
 brew 'fzf'
@@ -46,12 +47,14 @@ cask 'macvim'
 cask 'spectacle'
 cask 'hammerspoon'
 cask 'spotify'
+cask 'dropbox'
 
 ## utils
 cask 'caffeine'
 cask 'appcleaner'
 cask 'imageoptim'
 cask 'disk-inventory-x'
+cask 'the-unarchiver'
 
 ## extra
 cask 'aseprite'
