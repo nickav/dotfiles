@@ -98,8 +98,9 @@ autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :Neoformat p
 " typescript
 autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
 
-" rust
-Plug 'rust-lang/rust.vim'
+" opengl
+Plug 'tikhomirov/vim-glsl'
+autocmd! BufNewFile,BufRead *.vs,*.fs set ft=glsl
 
 " macvim-specific plugins
 if version >= 800
