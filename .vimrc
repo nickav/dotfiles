@@ -50,6 +50,7 @@ let g:ctrlp_show_hidden = 1
 let g:ctrlp_mruf_case_sensitive = 0
 let g:ctrlp_max_files=800
 nnoremap <silent> <C-O> :ClearCtrlPCache<cr>\|:CtrlP<cr>
+"let g:ctrlp_cmd='CtrlP :pwd'
 
 " ack / grep project search
 Plug 'mileszs/ack.vim'
@@ -84,6 +85,8 @@ Plug 'airblade/vim-gitgutter'
 
 " colorscheme
 Plug 'tomasr/molokai'
+" make hex colors pretty
+Plug 'chrisbra/Colorizer'
 
 " code formatting
 Plug 'sbdchd/neoformat'
@@ -97,20 +100,28 @@ let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :Neoformat prettier<CR>
 " typescript
 autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
+" graphql
+Plug 'jparise/vim-graphql'
+
+" typescript
+Plug 'leafgarland/typescript-vim'
+
+"Plug 'Quramy/tsuquyomi'
+"let g:tsuquyomi_completion_detail = 1
 
 " opengl
 Plug 'tikhomirov/vim-glsl'
 autocmd! BufNewFile,BufRead *.vs,*.fs set ft=glsl
 
-" macvim-specific plugins
-if version >= 800
-  Plug 'SirVer/ultisnips'
-  let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
-  let g:UltiSnipsSnippetDirectories=["ultisnips"]
-  let g:UltiSnipsExpandTrigger="<tab>"
-  let g:UltiSnipsJumpForwardTrigger="<c-b>"
-  let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-end
+" lua / love2d
+"Plug 'davisdude/vim-love-docs'
+
+" squirrel
+Plug 'xevz/vim-squirrel'
+
+" markdown
+Plug 'shime/vim-livedown'
+
 
 " Initialize plugin system
 call plug#end()
@@ -133,15 +144,13 @@ set autoindent
 set smartindent
 " use spaces:
 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-" use tabs for the following files:
-autocmd FileType c,cpp
-  \ setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
 " commands to quickly set tabbing:
 cmap t2 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 cmap t4 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+
 " max line width:
 set textwidth=80 colorcolumn=80
-autocmd FileType h,cpp set textwidth=100 colorcolumn=100
+autocmd FileType h,c,cpp set textwidth=100 colorcolumn=100
 " error on lines longer than 80 characters
 highlight ColorColumn ctermbg=gray
 
@@ -151,6 +160,10 @@ autocmd InsertEnter * match Error /\s\+\%#\@<!$/
 autocmd InsertLeave * match Error /\s\+$/
 " Remove trailing whitespace on <leader>S
 nnoremap <leader>S :%s/\s\+$//<CR>
+
+" file format
+set fileformat=unix
+set fileformats=unix
 
 " ------------------------------
 " Editor
@@ -218,6 +231,16 @@ set ruler
 " variable names
 " none of these characters should be word dividers
 set iskeyword+=_,$,@
+" file-specific keywords
+"autocmd FileType * call ToggleKeyword()
+fun! ToggleKeyword()
+  if &ft =~ 'scss\|css'
+    set iskeyword+=-
+    set iskeyword-=\.
+  else
+    set iskeyword-=-
+  endif
+endfun
 
 " work in crontab
 if $VIM_CRONTAB == "true"
@@ -248,7 +271,7 @@ if has("gui_macvim")
 
   "set default font size on larger screens
   if winheight(0) > 60
-    set guifont=Menlo\ Regular:h14
+    set guifont=Menlo\ Regular:h12
   else
     set guifont=Menlo\ Regular:h12
   endif
@@ -373,6 +396,13 @@ function! Run()
   execute run
 endfunction
 
+function! RunDefault(cmd)
+  if exists("b:run")
+  else
+    let b:run=cmd
+  endif
+endfunction
+
 command! Run :call Run()
 nmap <leader>l :Run<CR>
 nmap <leader><CR> :Run<CR>
@@ -380,8 +410,11 @@ nmap <leader><CR> :Run<CR>
 " file-specific build commands:
 autocmd FileType java let b:run="!javac % | java -cp . %:r"
 autocmd FileType javascript let b:run="!node %"
+"autocmd FileType javascript.jsx let b:run="!babel-node % --presets=env"
 autocmd FileType vim let b:run="so %"
 autocmd FileType rust let b:run="!cargo run"
+autocmd FileType squirrel let b:run="!sq %"
+autocmd FileType markdown let b:run=":LivedownPreview"
 
 " http://vim.wikia.com/wiki/When_jumping_on_a_tag,_automatically_split_the_window_if_the_current_buffer_has_been_modified
 " When jumping on a tag, automatically split the window if the current buffer has been modified
@@ -435,11 +468,11 @@ autocmd FileType h,cpp nnoremap <leader>[ :call ToggleSourceHeader()<CR>
 
 " Automatic C / C++ header guards
 function! s:insert_gates()
-  let gatename = "__" . substitute(toupper(expand("%:t")), "\\.", "_", "g")
+  let gatename = substitute(toupper(expand("%:t")), "\\.", "_", "g")
   execute "normal! i#ifndef " . gatename
   execute "normal! o#define " . gatename
   normal! o
-  execute "normal! Go#endif /* " . gatename . " */"
+  execute "normal! Go#endif"
   normal! k
 endfunction
 autocmd! BufNewFile *.{h,hpp} call <SID>insert_gates()

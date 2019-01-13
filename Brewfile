@@ -18,10 +18,9 @@ brew 'cask'
 brew 'macvim', args: ['override-system-vim']
 brew 'tmux'
 
-# language upgrades
+# languages
 brew 'node'
-
-# web
+brew 'n'
 brew 'postgresql'
 brew 'mysql'
 brew 'mongodb'

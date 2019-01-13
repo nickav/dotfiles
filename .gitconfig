@@ -1,6 +1,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	pager = more -R
+	autocrlf = false
 [user]
 	name = Nick Aversano
 	email = nick23hi@gmail.com

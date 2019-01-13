@@ -1,6 +1,7 @@
 # git aliases
 alias g='git'
 alias ga='git add'
+alias ga.='git add .'
 alias gam='git amend'
 alias gb='git branch'
 alias gau='git add -u'
@@ -14,13 +15,17 @@ alias gdm='git diff master'
 alias gdh='git diff HEAD'
 alias gdh1='git diff HEAD~1'
 alias grbm='git rebase master'
+alias grb-='git rebase -'
 alias gl='git log'
 alias gps='git push'
 alias gpu='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
 alias gp='git push'
 alias gpl='git pull'
+alias gup='git pull --rebase'
 alias gsh='git stash'
 alias gsp='git stash pop'
+alias gm='git merge'
+alias gm-='git merge -'
 # mac
 # command aliases
 alias tma='tmux attach -d -t'
@@ -31,7 +36,9 @@ alias ll='ls -l'
 alias l='ls'
 alias e='exit'
 alias vi='vim'
+alias mvi='mvim'
 alias crontab="VIM_CRONTAB=true crontab"
+alias brewi='HOMEBREW_NO_AUTO_UPDATE=1 brew install'
 # stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
@@ -46,3 +53,6 @@ alias dev="cd ~/dev"
 alias gg='git grep'
 alias tm="tmux attach -d || tmux new"
 alias npr="npm run"
+
+alias love="/Applications/love.app/Contents/MacOS/love"
+alias love2="/Applications/love2.app/Contents/MacOS/love"
