@@ -21,6 +21,7 @@ brew 'tmux'
 # languages
 brew 'node'
 brew 'n'
+brew 'yarn'
 brew 'postgresql'
 brew 'mysql'
 brew 'mongodb'
