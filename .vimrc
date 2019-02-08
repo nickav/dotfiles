@@ -97,6 +97,7 @@ Plug 'pangloss/vim-javascript' , { 'tag': '1.2.5.1' }
 let g:javascript_plugin_flow = 1
 Plug 'mxw/vim-jsx'
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+autocmd FileType * nmap <S-F> :Neoformat<CR>
 autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :Neoformat prettier<CR>
 " typescript
 autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
@@ -122,6 +123,11 @@ Plug 'xevz/vim-squirrel'
 " markdown
 Plug 'shime/vim-livedown'
 
+" snippets
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+imap <C-]> <Plug>snipMateNextOrTrigger
 
 " Initialize plugin system
 call plug#end()
@@ -415,6 +421,7 @@ autocmd FileType vim let b:run="so %"
 autocmd FileType rust let b:run="!cargo run"
 autocmd FileType squirrel let b:run="!sq %"
 autocmd FileType markdown let b:run=":LivedownPreview"
+autocmd BufNewFile,BufRead *.mjs let b:run='!node --experimental-modules %'
 
 " http://vim.wikia.com/wiki/When_jumping_on_a_tag,_automatically_split_the_window_if_the_current_buffer_has_been_modified
 " When jumping on a tag, automatically split the window if the current buffer has been modified

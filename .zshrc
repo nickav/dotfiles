@@ -98,8 +98,8 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 setopt no_share_history
 
-# v8
-#export PATH=$PATH:~/bin/depot_tools
+# extend path
+export PATH=$PATH:~/bin/flutter/bin
 
 if [[ $- == *i* ]]; then
 # CTRL-R - Paste the selected command from history into the command line

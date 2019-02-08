@@ -43,6 +43,10 @@ defaults write com.apple.dock springboard-page-duration -float 0
 defaults write com.apple.finder DisableAllAnimations -bool true
 # hide menu bar
 defaults write NSGlobalDomain _HIHideMenuBar -bool true
+# make keyboard faster
+defaults write -g ApplePressAndHoldEnabled -bool false
+defaults write -g InitialKeyRepeat -int 0
+defaults write -g KeyRepeat -int 0
 # apply config changes
 killall Finder
 killall Dock

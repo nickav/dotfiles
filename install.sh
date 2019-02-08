@@ -49,6 +49,9 @@ function install() {
 
 	# install vim plugins
 	vim +PlugInstall +qall
+
+  mkdir -p $HOME/.vim
+  ln -sf $dir/snippets $HOME/.vim/snippets
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
