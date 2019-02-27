@@ -397,8 +397,8 @@ function! Run()
   elseif exists("g:run")
     let run = g:run
   endif
-  " save and run:
-  execute "w"
+  " save (if modified) and run:
+  execute "up"
   execute run
 endfunction
 
@@ -472,17 +472,6 @@ endfunction
 
 autocmd FileType h,cpp nnoremap <leader>] :call ToggleSourceHeader()<CR>
 autocmd FileType h,cpp nnoremap <leader>[ :call ToggleSourceHeader()<CR>
-
-" Automatic C / C++ header guards
-function! s:insert_gates()
-  let gatename = substitute(toupper(expand("%:t")), "\\.", "_", "g")
-  execute "normal! i#ifndef " . gatename
-  execute "normal! o#define " . gatename
-  normal! o
-  execute "normal! Go#endif"
-  normal! k
-endfunction
-autocmd! BufNewFile *.{h,hpp} call <SID>insert_gates()
 
 " Automatic header file inclusion (foo.c includes foo.h)
 function! s:insert_header_incl()
