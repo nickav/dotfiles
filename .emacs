@@ -32,7 +32,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
 	 (quote
-		(magit use-package powerline projectile git-gutter evil monokai-theme molokai-theme ##)))
+		(prettier-js magit use-package powerline projectile git-gutter evil monokai-theme molokai-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -69,35 +69,42 @@
  ;; If there is more than one, they won't work right.
  )
 
-; window
+;; window
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-; packages
+;; packages
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+	(package-refresh-contents)
+	(package-install 'use-package))
 
 (eval-when-compile
-  (require 'use-package))
+	(require 'use-package))
 
-; evil
+;; evil
 (setq evil-want-C-u-scroll t)
 (setq evil-want-C-d-scroll t)
 (require 'evil)
 (evil-mode 1)
 
-; keybindings
+;; keybindings
 (define-key evil-normal-state-map (kbd ";") #'evil-ex)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-normal-state-map (kbd "C-w \\") 'evil-window-vsplit)
+(define-key evil-normal-state-map (kbd "C-w -") 'evil-window-split)
+(define-key evil-normal-state-map (kbd "C-w <right>") 'evil-window-right)
+(define-key evil-normal-state-map (kbd "<right>") 'evil-window-right)
+(define-key evil-normal-state-map (kbd "C-w <left>") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "<left>") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "C-w <down>") 'evil-window-down)
+(define-key evil-normal-state-map (kbd "C-w <up>") 'evil-window-up)
 
-; theme
+;; theme
 (setq monokai-background "#1B1D1E")
 (load-theme 'monokai t)
 
-; projectile
+;; projectile
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
@@ -106,34 +113,38 @@
 (define-key projectile-mode-map (kbd "C-p") 'projectile-find-file)
 (setq projectile-project-search-path '("~/dev/"))
 
-; powerline
+;; powerline
 (require 'powerline)
 (powerline-default-theme)
 
-; git
+;; git
 (git-gutter)
 
-; config
+;; prettier
+(require 'prettier-js)
+
+;; config
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
 (global-hl-line-mode +1)
 (setq vc-follow-symlinks t)
+(setq show-trailing-whitespace t)
 
-; tabs
+;; tabs
 (setq indent-tabs-mode nil)
 (setq-default tab-width 2)
 (setq tab-always-indent 'complete)
 
 (defun infer-indentation-style ()
-  ;; if our source file uses tabs, we use tabs, if spaces spaces, and if
-  ;; neither, we use the current indent-tabs-mode
-  (let ((space-count (how-many "^  " (point-min) (point-max)))
-        (tab-count (how-many "^\t" (point-min) (point-max))))
-    (if (> space-count tab-count) (setq indent-tabs-mode nil))
-    (if (> tab-count space-count) (setq indent-tabs-mode t))))
+	;; if our source file uses tabs, we use tabs, if spaces spaces, and if
+	;; neither, we use the current indent-tabs-mode
+	(let ((space-count (how-many "^  " (point-min) (point-max)))
+				(tab-count (how-many "^\t" (point-min) (point-max))))
+		(if (> space-count tab-count) (setq indent-tabs-mode nil))
+		(if (> tab-count space-count) (setq indent-tabs-mode t))))
 (infer-indentation-style)
 
-; leader key
+;; leader key
 (define-prefix-command 'leader-map)
 (define-key evil-normal-state-map (kbd "SPC") leader-map)
 (define-key leader-map "b" 'list-buffers)
