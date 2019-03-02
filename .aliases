@@ -39,6 +39,7 @@ alias l='ls'
 alias e='exit'
 alias vi='vim'
 alias mvi='mvim'
+alias em='emacs -nw'
 alias crontab="VIM_CRONTAB=true crontab"
 alias brewi='HOMEBREW_NO_AUTO_UPDATE=1 brew install'
 # stopwatch
