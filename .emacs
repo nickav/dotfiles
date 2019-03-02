@@ -1,7 +1,16 @@
+;; packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
+(unless (package-installed-p 'use-package)
+	(package-refresh-contents)
+	(package-install 'use-package))
+
+(eval-when-compile
+	(require 'use-package))
+
+;; config
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -32,7 +41,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
 	 (quote
-		(prettier-js magit use-package powerline projectile git-gutter evil monokai-theme molokai-theme ##)))
+		(emmet-mode format-all prettier-js magit use-package powerline projectile git-gutter evil monokai-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -74,34 +83,14 @@
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; packages
-(unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
-
-(eval-when-compile
-	(require 'use-package))
-
 ;; evil
 (setq evil-want-C-u-scroll t)
 (setq evil-want-C-d-scroll t)
 (require 'evil)
 (evil-mode 1)
 
-;; keybindings
-(define-key evil-normal-state-map (kbd ";") #'evil-ex)
-(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-normal-state-map (kbd "C-w \\") 'evil-window-vsplit)
-(define-key evil-normal-state-map (kbd "C-w -") 'evil-window-split)
-(define-key evil-normal-state-map (kbd "C-w <right>") 'evil-window-right)
-(define-key evil-normal-state-map (kbd "<right>") 'evil-window-right)
-(define-key evil-normal-state-map (kbd "C-w <left>") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "<left>") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "C-w <down>") 'evil-window-down)
-(define-key evil-normal-state-map (kbd "C-w <up>") 'evil-window-up)
-
 ;; theme
-(setq monokai-background "#1B1D1E")
+(setq monokai-background "#1B1D1E" monokai-highlight-line "#293739")
 (load-theme 'monokai t)
 
 ;; projectile
@@ -122,6 +111,7 @@
 
 ;; prettier
 (require 'prettier-js)
+(define-key evil-normal-state-map (kbd "F") 'prettier-js)
 
 ;; config
 (setq inhibit-startup-screen t)
@@ -129,6 +119,32 @@
 (global-hl-line-mode +1)
 (setq vc-follow-symlinks t)
 (setq show-trailing-whitespace t)
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+
+;; keybindings
+(define-key evil-normal-state-map (kbd ";") #'evil-ex)
+(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+
+;; splits
+(defun evil-window-vsplit-focus ()
+	(interactive)(evil-window-vsplit) (other-window 1))
+
+(defun evil-window-split-focus ()
+	(interactive)(evil-window-split) (other-window 1))
+
+(define-key evil-normal-state-map (kbd "C-w \\") 'evil-window-vsplit-focus)
+(define-key evil-normal-state-map (kbd "C-w -") 'evil-window-split-focus)
+(define-key evil-normal-state-map (kbd "C-w <right>") 'evil-window-right)
+(define-key evil-normal-state-map (kbd "<right>") 'evil-window-right)
+(define-key evil-normal-state-map (kbd "C-w <left>") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "<left>") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "C-w <down>") 'evil-window-down)
+(define-key evil-normal-state-map (kbd "C-w <up>") 'evil-window-up)
+
+;; M-x
+(define-key evil-normal-state-map (kbd "<s-escape>") 'execute-extended-command)
+(define-key evil-normal-state-map (kbd "<s-x>") 'execute-extended-command)
 
 ;; tabs
 (setq indent-tabs-mode nil)
