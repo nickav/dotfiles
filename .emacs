@@ -41,7 +41,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
 	 (quote
-		(emmet-mode format-all prettier-js magit use-package powerline projectile git-gutter evil monokai-theme ##)))
+		(auto-complete emmet-mode format-all prettier-js magit use-package powerline projectile git-gutter evil monokai-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -107,11 +107,17 @@
 (powerline-default-theme)
 
 ;; git
-(git-gutter)
+(global-git-gutter-mode +1)
 
 ;; prettier
 (require 'prettier-js)
 (define-key evil-normal-state-map (kbd "F") 'prettier-js)
+
+;; magit
+(global-set-key (kbd "C-x g") 'magit-status)
+
+;; autocomplete
+(ac-config-default)
 
 ;; config
 (setq inhibit-startup-screen t)
@@ -128,9 +134,11 @@
 
 ;; splits
 (defun evil-window-vsplit-focus ()
+	;; split vertically and foucs new split
 	(interactive)(evil-window-vsplit) (other-window 1))
 
 (defun evil-window-split-focus ()
+	;; split horizontally and foucs new split
 	(interactive)(evil-window-split) (other-window 1))
 
 (define-key evil-normal-state-map (kbd "C-w \\") 'evil-window-vsplit-focus)
@@ -141,6 +149,10 @@
 (define-key evil-normal-state-map (kbd "<left>") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "C-w <down>") 'evil-window-down)
 (define-key evil-normal-state-map (kbd "C-w <up>") 'evil-window-up)
+
+;; scrolling
+(define-key evil-normal-state-map (kbd "C-e") (lambda() (interactive) (evil-scroll-line-down 16)))
+(define-key evil-normal-state-map (kbd "C-y") (lambda() (interactive) (evil-scroll-line-up 16)))
 
 ;; M-x
 (define-key evil-normal-state-map (kbd "<s-escape>") 'execute-extended-command)
@@ -160,7 +172,16 @@
 		(if (> tab-count space-count) (setq indent-tabs-mode t))))
 (infer-indentation-style)
 
-;; leader key
+;; whitespace
+(setq-default fill-column 80)
+(add-hook 'text-mode-hook 'auto-fill-mode)
+
+(require 'whitespace)
+(setq-default whitespace-line-column 80)
+(setq whitespace-style '(face empty tabs lines-tail trailing))
+(global-whitespace-mode t)
+
+;; leader
 (define-prefix-command 'leader-map)
 (define-key evil-normal-state-map (kbd "SPC") leader-map)
 (define-key leader-map "b" 'list-buffers)
