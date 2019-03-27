@@ -42,7 +42,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
+    (ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -112,7 +112,6 @@
 
 ;; prettier
 (require 'prettier-js)
-(add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)
 
 ;; magit
@@ -132,7 +131,7 @@
 ;; snippets
 (yas-global-mode 1)
 
-;; javascript
+;; javascript (web mode)
 (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
 (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
 (defun web-mode-init-hook ()
@@ -141,6 +140,11 @@
   (setq web-mode-markup-indent-offset 2)
   (define-key evil-normal-state-map (kbd "F") 'prettier-js))
 (add-hook 'web-mode-hook  'web-mode-init-hook)
+;(setq web-mode-enable-auto-closing t)
+;(setq sgml-quick-keys 'close)
+
+;; emmet
+(define-key evil-insert-state-map (kbd "C-y") 'emmet-expand-line)
 
 ;; config
 (setq inhibit-startup-screen t)
@@ -148,10 +152,14 @@
 (global-hl-line-mode +1)
 (setq vc-follow-symlinks t)
 (setq show-trailing-whitespace t)
+;; show matching braces
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 ;; insert matching braces automatically
 (electric-pair-mode 1)
+;; default to vertical splits (when opening mutliple files, e.g.)
+(setq split-height-threshold nil)
+(setq split-width-threshold 0)
 
 ;; keybindings
 (define-key evil-normal-state-map (kbd ";") #'evil-ex)
@@ -177,6 +185,9 @@
 (define-key evil-normal-state-map (kbd "C-w <down>") 'evil-window-down)
 (define-key evil-normal-state-map (kbd "C-w <up>") 'evil-window-up)
 
+;; toggle comment on current line
+(define-key evil-normal-state-map (kbd "C-;") 'comment-line)
+
 ;; scrolling
 (define-key evil-normal-state-map (kbd "C-e") (lambda() (interactive) (evil-scroll-line-down 16)))
 (define-key evil-normal-state-map (kbd "C-y") (lambda() (interactive) (evil-scroll-line-up 16)))
@@ -191,19 +202,16 @@
 (setq custom-tab-width 2)
 
 ;; Two callable functions for enabling/disabling tabs in Emacs
-(defun disable-tabs () (setq indent-tabs-mode nil))
+(defun disable-tabs ()
+  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
+  (setq indent-tabs-mode nil)
+  (setq tab-width custom-tab-width))
 (defun enable-tabs  ()
   (local-set-key (kbd "TAB") 'tab-to-tab-stop)
   (setq indent-tabs-mode t)
   (setq tab-width custom-tab-width))
 
-;; Hooks to Enable Tabs
-(add-hook 'prog-mode-hook 'enable-tabs)
-;; Hooks to Disable Tabs
-(add-hook 'lisp-mode-hook 'disable-tabs)
-(add-hook 'emacs-lisp-mode-hook 'disable-tabs)
-(add-hook 'js2-mode-hook 'disable-tabs)
-(add-hook 'web-mode-hook 'disable-tabs)
+(add-hook 'prog-mode-hook 'disable-tabs)
 
 ;; Language-Specific Tweaks
 (setq-default python-indent-offset custom-tab-width) ;; Python
