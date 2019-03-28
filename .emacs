@@ -87,7 +87,6 @@
 ;; evil
 (setq evil-want-C-u-scroll t)
 (setq evil-want-C-d-scroll t)
-(require 'evil)
 (evil-mode 1)
 
 ;; theme
@@ -104,14 +103,12 @@
 (setq projectile-project-search-path '("~/dev/"))
 
 ;; powerline
-(require 'powerline)
 (powerline-default-theme)
 
 ;; git
 (global-git-gutter-mode +1)
 
 ;; prettier
-(require 'prettier-js)
 (add-hook 'web-mode-hook 'prettier-js-mode)
 
 ;; magit
@@ -149,9 +146,9 @@
 ;; config
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
+; highlight current line
 (global-hl-line-mode +1)
 (setq vc-follow-symlinks t)
-(setq show-trailing-whitespace t)
 ;; show matching braces
 (setq show-paren-delay 0)
 (show-paren-mode 1)
@@ -160,6 +157,12 @@
 ;; default to vertical splits (when opening mutliple files, e.g.)
 (setq split-height-threshold nil)
 (setq split-width-threshold 0)
+; increase gc limit during startup
+(setq gc-cons-threshold 50000000)
+(add-hook 'emacs-startup-hook 'my/set-gc-threshold)
+(defun my/set-gc-threshold ()
+  "Reset `gc-cons-threshold' to its default value."
+  (setq gc-cons-threshold 800000))
 
 ;; keybindings
 (define-key evil-normal-state-map (kbd ";") #'evil-ex)
@@ -235,9 +238,8 @@
 (setq-default fill-column 80)
 (add-hook 'text-mode-hook 'auto-fill-mode)
 
-(require 'whitespace)
 (setq-default whitespace-line-column 80)
-(setq whitespace-style '(face empty tabs tab-mark lines-tail trailing))
+(setq whitespace-style '(face empty tabs tab-mark trailing))
 ;; (OPTIONAL) Visualize tabs as a pipe character - "|"
 (setq whitespace-display-mappings
   '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
@@ -248,79 +250,42 @@
 (define-key evil-normal-state-map (kbd "SPC") leader-map)
 (define-key leader-map "b" 'list-buffers)
 (define-key leader-map "q" 'evil-quit)
-(define-key leader-map "l" 'xah-run-current-file)
+(define-key leader-map "l" 'run-current-file)
 
 ;; run file
-(defun xah-run-current-file ()
-  "Execute the current file.
-For example, if the current buffer is x.py, then it'll call 「python x.py」 in a shell.
-Output is printed to buffer “*xah-run output*”.
-
-The file can be Emacs Lisp, PHP, Perl, Python, Ruby, JavaScript, TypeScript, golang, Bash, Ocaml, Visual Basic, TeX, Java, Clojure.
-File suffix is used to determine what program to run.
-
-If the file is modified or not saved, save it automatically before run.
-
-URL `http://ergoemacs.org/emacs/elisp_run_current_file.html'
-Version 2018-10-12"
+(defun run-current-file ()
   (interactive)
-  (let (
-        ($outputb "*xah-run output*")
-        (resize-mini-windows nil)
-        ($suffix-map
-         ;; (‹extension› . ‹shell program name›)
-         `(
-           ("php" . "php")
-           ("pl" . "perl")
-           ("py" . "python")
-           ("py3" . ,(if (string-equal system-type "windows-nt") "c:/Python32/python.exe" "python3"))
-           ("rb" . "ruby")
-           ("go" . "go run")
-           ("hs" . "runhaskell")
-           ("js" . "node")
-           ("mjs" . "node --experimental-modules ")
-           ("ts" . "tsc") ; TypeScript
-           ("tsx" . "tsc")
-           ("sh" . "bash")
-           ("clj" . "java -cp ~/apps/clojure-1.6.0/clojure-1.6.0.jar clojure.main")
-           ("rkt" . "racket")
-           ("ml" . "ocaml")
-           ("vbs" . "cscript")
-           ("tex" . "pdflatex")
-           ("latex" . "pdflatex")
-           ("java" . "javac")
-           ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
-           ))
-        $fname
-        $fSuffix
-        $prog-name
-        $cmd-str)
-    (when (not (buffer-file-name)) (save-buffer))
-    (when (buffer-modified-p) (save-buffer))
-    (setq $fname (buffer-file-name))
-    (setq $fSuffix (file-name-extension $fname))
-    (setq $prog-name (cdr (assoc $fSuffix $suffix-map)))
-    (setq $cmd-str (concat $prog-name " \""   $fname "\" &"))
-    (run-hooks 'xah-run-current-file-before-hook)
-    (cond
-     ((string-equal $fSuffix "el")
-      (load $fname))
-     ((or (string-equal $fSuffix "ts") (string-equal $fSuffix "tsx"))
-      (if (fboundp 'xah-ts-compile-file)
-          (progn
-            (xah-ts-compile-file current-prefix-arg))
-        (if $prog-name
-            (progn
-              (message "Running")
-              (shell-command $cmd-str $outputb ))
-          (error "No recognized program file suffix for this file."))))
-     ((string-equal $fSuffix "java")
-      (progn
-        (shell-command (format "java %s" (file-name-sans-extension (file-name-nondirectory $fname))) $outputb )))
-     (t (if $prog-name
-            (progn
-              (message "Running")
-              (shell-command $cmd-str $outputb ))
-          (error "No recognized program file suffix for this file."))))
-    (run-hooks 'xah-run-current-file-after-hook)))
-;; run file
+  (when (buffer-modified-p) (save-buffer))
+  (when (not (buffer-file-name)) (save-buffer))
+  (let* (
+      (suffix-map `(
+        ("php" . "php")
+        ("py" . "python")
+        ("rb" . "ruby")
+        ("js" . "node")
+        ("mjs" . "node --experimental-modules")
+        ("ml" . "ocaml")
+        ("ts" . "tsc")
+        ("go" . "go run")
+        ("sh" . "bash")
+        ("lisp" . "sbcl --script")
+        ("rust" . "cargo run")
+        ("java" . "javac")
+      ))
+      (fname (buffer-file-name))
+      (fext (file-name-extension fname))
+      (cmd-name (cdr (assoc fext suffix-map)))
+      (cmd-str (concat cmd-name " " fname))
+      (fn-name (concat "run-current-" fext "-file"))
+      (buf "*Output*"))
+    (get-buffer-create buf)
+    (unless (run-hook-with-args-until-success 'run-current-file fext)
+      (if cmd-name
+        (shell-command cmd-str buf)
+        (error "No recognized program or function to run this file."))
+    )
+    (display-buffer buf)
+    (switch-to-buffer-other-window buf)
+    (special-mode)
+    (message fn-name)
+  ))
