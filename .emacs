@@ -143,7 +143,7 @@
 ;; emmet
 (define-key evil-insert-state-map (kbd "C-y") 'emmet-expand-line)
 
-;; config
+;; config vars
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
 ; highlight current line
@@ -154,6 +154,7 @@
 (show-paren-mode 1)
 ;; insert matching braces automatically
 (electric-pair-mode 1)
+(setq scroll-margin 4)
 ;; default to vertical splits (when opening mutliple files, e.g.)
 (setq split-height-threshold nil)
 (setq split-width-threshold 0)
@@ -258,7 +259,7 @@
   (when (buffer-modified-p) (save-buffer))
   (when (not (buffer-file-name)) (save-buffer))
   (let* (
-      (suffix-map `(
+      (suffix-map '(
         ("php" . "php")
         ("py" . "python")
         ("rb" . "ruby")
@@ -282,10 +283,7 @@
     (unless (run-hook-with-args-until-success 'run-current-file fext)
       (if cmd-name
         (shell-command cmd-str buf)
-        (error "No recognized program or function to run this file."))
-    )
+        (error "No recognized program or function to run this file.")))
     (display-buffer buf)
-    (switch-to-buffer-other-window buf)
-    (special-mode)
-    (message fn-name)
+    (with-current-buffer buf (special-mode))
   ))
