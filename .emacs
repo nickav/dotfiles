@@ -97,8 +97,8 @@
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "s-t") 'projectile-find-file)
 (define-key evil-normal-state-map (kbd "C-p") nil)
+(define-key projectile-mode-map (kbd "C-S-p") 'projectile-find-file-other-window)
 (define-key projectile-mode-map (kbd "C-p") 'projectile-find-file)
 (setq projectile-project-search-path '("~/dev/"))
 
@@ -158,6 +158,8 @@
 ;; default to vertical splits (when opening mutliple files, e.g.)
 (setq split-height-threshold nil)
 (setq split-width-threshold 0)
+;; add underscore as word delimeter
+(modify-syntax-entry ?_ "w")
 ; increase gc limit during startup
 (setq gc-cons-threshold 50000000)
 (add-hook 'emacs-startup-hook 'my/set-gc-threshold)
