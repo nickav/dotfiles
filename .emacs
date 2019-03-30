@@ -42,7 +42,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
+    (multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -258,34 +258,13 @@
 ;; run file
 (defun run-current-file ()
   (interactive)
-  (when (buffer-modified-p) (save-buffer))
-  (when (not (buffer-file-name)) (save-buffer))
-  (let* (
-      (suffix-map '(
-        ("php" . "php")
-        ("py" . "python")
-        ("rb" . "ruby")
-        ("js" . "node")
-        ("mjs" . "node --experimental-modules")
-        ("ml" . "ocaml")
-        ("ts" . "tsc")
-        ("go" . "go run")
-        ("sh" . "bash")
-        ("lisp" . "sbcl --script")
-        ("rust" . "cargo run")
-        ("java" . "javac")
-      ))
-      (fname (buffer-file-name))
-      (fext (file-name-extension fname))
-      (cmd-name (cdr (assoc fext suffix-map)))
-      (cmd-str (concat cmd-name " " fname))
-      (fn-name (concat "run-current-" fext "-file"))
-      (buf "*Output*"))
-    (get-buffer-create buf)
-    (unless (run-hook-with-args-until-success 'run-current-file fext)
-      (if cmd-name
-        (shell-command cmd-str buf)
-        (error "No recognized program or function to run this file.")))
-    (display-buffer buf)
-    (with-current-buffer buf (special-mode))
-  ))
+  (if (derived-mode-p 'emacs-lisp-mode)
+    (load-file buffer-file-name)
+    (multi-compile-run)))
+
+(setq multi-compile-alist '(
+  (rust-mode . (("rust-debug" . "cargo run")
+                ("rust-release" . "cargo run --release")))
+  (c++-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
+  ("\\.lisp\\'" . (("lisp-script" . "sbcl --script %file-name")))
+))
