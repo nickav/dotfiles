@@ -42,7 +42,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
+    (markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -100,6 +100,7 @@
 (define-key evil-normal-state-map (kbd "C-p") nil)
 (define-key projectile-mode-map (kbd "C-S-p") 'projectile-find-file-other-window)
 (define-key projectile-mode-map (kbd "C-p") 'projectile-find-file)
+(define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
 (setq projectile-project-search-path '("~/dev/"))
 
 ;; powerline
@@ -110,6 +111,10 @@
 
 ;; prettier
 (add-hook 'web-mode-hook 'prettier-js-mode)
+(add-hook 'markdown-mode-hook 'prettier-js-mode)
+(add-hook 'prettier-js-mode-hook
+  (lambda () (define-key evil-normal-state-map (kbd "F") 'prettier-js)))
+
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -134,8 +139,7 @@
 (defun web-mode-init-hook ()
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
-  (setq web-mode-markup-indent-offset 2)
-  (define-key evil-normal-state-map (kbd "F") 'prettier-js))
+  (setq web-mode-markup-indent-offset 2))
 (add-hook 'web-mode-hook  'web-mode-init-hook)
 ;(setq web-mode-enable-auto-closing t)
 ;(setq sgml-quick-keys 'close)
@@ -160,6 +164,7 @@
 (setq split-width-threshold 0)
 ;; add underscore as word delimeter
 (modify-syntax-entry ?_ "w")
+(setq case-fold-search t) ; case insensitive
 ; increase gc limit during startup
 (setq gc-cons-threshold 50000000)
 (add-hook 'emacs-startup-hook 'my/set-gc-threshold)
