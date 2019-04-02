@@ -42,7 +42,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
+    (ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -102,6 +102,7 @@
 (define-key projectile-mode-map (kbd "C-p") 'projectile-find-file)
 (define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
 (setq projectile-project-search-path '("~/dev/"))
+(setq projectile-completion-system 'ivy)
 
 ;; powerline
 (powerline-default-theme)
@@ -121,6 +122,7 @@
 ;; emulate some fugitive shortcuts
 (evil-ex-define-cmd "Gdiff" 'magit-diff-buffer-file)
 (evil-ex-define-cmd "Gstatus" 'magit-status)
+(setq magit-completing-read-function 'ivy-completing-read)
 
 ;; autocomplete
 (ac-config-default)
@@ -147,6 +149,11 @@
 ;; emmet
 (define-key evil-insert-state-map (kbd "C-y") 'emmet-expand-line)
 
+;; ivy
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+
 ;; config vars
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
@@ -167,6 +174,7 @@
 (setq case-fold-search t) ; case insensitive
 ;; better lisp indentation
 (setq lisp-indent-function 'common-lisp-indent-function)
+(setq completions-format 'vertical)
 ; increase gc limit during startup
 (setq gc-cons-threshold 50000000)
 (add-hook 'emacs-startup-hook 'my/set-gc-threshold)
