@@ -165,6 +165,8 @@
 ;; add underscore as word delimeter
 (modify-syntax-entry ?_ "w")
 (setq case-fold-search t) ; case insensitive
+;; better lisp indentation
+(setq lisp-indent-function 'common-lisp-indent-function)
 ; increase gc limit during startup
 (setq gc-cons-threshold 50000000)
 (add-hook 'emacs-startup-hook 'my/set-gc-threshold)
@@ -271,5 +273,7 @@
   (rust-mode . (("rust-debug" . "cargo run")
                 ("rust-release" . "cargo run --release")))
   (c++-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
+  (makefile-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
+  (makefile-bsdmake-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
   ("\\.lisp\\'" . (("lisp-script" . "sbcl --script %file-name")))
 ))
