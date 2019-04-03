@@ -20,6 +20,7 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(async-bytecomp-package-mode nil)
  '(column-number-mode t)
  '(compilation-message-face (quote default))
  '(custom-enabled-themes (quote (tsdh-dark)))
@@ -42,7 +43,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
+    (eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -153,6 +154,18 @@
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
+
+;; which key
+(which-key-mode)
+
+;; eyebrowse
+(eyebrowse-mode t)
+(eyebrowse-setup-opinionated-keys)
+(setq eyebrowse-wrap-around t)
+(setq eyebrowse-new-workspace t)
+(define-key evil-normal-state-map (kbd "tp") 'eyebrowse-prev-window-config)
+(define-key evil-normal-state-map (kbd "tn") 'eyebrowse-next-window-config)
+(define-key evil-normal-state-map (kbd "tq") 'eyebrowse-close-window-config)
 
 ;; config vars
 (setq inhibit-startup-screen t)
