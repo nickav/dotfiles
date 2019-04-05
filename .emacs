@@ -43,7 +43,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
+    (lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -167,6 +167,12 @@
 (define-key evil-normal-state-map (kbd "tn") 'eyebrowse-next-window-config)
 (define-key evil-normal-state-map (kbd "tq") 'eyebrowse-close-window-config)
 
+;; lua
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+(setq lua-indent-level 2)
+
 ;; config vars
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
@@ -198,6 +204,8 @@
 ;; keybindings
 (define-key evil-normal-state-map (kbd ";") #'evil-ex)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+(define-key evil-normal-state-map (kbd "<tab>") 'next-buffer)
+(define-key evil-normal-state-map (kbd "<backtab>") 'previous-buffer)
 
 ;; splits
 (defun evil-window-vsplit-focus ()
@@ -296,5 +304,16 @@
   (c++-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
   (makefile-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
   (makefile-bsdmake-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
+  (lua-mode . (("lua-run" . "lua %file-name")))
   ("\\.lisp\\'" . (("lisp-script" . "sbcl --script %file-name")))
+  ("\\.js\\'" . (("node-run" . "node %file-name")))
+  ("\\.mjs\\'") . (("node-harmony-run" . "node --experimental-modules %file-name"))
 ))
+
+;; make comiplation mode use terminal colors
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
