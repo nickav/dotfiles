@@ -105,8 +105,9 @@
 (define-key projectile-mode-map (kbd "C-S-p") 'projectile-find-file-other-window)
 (define-key projectile-mode-map (kbd "C-p") 'projectile-find-file)
 (define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
-(setq projectile-project-search-path '("~/dev/"))
+(setq projectile-project-search-path '("~/dev/" "~/dotfiles/"))
 (setq projectile-completion-system 'ivy)
+(setq projectile-enable-caching t)
 
 ;; powerline
 (powerline-default-theme)
@@ -178,6 +179,15 @@
 (define-key evil-normal-state-map (kbd "tp") 'eyebrowse-prev-window-config)
 (define-key evil-normal-state-map (kbd "tn") 'eyebrowse-next-window-config)
 (define-key evil-normal-state-map (kbd "tq") 'eyebrowse-close-window-config)
+(define-key evil-normal-state-map (kbd "s-1") 'eyebrowse-switch-to-window-config-1)
+(define-key evil-normal-state-map (kbd "s-2") 'eyebrowse-switch-to-window-config-2)
+(define-key evil-normal-state-map (kbd "s-3") 'eyebrowse-switch-to-window-config-3)
+(define-key evil-normal-state-map (kbd "s-4") 'eyebrowse-switch-to-window-config-4)
+(define-key evil-normal-state-map (kbd "s-5") 'eyebrowse-switch-to-window-config-5)
+(define-key evil-normal-state-map (kbd "s-6") 'eyebrowse-switch-to-window-config-6)
+(define-key evil-normal-state-map (kbd "s-7") 'eyebrowse-switch-to-window-config-7)
+(define-key evil-normal-state-map (kbd "s-8") 'eyebrowse-switch-to-window-config-8)
+(define-key evil-normal-state-map (kbd "s-9") 'eyebrowse-switch-to-window-config-9)
 
 ;; lua
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
@@ -201,7 +211,7 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold 0)
 ;; add underscore as word delimeter
-(modify-syntax-entry ?_ "w")
+(add-hook 'prog-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 (setq case-fold-search t) ; case insensitive
 ;; better lisp indentation
 (setq lisp-indent-function 'common-lisp-indent-function)
@@ -249,6 +259,10 @@
 ;; M-x
 (define-key evil-normal-state-map (kbd "<s-escape>") 'execute-extended-command)
 (define-key evil-normal-state-map (kbd "<s-x>") 'execute-extended-command)
+
+;; escape key
+(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 
 ;; tabs
 ; START TABS CONFIG
@@ -314,6 +328,7 @@
   (rust-mode . (("rust-debug" . "cargo run")
                 ("rust-release" . "cargo run --release")))
   (c++-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
+  (c-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
   (makefile-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
   (makefile-bsdmake-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
   (lua-mode . (("lua-run" . "lua %file-name")))
