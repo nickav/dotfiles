@@ -46,7 +46,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -88,6 +88,10 @@
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+;;
+;; plugins
+;;
+
 ;; evil
 (setq evil-want-C-u-scroll t)
 (setq evil-want-C-d-scroll t)
@@ -121,6 +125,11 @@
 (add-hook 'prettier-js-mode-hook
   (lambda () (define-key evil-normal-state-map (kbd "F") 'prettier-js)))
 
+;; clang-format
+(defun clang-format-mode-init ()
+  (define-key evil-normal-state-map (kbd "F") 'clang-format-buffer))
+(add-hook 'c++-mode-hook #'clang-format-mode-init)
+(add-hook 'c-mode-hook #'clang-format-mode-init)
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -194,6 +203,10 @@
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 (setq lua-indent-level 2)
+
+;;
+;; config
+;;
 
 ;; config vars
 (setq inhibit-startup-screen t)
