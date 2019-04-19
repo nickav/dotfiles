@@ -46,7 +46,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -108,6 +108,7 @@
 (define-key evil-normal-state-map (kbd "C-p") nil)
 (define-key projectile-mode-map (kbd "C-S-p") 'projectile-find-file-other-window)
 (define-key projectile-mode-map (kbd "C-p") 'projectile-find-file)
+(define-key projectile-mode-map (kbd "<f5>") 'projectile-invalidate-cache)
 (define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
 (setq projectile-project-search-path '("~/dev/" "~/dotfiles/"))
 (setq projectile-completion-system 'ivy)
@@ -323,6 +324,9 @@
   '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
 (global-whitespace-mode t)
 
+;; vim emulation
+(evil-ex-define-cmd "Explore" 'dired)
+
 ;; leader key
 (define-prefix-command 'leader-map)
 (define-key evil-normal-state-map (kbd "SPC") leader-map)
@@ -345,6 +349,7 @@
   (makefile-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
   (makefile-bsdmake-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
   (lua-mode . (("lua-run" . "lua %file-name")))
+  (haskell-mode . (("haskell-run" . "ghc --make %file-name && ./%file-sans")))
   ("\\.lisp\\'" . (("lisp-script" . "sbcl --script %file-name")))
   ("\\.js\\'" . (("node-run" . "node %file-name")))
   ("\\.mjs\\'") . (("node-harmony-run" . "node --experimental-modules %file-name"))
