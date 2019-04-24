@@ -119,6 +119,7 @@
 
 ;; git
 (global-git-gutter-mode +1)
+(global-auto-revert-mode t)
 
 ;; prettier
 (add-hook 'web-mode-hook 'prettier-js-mode)
@@ -236,6 +237,15 @@
 (defun my/set-gc-threshold ()
   "Reset `gc-cons-threshold' to its default value."
   (setq gc-cons-threshold 800000))
+
+;; backups
+(setq
+  backup-by-copying t
+  backup-directory-alist '(("." . "~/.saves/"))
+  delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2
+  version-control t)
 
 ;; keybindings
 (define-key evil-normal-state-map (kbd ";") #'evil-ex)
