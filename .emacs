@@ -122,6 +122,7 @@
 (global-auto-revert-mode t)
 
 ;; prettier
+(add-hook 'javascript-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)
 (add-hook 'markdown-mode-hook 'prettier-js-mode)
 (add-hook 'prettier-js-mode-hook
@@ -162,6 +163,7 @@
 ;(setq web-mode-enable-auto-closing t)
 ;(setq sgml-quick-keys 'close)
 (setq css-indent-offset 2)
+(add-to-list 'auto-mode-alist '("\\.mjs$" . javascript-mode))
 
 ;; emmet
 (define-key evil-insert-state-map (kbd "C-y") 'emmet-expand-line)
@@ -362,7 +364,7 @@
   (haskell-mode . (("haskell-run" . "ghc --make %file-name && ./%file-sans")))
   ("\\.lisp\\'" . (("lisp-script" . "sbcl --script %file-name")))
   ("\\.js\\'" . (("node-run" . "node %file-name")))
-  ("\\.mjs\\'") . (("node-harmony-run" . "node --experimental-modules %file-name"))
+  ("\\.mjs\\'" . (("node-harmony-run" . "node --experimental-modules %file-name")))
 ))
 
 ;; make comiplation mode use terminal colors
