@@ -1,4 +1,5 @@
-;; packages
+;
+; packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
@@ -112,7 +113,7 @@
 (define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
 (setq projectile-project-search-path '("~/dev/" "~/dotfiles/"))
 (setq projectile-completion-system 'ivy)
-(setq projectile-enable-caching t)
+(setq projectile-enable-caching 0)
 
 ;; powerline
 (powerline-default-theme)
@@ -207,6 +208,32 @@
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 (setq lua-indent-level 2)
+
+;; c header guards
+(defun get-include-guard ()
+  "Return a string suitable for use in a C/C++ include guard"
+  (let* ((fname (buffer-file-name (current-buffer)))
+         (fbasename (replace-regexp-in-string ".*/" "" fname))
+         (inc-guard-base (replace-regexp-in-string "[.-]"
+                                                   "_"
+                                                   fbasename)))
+    (upcase inc-guard-base)))
+
+(defun auto-c-header-guard ()
+  (interactive)
+  (let ((file-name (buffer-file-name (current-buffer))))
+    (when (string= ".h" (substring file-name -2))
+      (let ((include-guard (get-include-guard)))
+        (insert "#ifndef " include-guard)
+        (newline)
+        (insert "#define " include-guard)
+        (newline 4)
+        (insert "#endif")
+        (newline)
+        (previous-line 3)
+        (set-buffer-modified-p nil)))))
+
+(add-hook 'find-file-not-found-hooks 'auto-c-header-guard)
 
 ;;
 ;; config
