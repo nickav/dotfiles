@@ -47,7 +47,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -141,6 +141,7 @@
 (evil-ex-define-cmd "Gdiff" 'magit-diff-buffer-file)
 (evil-ex-define-cmd "Gstatus" 'magit-status)
 (setq magit-completing-read-function 'ivy-completing-read)
+(evil-magit-init)
 
 ;; autocomplete
 (ac-config-default)
@@ -373,6 +374,7 @@
 (define-key leader-map "q" 'evil-quit)
 (define-key leader-map "l" 'run-current-file)
 (define-key leader-map (kbd "RET") 'run-current-project)
+(define-key leader-map "g" 'magit-status)
 
 (defun run-current-project ()
   (interactive)
