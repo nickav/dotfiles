@@ -372,6 +372,11 @@
 (define-key leader-map "b" 'list-buffers)
 (define-key leader-map "q" 'evil-quit)
 (define-key leader-map "l" 'run-current-file)
+(define-key leader-map (kbd "RET") 'run-current-project)
+
+(defun run-current-project ()
+  (interactive)
+  (projectile-compile-project 'nil))
 
 ;; run file
 (defun run-current-file ()
