@@ -98,9 +98,6 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 setopt no_share_history
 
-# extend path
-export PATH=$PATH:~/bin/flutter/bin
-
 if [[ $- == *i* ]]; then
 # CTRL-R - Paste the selected command from history into the command line
 fzf-history-widget() {
@@ -120,4 +117,8 @@ fzf-history-widget() {
 }
 zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
+fi
+
+if [ -f ~/.cargo/env ]; then
+	source ~/.cargo/env
 fi

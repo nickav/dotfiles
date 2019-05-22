@@ -1,5 +1,4 @@
-;
-; packages
+;; packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
@@ -47,7 +46,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -126,14 +125,12 @@
 (add-hook 'javascript-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)
 (add-hook 'markdown-mode-hook 'prettier-js-mode)
-(add-hook 'prettier-js-mode-hook
-  (lambda () (define-key evil-normal-state-map (kbd "F") 'prettier-js)))
 
-;; clang-format
-(defun clang-format-mode-init ()
-  (define-key evil-normal-state-map (kbd "F") 'clang-format-buffer))
-(add-hook 'c++-mode-hook #'clang-format-mode-init)
-(add-hook 'c-mode-hook #'clang-format-mode-init)
+;; format-all
+(define-key evil-normal-state-map (kbd "F") 'format-all-buffer)
+
+;; rust
+(add-to-list 'auto-mode-alist '("\\.rs?$" . rust-mode))
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -375,6 +372,7 @@
 (define-key leader-map "l" 'run-current-file)
 (define-key leader-map (kbd "RET") 'run-current-project)
 (define-key leader-map "g" 'magit-status)
+(define-key leader-map (kbd "SPC") 'execute-extended-command)
 
 (defun run-current-project ()
   (interactive)
@@ -388,8 +386,7 @@
     (multi-compile-run)))
 
 (setq multi-compile-alist '(
-  (rust-mode . (("rust-debug" . "cargo run")
-                ("rust-release" . "cargo run --release")))
+  (rust-mode . (("rust-debug" . "cargo run")))
   (c++-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
   (c-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
   (makefile-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
