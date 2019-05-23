@@ -315,6 +315,11 @@
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 
+;; zoom in and out
+(define-key evil-normal-state-map (kbd "s-=") 'text-scale-increase)
+(define-key evil-normal-state-map (kbd "s--") 'text-scale-decrease)
+(define-key evil-normal-state-map (kbd "s-0") (lambda() (interactive) (text-scale-set 0)))
+
 ;; tabs
 ; START TABS CONFIG
 ;; Create a variable for our preferred tab width
