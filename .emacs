@@ -411,6 +411,15 @@
   ("\\.mjs\\'" . (("node-harmony-run" . "node --experimental-modules %file-name")))
 ))
 
+;; DONT DELETE ME!!!!
+;; make comiplation mode use terminal colors
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 ;; vim escape sequences
 ;; bind jk to escape
 (key-chord-mode 1)
