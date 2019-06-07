@@ -100,12 +100,6 @@
 (setq evil-want-C-d-scroll t)
 (evil-mode 1)
 
-;; theme
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(setq monokai-background "#1B1D1E" monokai-highlight-line "#293739")
-;(load-theme 'monokai t)
-(load-theme 'naysayer t)
-
 ;; projectile
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -118,9 +112,6 @@
 (setq projectile-project-search-path '("~/dev/" "~/dotfiles/"))
 (setq projectile-completion-system 'ivy)
 (setq projectile-enable-caching 0)
-
-;; powerline
-(powerline-default-theme)
 
 ;; git
 (global-git-gutter-mode +1)
@@ -212,35 +203,13 @@
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 (setq lua-indent-level 2)
 
-;; c header guards
-(defun get-include-guard ()
-  "Return a string suitable for use in a C/C++ include guard"
-  (let* ((fname (buffer-file-name (current-buffer)))
-         (fbasename (replace-regexp-in-string ".*/" "" fname))
-         (inc-guard-base (replace-regexp-in-string "[.-]"
-                                                   "_"
-                                                   fbasename)))
-    (upcase inc-guard-base)))
-
-(defun auto-c-header-guard ()
-  (interactive)
-  (let ((file-name (buffer-file-name (current-buffer))))
-    (when (string= ".h" (substring file-name -2))
-      (let ((include-guard (get-include-guard)))
-        (insert "#ifndef " include-guard)
-        (newline)
-        (insert "#define " include-guard)
-        (newline 4)
-        (insert "#endif")
-        (newline)
-        (previous-line 3)
-        (set-buffer-modified-p nil)))))
-
-(add-hook 'find-file-not-found-hooks 'auto-c-header-guard)
-
 ;;
 ;; config
 ;;
+
+;; theme
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'naysayer t)
 
 ;; config vars
 (setq inhibit-startup-screen t)
@@ -411,7 +380,6 @@
   ("\\.mjs\\'" . (("node-harmony-run" . "node --experimental-modules %file-name")))
 ))
 
-;; DONT DELETE ME!!!!
 ;; make comiplation mode use terminal colors
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
