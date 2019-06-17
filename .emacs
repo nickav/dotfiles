@@ -49,7 +49,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -202,6 +202,12 @@
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 (setq lua-indent-level 2)
+
+;; dumb-jump
+;; jump to definition
+(dumb-jump-mode t)
+(define-key evil-normal-state-map (kbd "<C-return>") 'dumb-jump-go)
+(setq dumb-jump-selector 'ivy)
 
 ;;
 ;; config
@@ -379,6 +385,11 @@
   ("\\.js\\'" . (("node-run" . "node %file-name")))
   ("\\.mjs\\'" . (("node-harmony-run" . "node --experimental-modules %file-name")))
 ))
+
+;; shortcut to edit emacs config
+(defun edit-emacs-config ()
+  (interactive)
+  (find-file "~/.emacs"))
 
 ;; make comiplation mode use terminal colors
 (require 'ansi-color)
