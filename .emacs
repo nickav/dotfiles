@@ -49,7 +49,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -209,6 +209,9 @@
 (define-key evil-normal-state-map (kbd "<C-return>") 'dumb-jump-go)
 (setq dumb-jump-selector 'ivy)
 
+;; exec path fix
+(exec-path-from-shell-initialize)
+
 ;;
 ;; config
 ;;
@@ -257,8 +260,6 @@
 ;; keybindings
 (define-key evil-normal-state-map (kbd ";") #'evil-ex)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-normal-state-map (kbd "<tab>") 'next-buffer)
-(define-key evil-normal-state-map (kbd "<backtab>") 'previous-buffer)
 
 ;; splits
 (defun evil-window-vsplit-focus ()
@@ -347,6 +348,9 @@
   '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
 (global-whitespace-mode t)
 
+;; make links clickable
+(goto-address-mode t)
+
 ;; vim emulation
 (evil-ex-define-cmd "Explore" 'dired)
 
@@ -359,8 +363,9 @@
 (define-key leader-map (kbd "RET") 'run-current-project)
 (define-key leader-map "g" 'magit-status)
 (define-key leader-map (kbd "SPC") 'execute-extended-command)
-(define-key evil-normal-state-map (kbd "s-r") 'run-current-file)
-(define-key evil-normal-state-map (kbd "s-s") 'save-buffer)
+
+(define-key evil-normal-state-map (kbd "S-r") 'run-current-file)
+(define-key evil-normal-state-map (kbd "S-s") 'save-buffer)
 
 (defun run-current-project ()
   (interactive)

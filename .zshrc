@@ -126,3 +126,4 @@ fi
 # ignore commands that start with spaces and dups
 # shorthand for ignorespace and ignoredups
 export HISTCONTROL=ignoreboth
+export PATH="/usr/local/opt/llvm/bin:$PATH"
