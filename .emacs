@@ -49,7 +49,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes naysayer-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -216,12 +216,14 @@
 ;; exec path fix
 (exec-path-from-shell-initialize)
 
+;; auto install packages on startup
+(add-hook 'after-init-hook (lambda () (package-install-selected-packages)))
+
 ;;
 ;; config
 ;;
 
 ;; theme
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'naysayer t)
 
 ;; config vars
