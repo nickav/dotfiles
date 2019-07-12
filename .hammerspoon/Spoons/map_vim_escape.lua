@@ -8,7 +8,7 @@ local function pressFn(mods, key)
 end
 
 local function remap(mods, key, pressFn)
-	hs.hotkey.bind(mods, key, pressFn, nil, pressFn)
+	hs.hotkey.bind(mods, key, pressFn, nil, nil)
 end
 
 

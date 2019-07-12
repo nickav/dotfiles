@@ -105,13 +105,13 @@
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key evil-normal-state-map (kbd "C-p") nil)
 (define-key projectile-mode-map (kbd "C-p") 'projectile-find-file)
-(define-key projectile-mode-map (kbd "C-s-p") 'projectile-find-file-other-window)
+(define-key projectile-mode-map (kbd "C-S-P") 'projectile-find-file-other-window)
 (define-key projectile-mode-map (kbd "<f5>") 'projectile-invalidate-cache)
 (defun projectile-nocache-find-file()
   (interactive)
   (projectile-invalidate-cache nil)
   (projectile-find-file))
-(define-key evil-normal-state-map (kbd "C-s-SPC") 'projectile-nocache-find-file)
+(define-key evil-normal-state-map (kbd "C-S-SPC") 'projectile-nocache-find-file)
 (define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
 (setq projectile-project-search-path '("~/dev/" "~/dotfiles/"))
 (setq projectile-completion-system 'ivy)
@@ -229,6 +229,7 @@
 ;; config vars
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
+(setq confirm-kill-emacs 'y-or-n-p)
 ; highlight current line
 (global-hl-line-mode +1)
 (setq vc-follow-symlinks t)
@@ -295,8 +296,8 @@
 (define-key evil-normal-state-map (kbd "C-y") (lambda() (interactive) (evil-scroll-line-up 16)))
 
 ;; M-x
-(define-key evil-normal-state-map (kbd "<s-escape>") 'execute-extended-command)
-(define-key evil-normal-state-map (kbd "<s-x>") 'execute-extended-command)
+(define-key evil-normal-state-map (kbd "C-m") 'execute-extended-command)
+(global-set-key (kbd "C-c") 'keyboard-quit)
 
 ;; escape key
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
@@ -414,8 +415,6 @@
 ;; bind jk to escape
 (key-chord-mode 1)
 (key-chord-define evil-insert-state-map  "jk" 'evil-normal-state)
-(define-key evil-insert-state-map (kbd "C-c") 'evil-normal-state)
-(define-key evil-insert-state-map (kbd "C-f") 'evil-normal-state)
 
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
