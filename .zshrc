@@ -123,6 +123,8 @@ if [ -f ~/.cargo/env ]; then
 	source ~/.cargo/env
 fi
 
+export PATH="/Users/Nick/bin:$PATH"
+
 # ignore commands that start with spaces and dups
 # shorthand for ignorespace and ignoredups
 export HISTCONTROL=ignoreboth

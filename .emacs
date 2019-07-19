@@ -49,7 +49,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes naysayer-theme ##)))
+    (typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes naysayer-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -128,6 +128,7 @@
 
 ;; format-all
 (define-key evil-normal-state-map (kbd "F") 'format-all-buffer)
+(defvar clang-format-style-option  "google")
 
 ;; rust
 (add-to-list 'auto-mode-alist '("\\.rs?$" . rust-mode))
@@ -163,6 +164,10 @@
 ;(setq sgml-quick-keys 'close)
 (setq css-indent-offset 2)
 (add-to-list 'auto-mode-alist '("\\.mjs$" . javascript-mode))
+
+;; typescript mode
+(add-to-list 'auto-mode-alist '("\\.tsx?$" . typescript-mode))
+(setq typescript-indent-level 2)
 
 ;; emmet
 (define-key evil-insert-state-map (kbd "C-y") 'emmet-expand-line)
