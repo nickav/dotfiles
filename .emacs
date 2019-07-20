@@ -193,9 +193,11 @@
 (eyebrowse-setup-opinionated-keys)
 (setq eyebrowse-wrap-around t)
 (setq eyebrowse-new-workspace t)
+;; tmux-esque switching
 (define-key evil-normal-state-map (kbd "tp") 'eyebrowse-prev-window-config)
 (define-key evil-normal-state-map (kbd "tn") 'eyebrowse-next-window-config)
 (define-key evil-normal-state-map (kbd "tq") 'eyebrowse-close-window-config)
+;; super+number
 (define-key evil-normal-state-map (kbd "s-1") 'eyebrowse-switch-to-window-config-1)
 (define-key evil-normal-state-map (kbd "s-2") 'eyebrowse-switch-to-window-config-2)
 (define-key evil-normal-state-map (kbd "s-3") 'eyebrowse-switch-to-window-config-3)
@@ -205,6 +207,16 @@
 (define-key evil-normal-state-map (kbd "s-7") 'eyebrowse-switch-to-window-config-7)
 (define-key evil-normal-state-map (kbd "s-8") 'eyebrowse-switch-to-window-config-8)
 (define-key evil-normal-state-map (kbd "s-9") 'eyebrowse-switch-to-window-config-9)
+;; ctrl+number
+(define-key evil-normal-state-map (kbd "C-1") 'eyebrowse-switch-to-window-config-1)
+(define-key evil-normal-state-map (kbd "C-2") 'eyebrowse-switch-to-window-config-2)
+(define-key evil-normal-state-map (kbd "C-3") 'eyebrowse-switch-to-window-config-3)
+(define-key evil-normal-state-map (kbd "C-4") 'eyebrowse-switch-to-window-config-4)
+(define-key evil-normal-state-map (kbd "C-5") 'eyebrowse-switch-to-window-config-5)
+(define-key evil-normal-state-map (kbd "C-6") 'eyebrowse-switch-to-window-config-6)
+(define-key evil-normal-state-map (kbd "C-7") 'eyebrowse-switch-to-window-config-7)
+(define-key evil-normal-state-map (kbd "C-8") 'eyebrowse-switch-to-window-config-8)
+(define-key evil-normal-state-map (kbd "C-9") 'eyebrowse-switch-to-window-config-9)
 
 ;; lua
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
