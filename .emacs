@@ -284,6 +284,7 @@
 ;; keybindings
 (define-key evil-normal-state-map (kbd ";") #'evil-ex)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+(define-key evil-normal-state-map (kbd "C-/") 'ag-project)
 
 ;; splits
 (defun evil-window-vsplit-focus ()
