@@ -1,0 +1,3 @@
+alias open="explorer.exe"
+alias win="cmd.exe"
+alias cmd="cmd.exe /c"

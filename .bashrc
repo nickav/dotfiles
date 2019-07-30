@@ -2,7 +2,6 @@
 # .bashrc is run everytime a new shell window is opened
 #
 alias sudo='sudo '
-# navigation
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -58,7 +57,3 @@ PROMPT_COMMAND='echo -ne "\033]0;\007" && [ ! -z $TMUX ] && tmux set -g set-titl
 
 # dont exclude hidden files
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-
-if [ -f ~/.cargo/env ]; then
-	source ~/.cargo/env
-fi
