@@ -15,6 +15,23 @@ SendMode, Input
 ; + = SHIFT
 ; # = WIN
 
+Init() {
+  static DidInit = 0
+
+  if (!DidInit) {
+    DisableLockWorkstation(1)
+    DidInit = 1
+  }
+}
+
+Init()
+
+OnExit("ExitFunc")
+
+ExitFunc(ExitReason, ExitCode) {
+  DisableLockWorkstation(0)
+}
+
 ; permanantly disable capslock
 SetCapsLockState, AlwaysOff
 
@@ -24,10 +41,6 @@ LCtrl & h:: send {Left}
 LCtrl & l:: send {Right}
 LCtrl & j:: send {Down}
 LCtrl & k:: send {Up}
-
-;Reverse Position of Win and Alt to mimic a macs Command and Option
-;LWin::LAlt
-;LAlt::LWin
 
 ; Disable start menu on left winkey
 LWin::return
@@ -45,11 +58,7 @@ LWin::return
 ^BS:: send ^+{left}{delete}
 
 ; spotlight
-LAlt & Space::Send ^{Esc}
 LWin & Space::Send ^{Esc}
-
-;^Left:: send {Home}
-;^Right:: send {End}
 
 ; Remap Windows + Tab to Alt + Tab.
 LWin & Tab::AltTab
@@ -113,7 +122,13 @@ LWin & Tab::AltTab
 #+n::Send ^+n
 
 ; lock screen
-#!Pause::DllCall("LockWorkStation")
+#!Pause::
+  DisableLockWorkstation(0)
+  Sleep 50
+  DllCall("LockWorkStation")
+  Sleep 50
+  DisableLockWorkstation(1)
+return
 
 ; --------------------------------------------------------------
 ; Application specific
