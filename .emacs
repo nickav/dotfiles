@@ -289,6 +289,8 @@
   "Reset `gc-cons-threshold' to its default value."
   (setq gc-cons-threshold 800000))
 
+(menu-bar-mode -1)
+
 ;; backups
 (setq
   backup-by-copying t
