@@ -264,24 +264,32 @@
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
 (setq confirm-kill-emacs 'y-or-n-p)
+
 ; highlight current line
 (global-hl-line-mode +1)
+
 (setq vc-follow-symlinks t)
+
 ;; show matching braces
 (setq show-paren-delay 0)
 (show-paren-mode 1)
+
 ;; insert matching braces automatically
 (electric-pair-mode 1)
 (setq scroll-margin 4)
+
 ;; default to vertical splits (when opening mutliple files, e.g.)
 (setq split-height-threshold nil)
 (setq split-width-threshold 0)
+
 ;; add underscore as word delimeter
 (add-hook 'prog-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 (setq case-fold-search t) ; case insensitive
+
 ;; better lisp indentation
 (setq lisp-indent-function 'common-lisp-indent-function)
 (setq completions-format 'vertical)
+
 ; increase gc limit during startup
 (setq gc-cons-threshold 50000000)
 (add-hook 'emacs-startup-hook 'my/set-gc-threshold)
@@ -289,7 +297,11 @@
   "Reset `gc-cons-threshold' to its default value."
   (setq gc-cons-threshold 800000))
 
+; disable menu bar
 (menu-bar-mode -1)
+
+; enable redo
+(undo-tree-mode 1)
 
 ;; backups
 (setq

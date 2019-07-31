@@ -7,6 +7,7 @@
 
 SetWorkingDir %A_ScriptDir%
 SendMode, Input
+
 ; --------------------------------------------------------------
 ; Notes
 ; --------------------------------------------------------------
@@ -100,7 +101,13 @@ LWin & Tab::AltTab
 #s::Send ^s
 #t::Send ^t
 #u::Send ^u
-#v::Send ^v
+#v::
+  if (WinActive("ahk_class Emacs")) {
+    Send +{Insert}
+  } else {
+    Send ^v
+  }
+return
 #w::Send ^w
 #x::Send ^x
 #y::Send ^y
@@ -143,10 +150,6 @@ if WinActive("ahk_class Chrome_WidgetWin_1") {
 
   ; Open History
   #+y::Send ^j
-}
-
-if WinActive("ahk_class Emacs") {
-  #+v::Send +{Insert}
 }
 
 DisableLockWorkstation(value) {
