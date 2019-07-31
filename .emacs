@@ -230,11 +230,28 @@
 (define-key evil-normal-state-map (kbd "<C-return>") 'dumb-jump-go)
 (setq dumb-jump-selector 'ivy)
 
-;; exec path fix
-(exec-path-from-shell-initialize)
-
 ;; auto install packages on startup
 (add-hook 'after-init-hook (lambda () (package-install-selected-packages)))
+
+;;
+;; detect system
+;;
+
+;; TODO: handle other systems
+(setq system-type 'darwin)
+(if (eq window-system 'w32)
+  (setq system-type 'win32))
+
+;; exec path fix
+(if (not (eq system-type 'win32))
+  (exec-path-from-shell-initialize))
+
+;;
+;; windows setup
+;;
+
+(if (eq system-type 'win32)
+  (add-to-list 'default-frame-alist '(font . "Meslo LG S-10")))
 
 ;;
 ;; config
