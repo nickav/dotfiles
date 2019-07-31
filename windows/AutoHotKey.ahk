@@ -1,5 +1,6 @@
 ; --------------------------------------------------------------
 ; MacOSX keymap emulator for Windows
+; AutoHotkey Version 1.1.30.03
 ; --------------------------------------------------------------
 #NoEnv
 #SingleInstance force
@@ -35,6 +36,8 @@ ExitFunc(ExitReason, ExitCode) {
 
 ; permanantly disable capslock
 SetCapsLockState, AlwaysOff
+
+^!r::Reload
 
 ; map capslock+hjkl to arrow keys
 CapsLock::LCtrl
@@ -137,6 +140,19 @@ return
   DisableLockWorkstation(1)
 return
 
+Enter::
+  if (WinActive("ahk_class CabinetWClass")) {
+    ClassNN := GetFocusedControlClassNN()
+    if (ClassNN == "Edit2") {
+      Send {Esc}
+    } else {
+      Send {F2}
+    }
+  } else {
+    Send {Enter}
+  }
+return
+
 ; --------------------------------------------------------------
 ; Application specific
 ; --------------------------------------------------------------
@@ -188,4 +204,10 @@ RightSplitActiveWindow() {
   ScreenHeight := WA_Bottom - WA_Top
   WinGetTitle, Title, A
   WinMove, %Title%, , ScreenWidth / 2, 0, ScreenWidth / 2, ScreenHeight
+}
+
+GetFocusedControlClassNN() {
+  GuiWindowHwnd := WinExist("A")
+  ControlGetFocus, FocusedControl, ahk_id %GuiWindowHwnd%
+  return, FocusedControl
 }
