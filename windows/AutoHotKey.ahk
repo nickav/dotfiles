@@ -19,11 +19,11 @@ SendMode, Input
 SetCapsLockState, AlwaysOff
 
 ; map capslock+hjkl to arrow keys
-CapsLock::RCtrl
-RCtrl & h:: send {Left}
-RCtrl & l:: send {Right}
-RCtrl & j:: send {Down}
-RCtrl & k:: send {Up}
+CapsLock::LCtrl
+LCtrl & h:: send {Left}
+LCtrl & l:: send {Right}
+LCtrl & j:: send {Down}
+LCtrl & k:: send {Up}
 
 ;Reverse Position of Win and Alt to mimic a macs Command and Option
 ;LWin::LAlt
@@ -31,6 +31,12 @@ RCtrl & k:: send {Up}
 
 ; Disable start menu on left winkey
 LWin::return
+
+; spectacle emulation
+#!v::FullActiveWindow()
+#!c::CenterActiveWindow()
+#!Left::LeftSplitActiveWindow()
+#!Right::RightSplitActiveWindow()
 
 ; --------------------------------------------------------------
 ; OS X system shortcuts
@@ -62,9 +68,6 @@ LWin & Tab::AltTab
 !Down::Send {End}
 !Left::^Left
 !Right::^Right
-
-; disable locking (so we can remap win+l)
-;RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, 1
 
 ; letters and numbers:
 #a::Send ^a
@@ -110,11 +113,7 @@ LWin & Tab::AltTab
 #+n::Send ^+n
 
 ; lock screen
-Pause::
-  RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, 0
-  DllCall("LockWorkStation")
-  RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, 1
-return
+#!Pause::DllCall("LockWorkStation")
 
 ; --------------------------------------------------------------
 ; Application specific
@@ -128,15 +127,47 @@ if WinActive("ahk_class Chrome_WidgetWin_1") {
   #!u::Send ^u
 
   ; Open History
-  ;#y::Send ^j
+  #+y::Send ^j
 }
 
 if WinActive("ahk_class Emacs") {
-  ;#v::Send +{Insert}
+  #+v::Send +{Insert}
 }
 
-OnExit("ExitFunc")
+DisableLockWorkstation(value) {
+  RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, %value%
+}
 
-ExitFunc(ExitReason, ExitCode) {
-  RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, 0
+FullActiveWindow() {
+  SysGet, WA_, MonitorWorkArea
+  ScreenWidth := WA_Right - WA_Left
+  ScreenHeight := WA_Bottom - WA_Top
+  WinGetTitle, Title, A
+  WinMove, %Title%, , 0, 0, ScreenWidth, ScreenHeight
+}
+
+CenterActiveWindow() {
+  ; get the actual work area. That is, screen size w/o the taskbar
+  SysGet, WA_, MonitorWorkArea
+  ScreenWidth := WA_Right - WA_Left
+  ScreenHeight := WA_Bottom - WA_Top
+
+  WinGetActiveStats, Title, Width, Height, X, Y
+  WinMove, %Title%, , ((ScreenWidth - Width) / 2), ((ScreenHeight - Height) / 2), Width, Height
+}
+
+LeftSplitActiveWindow() {
+  SysGet, WA_, MonitorWorkArea
+  ScreenWidth := WA_Right - WA_Left
+  ScreenHeight := WA_Bottom - WA_Top
+  WinGetTitle, Title, A
+  WinMove, %Title%, , 0, 0, ScreenWidth / 2, ScreenHeight
+}
+
+RightSplitActiveWindow() {
+  SysGet, WA_, MonitorWorkArea
+  ScreenWidth := WA_Right - WA_Left
+  ScreenHeight := WA_Bottom - WA_Top
+  WinGetTitle, Title, A
+  WinMove, %Title%, , ScreenWidth / 2, 0, ScreenWidth / 2, ScreenHeight
 }
