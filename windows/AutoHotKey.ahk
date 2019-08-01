@@ -9,9 +9,7 @@
 SetWorkingDir %A_ScriptDir%
 SendMode, Input
 
-; --------------------------------------------------------------
-; Notes
-; --------------------------------------------------------------
+; Note:
 ; ! = ALT
 ; ^ = CTRL
 ; + = SHIFT
@@ -54,6 +52,14 @@ LWin::return
 #!c::CenterActiveWindow()
 #!Left::LeftSplitActiveWindow()
 #!Right::RightSplitActiveWindow()
+
+; media keys
+!F7::Send {Media_Prev}
+!F8::Send {Media_Play_Pause}
+!F9::Send {Media_Next}
+!F10::Send {Volume_Mute}
+!F11::Send {Volume_Down}
+!F12::Send {Volume_Up}
 
 ; --------------------------------------------------------------
 ; OS X system shortcuts
