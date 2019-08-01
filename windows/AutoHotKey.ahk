@@ -32,13 +32,14 @@ ExitFunc(ExitReason, ExitCode) {
   DisableLockWorkstation(0)
 }
 
-; permanantly disable capslock
-SetCapsLockState, AlwaysOff
-
+; reload this script
 ^!r::Reload
 
-; map capslock+hjkl to arrow keys
+; permanantly disable capslock, make it act like control
+SetCapsLockState, AlwaysOff
 CapsLock::LCtrl
+
+; map ctrl+hjkl to arrow keys
 LCtrl & h:: send {Left}
 LCtrl & l:: send {Right}
 LCtrl & j:: send {Down}
@@ -46,6 +47,9 @@ LCtrl & k:: send {Up}
 
 ; Disable start menu on left winkey
 LWin::return
+
+; bind cmd+click to open in new tab
+LWin & LButton::Send {MButton}
 
 ; spectacle emulation
 #!v::FullActiveWindow()
