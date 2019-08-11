@@ -68,11 +68,18 @@ LWin & LButton::Send {MButton}
 !F11::Send {Volume_Down}
 !F12::Send {Volume_Up}
 
+; swap left alt and windows keys
+;LAlt::LWin
+;LWin::LAlt
+
 ; --------------------------------------------------------------
 ; OS X system shortcuts
 ; --------------------------------------------------------------
 ; ctrl+backspace -> delete
 ^BS:: send ^+{left}{delete}
+
+; emoji picker
+^Space::Send {LWin down}.{LWin up}
 
 ; spotlight
 LWin & Space::Send ^{Esc}
@@ -139,6 +146,7 @@ return
 #8::Send ^8
 #9::Send ^9
 #0::Send ^0
+;#Plus::Send ^{Plus}
 
 ; special letters and numbers
 #+a::Send ^+a
@@ -189,6 +197,55 @@ Enter::
     Send {Enter}
   }
 return
+
+; Keyboard Navigation
+
+; CMD + Left/Right
+#Left::
+KeyWait ^
+Send {Home}
+return
+
+#Right::
+KeyWait ^
+Send {End}
+return
+
+; CMD + Shift + Left/Right
+#+Left::
+KeyWait ^
+Send {LControl up}
+Send +{Home}
+Send {LControl down}
+Send {LControl up}
+return
+
+#+Right::
+KeyWait ^
+Send {LControl up}
+Send +{End}
+Send {LControl down}
+Send {LControl up}
+return
+
+; Alt + Left/Right
+!Left::
+Send ^{Left}
+return
+
+!Right::
+Send ^{Right}
+return
+
+; Alt + Shift + Left/Right
+!+Left::
+Send ^+{Left}
+return
+
+!+Right::
+Send ^+{Right}
+return
+
 
 ; --------------------------------------------------------------
 ; Application specific

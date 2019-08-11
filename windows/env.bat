@@ -5,7 +5,7 @@
 
 :: Linux commands
 doskey alias=doskey $* $^^*
-doskey sudo=runas /user:administrator $*
+doskey sudo=runas /user:nick $*
 doskey ls=dir /w
 doskey la=dir
 doskey ll=dir
