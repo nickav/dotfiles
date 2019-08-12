@@ -50,7 +50,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters auto-complete emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes naysayer-theme ##)))
+    (company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link prettier-js web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes naysayer-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -142,10 +142,50 @@
 (setq magit-completing-read-function 'ivy-completing-read)
 (evil-magit-init)
 
-;; autocomplete
-(ac-config-default)
-(global-auto-complete-mode t)
-(ac-set-trigger-key "TAB")
+;; company mode
+(add-hook 'after-init-hook 'global-company-mode)
+
+(eval-after-load 'company
+  '(progn
+     (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+     (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)))
+
+(eval-after-load 'company
+  '(progn
+     (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
+     (define-key company-active-map (kbd "<backtab>") 'company-select-previous)))
+
+(setq company-frontends
+      '(company-pseudo-tooltip-unless-just-one-frontend
+        company-preview-frontend
+        company-echo-metadata-frontend))
+
+(setq company-require-match 'never)
+(setq company-dabbrev-downcase 0)
+(setq company-idle-delay 0.5)
+
+(defun my-company-visible-and-explicit-action-p ()
+  (and (company-tooltip-visible-p)
+        (company-explicit-action-p)))
+
+(defun company-ac-setup ()
+  "Sets up `company-mode' to behave similarly to `auto-complete-mode'."
+  (setq company-require-match nil)
+  (setq company-auto-complete #'my-company-visible-and-explicit-action-p)
+  (setq company-frontends '(company-echo-metadata-frontend
+                            company-pseudo-tooltip-unless-just-one-frontend-with-delay
+                            company-preview-frontend))
+  (define-key company-active-map [tab]
+    'company-select-next-if-tooltip-visible-or-complete-selection)
+  (define-key company-active-map (kbd "TAB")
+    'company-select-next-if-tooltip-visible-or-complete-selection))
+
+(with-eval-after-load 'company
+  (company-ac-setup)
+  (company-flx-mode +1)
+  (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+  (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1))))
+
 
 ;; rainbow delimeters
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
@@ -255,6 +295,9 @@
   (add-to-list 'default-frame-alist '(font . "Meslo LG S-9")))
 
 (setq-default frame-title-format '("%b - Emacs"))
+
+(if (>= emacs-major-version 25)
+      (setq w32-pipe-buffer-size (* 64 1024)))
 
 ;;
 ;; config
