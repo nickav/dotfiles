@@ -68,9 +68,8 @@ LWin & LButton::Send {MButton}
 !F11::Send {Volume_Down}
 !F12::Send {Volume_Up}
 
-; swap left alt and windows keys
-;LAlt::LWin
-;LWin::LAlt
+; global vim shortcuts
+^[::Send {Esc}
 
 ; --------------------------------------------------------------
 ; OS X system shortcuts
@@ -82,7 +81,8 @@ LWin & LButton::Send {MButton}
 ^Space::Send {LWin down}.{LWin up}
 
 ; spotlight
-LWin & Space::Send ^{Esc}
+LWin & Space::LWin
+!Space::LWin
 
 ; Remap Windows + Tab to Alt + Tab.
 LWin & Tab::AltTab
@@ -146,7 +146,8 @@ return
 #8::Send ^8
 #9::Send ^9
 #0::Send ^0
-;#Plus::Send ^{Plus}
+#=::Send ^=
+#-::Send ^-
 
 ; special letters and numbers
 #+a::Send ^+a

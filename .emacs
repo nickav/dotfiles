@@ -254,6 +254,8 @@
 (if (eq system-type 'win32)
   (add-to-list 'default-frame-alist '(font . "Meslo LG S-9")))
 
+(setq-default frame-title-format '("%b - Emacs"))
+
 ;;
 ;; config
 ;;
