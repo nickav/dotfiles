@@ -146,7 +146,8 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-require-match 'never)
 (setq company-dabbrev-downcase 0)
-(setq company-idle-delay 0.33)
+(setq company-idle-delay 0.1)
+(setq company-minimum-prefix-length 2)
 
 (eval-after-load 'company
   '(progn
@@ -174,8 +175,8 @@
   (setq company-frontends '(company-echo-metadata-frontend
                             company-pseudo-tooltip-unless-just-one-frontend-with-delay
                             company-preview-frontend))
-  (define-key company-active-map [tab] 'company-complete-selection)
-  (define-key company-active-map (kbd "TAB") 'company-complete-selection))
+  (define-key company-active-map [tab] 'company-select-next-if-tooltip-visible-or-complete-selection)
+  (define-key company-active-map (kbd "TAB") 'company-select-next-if-tooltip-visible-or-complete-selection))
 
 (with-eval-after-load 'company
   (company-ac-setup)
