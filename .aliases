@@ -39,7 +39,7 @@ alias la='ls -al'
 alias lsa='ls -a'
 alias ll='ls -l'
 alias l='ls'
-alias ls='ls --color=auto'
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 alias e='exit'
 alias vi='vim'
 alias mvi='mvim'
