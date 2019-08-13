@@ -144,6 +144,9 @@
 
 ;; company mode
 (add-hook 'after-init-hook 'global-company-mode)
+(setq company-require-match 'never)
+(setq company-dabbrev-downcase 0)
+(setq company-idle-delay 0.33)
 
 (eval-after-load 'company
   '(progn
@@ -160,10 +163,6 @@
         company-preview-frontend
         company-echo-metadata-frontend))
 
-(setq company-require-match 'never)
-(setq company-dabbrev-downcase 0)
-(setq company-idle-delay 0.5)
-
 (defun my-company-visible-and-explicit-action-p ()
   (and (company-tooltip-visible-p)
         (company-explicit-action-p)))
@@ -175,17 +174,37 @@
   (setq company-frontends '(company-echo-metadata-frontend
                             company-pseudo-tooltip-unless-just-one-frontend-with-delay
                             company-preview-frontend))
-  (define-key company-active-map [tab]
-    'company-select-next-if-tooltip-visible-or-complete-selection)
-  (define-key company-active-map (kbd "TAB")
-    'company-select-next-if-tooltip-visible-or-complete-selection))
+  (define-key company-active-map [tab] 'company-complete-selection)
+  (define-key company-active-map (kbd "TAB") 'company-complete-selection))
 
 (with-eval-after-load 'company
   (company-ac-setup)
   (company-flx-mode +1)
   (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
-  (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1))))
+  (define-key company-active-map (kbd "C-j") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+  (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1)))
+  (define-key company-active-map (kbd "C-k") (lambda () (interactive) (company-complete-common-or-cycle -1))))
 
+(eval-after-load 'company
+  (lambda ()
+    (set-face-attribute 'company-preview nil
+      :background (face-attribute 'company-preview-common :background))))
+
+(custom-set-faces
+  '(company-preview
+    ((t (:foreground "darkgray" :underline t))))
+  '(company-preview-common
+    ((t (:inherit company-preview))))
+  '(company-tooltip
+    ((t (:background "lightgray" :foreground "black"))))
+  '(company-tooltip-selection
+    ((t (:background "steelblue" :foreground "white"))))
+  '(company-tooltip-common
+    ((((type x)) (:inherit company-tooltip :weight bold))
+    (t (:inherit company-tooltip))))
+  '(company-tooltip-common-selection
+    ((((type x)) (:inherit company-tooltip-selection :weight bold))
+    (t (:inherit company-tooltip-selection)))))
 
 ;; rainbow delimeters
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
