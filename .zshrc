@@ -129,3 +129,10 @@ export PATH="/Users/Nick/bin:$PATH"
 # shorthand for ignorespace and ignoredups
 export HISTCONTROL=ignoreboth
 export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/sls.zsh
