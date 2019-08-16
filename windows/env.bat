@@ -27,6 +27,7 @@ doskey pwd=cd
 doskey rm=del $*
 doskey rmr=deltree $*
 doskey touch=copy nul $* > nul
+doskey which=where $*
 
 :: Easier navigation
 doskey open=start $*
@@ -73,3 +74,4 @@ doskey gg=git grep $*
 :: My bash aliases
 doskey e=exit
 doskey em=emacs -nw $*
+doskey vi=vim $*

@@ -146,7 +146,7 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-require-match 'never)
 (setq company-dabbrev-downcase 0)
-(setq company-idle-delay 0.1)
+(setq company-idle-delay 0.05)
 (setq company-minimum-prefix-length 2)
 
 (eval-after-load 'company
