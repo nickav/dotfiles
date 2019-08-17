@@ -31,30 +31,39 @@ alias gsp='git stash pop'
 alias gm='git merge'
 alias gm-='git merge -'
 alias gu='git pull'
-# mac
-# command aliases
+alias gg='git grep'
+
+# tmux
 alias tma='tmux attach -d -t'
 alias tmn='tmux new -s'
+alias tm="tmux attach -d || tmux new"
+
+# ls
 alias la='ls -al'
 alias lsa='ls -a'
 alias ll='ls -l'
 alias l='ls'
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+
+# misc
 alias e='exit'
+alias brewi='HOMEBREW_NO_AUTO_UPDATE=1 brew install'
+
+# editors
 alias vi='vim'
 alias mvi='mvim'
 alias em='emacs -nw'
 alias crontab="VIM_CRONTAB=true crontab"
-alias brewi='HOMEBREW_NO_AUTO_UPDATE=1 brew install'
-# stopwatch
-alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+
+# run commands
 alias ys='yarn start'
-# folder shortcuts
+alias npr="npm run"
+
+# easier navigation
 alias doc="cd ~/Documents"
 alias docs="cd ~/Documents"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev="cd ~/dev"
-alias gg='git grep'
-alias tm="tmux attach -d || tmux new"
-alias npr="npm run"
+alias dot="cd ~/dotfiles"
+alias dots="cd ~/dotfiles"

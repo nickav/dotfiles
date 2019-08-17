@@ -45,9 +45,6 @@ LCtrl & l:: send {Right}
 LCtrl & j:: send {Down}
 LCtrl & k:: send {Up}
 
-; Disable start menu on left winkey
-LWin::return
-
 ; bind cmd+click to open in new tab
 LWin & LButton::Send {MButton}
 
@@ -89,13 +86,17 @@ LWin & LButton::Send {MButton}
 ; emoji picker
 ^Space::Send {LWin down}.{LWin up}
 
+; Disable start menu on left winkey
+LWin::return
+
 ; spotlight
-LWin & Space::LWin
-!Space::LWin
+;LWin & Space::LWin ; open windows launcher
+LWin & Space::Send !{Space} ; open keypirana
 
 ; Remap Windows + Tab to Alt + Tab.
 LWin & Tab::AltTab
-;LShift & LWin & Tab::ShiftAltTab
+;LWin & Tab::Send ^!{Tab} ; sticky mode
+;LWin & Tab::Send {LWin down}{Tab}{LWin up} ; desktop switcher
 
 ; command-delete deletes whole line
 #BS::Send {LShift down}{Home}{LShift Up}{Del}

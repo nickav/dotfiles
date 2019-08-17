@@ -35,6 +35,15 @@ doskey ..    = cd ..\$*
 doskey ...   = cd ..\..\$*
 doskey ....  = cd ..\..\..\$*
 doskey ..... = cd ..\..\..\..\$*
+doskey ~=cd %homepath%
+doskey cd=%homepath%\dotfiles\windows\cdtilde.bat $*
+
+doskey doc = cd %homepath%\Documents
+doskey dev = cd %homepath%\dev
+doskey des = cd %homepath%\Desktop
+doskey dow = cd %homepath%\Downloads
+doskey dot = cd %homepath%\dotfiles
+doskey dots = cd %homepath%\dotfiles
 
 :: Git shortcuts
 doskey g=git $*
