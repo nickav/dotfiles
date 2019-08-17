@@ -1,12 +1,13 @@
 @echo off
 
-set dirname=%*
-set orig_dirname=%*
-
-if "%dirname%"=="" (
+:: no arguments, go home
+if "%~1"=="" (
   chdir /D %USERPROFILE%
   exit /B 0
 )
+
+set dirname=%*
+set orig_dirname=%*
 
 :: remove quotes - will re-attach later.
 set dirname=%dirname:\"=%

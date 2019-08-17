@@ -84,3 +84,10 @@ doskey gg=git grep $*
 doskey e=exit
 doskey em=emacs -nw $*
 doskey vi=vim $*
+
+:: cl command
+::doskey vcvars=call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+doskey vcvars=call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x64
+
+:: generate with: set > post.env
+FOR /F "tokens=*" %%i in (C:\Users\Nick\dotfiles\windows\post.env) do set %%i
