@@ -91,3 +91,5 @@ doskey vcvars=call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvar
 
 :: generate with: set > post.env
 FOR /F "tokens=*" %%i in (C:\Users\Nick\dotfiles\windows\post.env) do set %%i
+
+set path=C:\Users\nick\bin;%path%
