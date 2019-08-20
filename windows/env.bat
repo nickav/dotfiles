@@ -6,9 +6,11 @@
 :: Linux commands
 doskey alias=doskey $* $^^*
 doskey sudo=runas /user:nick $*
+doskey l=dir /w
 doskey ls=dir /w
-doskey la=dir
 doskey ll=dir
+doskey la=dir
+doskey l=wsl ls --color $*
 doskey ls=wsl ls --color $*
 doskey ll=wsl ls -l --color $*
 doskey la=wsl ls -al --color $*
@@ -86,7 +88,6 @@ doskey em=emacs -nw $*
 doskey vi=vim $*
 
 :: cl command
-::doskey vcvars=call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 doskey vcvars=call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x64
 
 :: generate with: set > post.env

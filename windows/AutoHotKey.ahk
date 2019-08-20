@@ -200,7 +200,7 @@ Enter::
   if (WinActive("ahk_class CabinetWClass")) {
     ClassNN := GetFocusedControlClassNN()
     if (ClassNN == "Edit2") {
-      Send {Esc}
+      Send {Enter}
     } else {
       Send {F2}
     }
