@@ -19,6 +19,11 @@ Init() {
   static DidInit = 0
 
   if (!DidInit) {
+    ; Needs to be run as admin to write to registry
+    if (!A_IsAdmin) {
+      Run, % "*RunAs " (A_IsCompiled ? "" : A_AhkPath " ") Chr(34) A_ScriptFullPath Chr(34)
+    }
+
     DisableLockWorkstation(1)
     DidInit = 1
   }
@@ -63,16 +68,16 @@ LWin & LButton::Send {MButton}
 !F8::Send {Media_Play_Pause}
 !F9::Send {Media_Next}
 !F10::Send {Volume_Mute}
-!F11::Send {Volume_Down}
-!F12::Send {Volume_Up}
+!F11::Send {Volume_Down 4}
+!F12::Send {Volume_Up 4}
 
 ; win+fn
 #F7::Send {Media_Prev}
 #F8::Send {Media_Play_Pause}
 #F9::Send {Media_Next}
 #F10::Send {Volume_Mute}
-#F11::Send {Volume_Down}
-#F12::Send {Volume_Up}
+#F11::Send {Volume_Down 4}
+#F12::Send {Volume_Up 4}
 
 ; global vim shortcuts
 ^[::Send {Esc}
@@ -158,6 +163,7 @@ return
 #0::Send ^0
 #=::Send ^=
 #-::Send ^-
+#Enter::Send ^{Enter}
 
 ; special letters and numbers
 #+a::Send ^+a
