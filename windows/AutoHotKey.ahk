@@ -99,20 +99,9 @@ LWin::return
 LWin & Space::Send !{Space} ; open keypirana
 
 ; Remap Windows + Tab to Alt + Tab.
-LWin & Tab::
-    AltTabMenu := true
-    If GetKeyState("Shift","P")
-        Send {Alt Down}{Shift Down}{Tab}
-    else
-        Send {Alt Down}{Tab}
-return
-
-#If (AltTabMenu)
-    ~*LWin Up::
-        Send {Shift Up}{Alt Up}
-        AltTabMenu := false
-    return
-#If
+LWin & Tab::AltTab
+;LWin & Tab::Send ^!{Tab} ; sticky mode
+;LWin & Tab::Send {LWin down}{Tab}{LWin up} ; desktop switcher
 
 ; command-delete deletes whole line
 #BS::Send {LShift down}{Home}{LShift Up}{Del}
