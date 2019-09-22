@@ -100,8 +100,6 @@ LWin & Space::Send !{Space} ; open keypirana
 
 ; Remap Windows + Tab to Alt + Tab.
 LWin & Tab::AltTab
-;LWin & Tab::Send ^!{Tab} ; sticky mode
-;LWin & Tab::Send {LWin down}{Tab}{LWin up} ; desktop switcher
 
 ; command-delete deletes whole line
 #BS::Send {LShift down}{Home}{LShift Up}{Del}
@@ -205,10 +203,10 @@ return
 Enter::
   if (WinActive("ahk_class CabinetWClass")) {
     ClassNN := GetFocusedControlClassNN()
-    if (ClassNN == "Edit2") {
-      Send {Enter}
-    } else {
+    if (ClassNN == "DirectUIHWND3") {
       Send {F2}
+    } else {
+      Send {Enter}
     }
   } else {
     Send {Enter}
