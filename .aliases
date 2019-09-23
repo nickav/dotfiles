@@ -57,9 +57,10 @@ alias crontab="VIM_CRONTAB=true crontab"
 
 # run commands
 alias ys='yarn start'
-alias npr="npm run"
-
+alias npr="npm run start"
+alias ns='npm run start'
 # easier navigation
+# folder shortcuts
 alias doc="cd ~/Documents"
 alias docs="cd ~/Documents"
 alias dl="cd ~/Downloads"
