@@ -50,7 +50,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (slim-mode sass-mode coffee-mode prettier-js graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes naysayer-theme ##)))
+    (tide slim-mode sass-mode coffee-mode prettier-js graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes naysayer-theme ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -147,7 +147,7 @@
 (setq company-require-match 'never)
 (setq company-dabbrev-downcase nil)
 (setq company-dabbrev-ignore-case nil)
-(setq company-idle-delay 0.05)
+(setq company-idle-delay 0.01)
 (setq company-minimum-prefix-length 2)
 (setq company-ddabbrev-code-everywhere t)
 (setq company-dabbrev-code-modes t)
@@ -205,22 +205,22 @@
 (yas-global-mode 1)
 
 ;; javascript (web mode)
-(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
-(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx$" . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs$" . js2-mode))
+
+;; typescript mode
+(add-to-list 'auto-mode-alist '("\\.tsx?$" . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx?$" . web-mode))
 (defun web-mode-init-hook ()
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-markup-indent-offset 2))
 (add-hook 'web-mode-hook  'web-mode-init-hook)
-(setq web-mode-enable-auto-closing t)
 (setq css-indent-offset 2)
+(setq web-mode-enable-auto-closing t)
+(setq web-mode-enable-auto-quoting nil)
 
-(add-to-list 'auto-mode-alist '("\\.mjs$" . javascript-mode))
-
-;; typescript mode
-(add-to-list 'auto-mode-alist '("\\.tsx?$" . typescript-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx?$" . web-mode))
-(setq typescript-indent-level 2)
 
 ;; emmet
 (define-key evil-insert-state-map (kbd "C-y") 'emmet-expand-line)
