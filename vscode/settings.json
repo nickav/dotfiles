@@ -24,7 +24,6 @@
     "css.colorDecorators.enable": false,
     "scss.colorDecorators.enable": false,
     "editor.fontFamily": "Inconsolata, Monaco, 'Courier New', monospace",
-    "workbench.colorTheme": "Atom One Dark",
     "workbench.colorCustomizations": {
         "statusBar.background" : "#1A1A1A",
         "statusBar.noFolderBackground" : "#212121",
@@ -123,5 +122,6 @@
         }
     ],
     "workbench.welcome.enabled": false,
-    "vim.disableAnnoyingNeovimMessage": true
+    "vim.disableAnnoyingNeovimMessage": true,
+    "workbench.colorTheme": "Pitch Black"
 }
