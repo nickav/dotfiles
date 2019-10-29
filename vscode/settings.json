@@ -21,8 +21,6 @@
     "editor.codeLens": false,
     "editor.renderWhitespace": "boundary",
     "editor.minimap.enabled": false,
-    "css.colorDecorators.enable": false,
-    "scss.colorDecorators.enable": false,
     "editor.fontFamily": "Inconsolata, Monaco, 'Courier New', monospace",
     "workbench.colorCustomizations": {
         "statusBar.background" : "#1A1A1A",
@@ -32,14 +30,14 @@
     "vim.leader": "<space>",
     "vim.useSystemClipboard": true,
     "vim.hlsearch": true,
-    "vim.enableNeovim": true,
+    "vim.enableNeovim": false,
     "vim.insertModeKeyBindings": [
         {
             "before": ["j", "k"],
             "after": ["<esc>"]
         }
     ],
-    "vim.otherModesKeyBindingsNonRecursive": [
+    "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before": [":"],
             "commands": [{
@@ -113,15 +111,18 @@
             "after": ["5", "ctrl+e"]
         },
         {
-            "before": ["ctrl+e"],
-            "after": ["5", "ctrl+e"]
-        },
-        {
             "before": ["ctrl+y"],
             "after": ["5", "ctrl+y"]
+        },
+        {
+            "before": ["F"],
+            "commands": [{
+                "command": "editor.action.formatDocument"
+            }]
         }
     ],
-    "workbench.welcome.enabled": false,
-    "vim.disableAnnoyingNeovimMessage": true,
-    "workbench.colorTheme": "Pitch Black"
+    "workbench.colorTheme": "Pitch Black",
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
