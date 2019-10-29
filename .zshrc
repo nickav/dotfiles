@@ -60,7 +60,6 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  vim
   vi-mode
   tmux
 )
@@ -123,16 +122,9 @@ if [ -f ~/.cargo/env ]; then
 	source ~/.cargo/env
 fi
 
-export PATH="/Users/Nick/bin:$PATH"
-
 # ignore commands that start with spaces and dups
 # shorthand for ignorespace and ignoredups
 export HISTCONTROL=ignoreboth
-export PATH="/usr/local/opt/llvm/bin:$PATH"
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/sls.zsh
+export PATH="/Users/Nick/bin:$PATH"
+export PATH="/usr/local/opt/llvm/bin:$PATH"

@@ -1,3 +1,11 @@
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/nick/dev/_projects/nomiku/food-microservices/node_modules/tabtab/.completions/sls.zsh fnm
+eval "$(fnm env --multi)"
+
 alias ls='ls -G'
 
 # OS X has no md5sum, use md5 as fallback

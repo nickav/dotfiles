@@ -365,13 +365,15 @@
 (undo-tree-mode 1)
 
 ;; backups
-(setq
-  backup-by-copying t
-  backup-directory-alist '(("." . "~/.saves/"))
-  delete-old-versions t
+(setq delete-old-versions t
   kept-new-versions 6
   kept-old-versions 2
-  version-control t)
+  version-control t
+  setq backup-directory-alist
+    `(("." . ,(concat user-emacs-directory "backups")))
+  auto-save-file-name-transforms
+    `(("." . ,(concat user-emacs-directory "saves")))
+  )
 
 ;; keybindings
 (define-key evil-normal-state-map (kbd ";") #'evil-ex)
