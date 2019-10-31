@@ -19,6 +19,9 @@ alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 # Also, clear Apple’s System Logs to improve shell startup speed
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
 
+# auto empty trash (crontab)
+# @daily find ~/Downloads -maxdepth 1 -mtime +7 -exec rm -r {} \;
+
 
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
 	. $(brew --prefix)/etc/bash_completion
