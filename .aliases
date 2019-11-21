@@ -30,8 +30,13 @@ alias gsh='git stash'
 alias gsp='git stash pop'
 alias gm='git merge'
 alias gm-='git merge -'
+alias gmm='git merge master'
 alias gu='git pull'
 alias gg='git grep'
+
+function nickav () {
+  git clone "https://github.com/nickav/$1"
+}
 
 # tmux
 alias tma='tmux attach -d -t'
