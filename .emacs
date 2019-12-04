@@ -101,6 +101,8 @@
 (setq evil-want-C-d-scroll t)
 (evil-mode 1)
 
+(global-evil-surround-mode 1)
+
 ;; projectile
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -481,6 +483,7 @@
 (define-key leader-map "q" 'evil-quit)
 (define-key leader-map "l" 'run-current-file)
 (define-key leader-map (kbd "RET") 'run-current-project)
+(define-key leader-map "p" 'run-current-project)
 (define-key leader-map "g" 'magit-status)
 
 (define-key evil-normal-state-map (kbd "S-r") 'run-current-file)
@@ -600,3 +603,10 @@
 
 (provide 'livedown)
 ;;; livedown.el ends here
+
+;; backspace
+(defun evil-delete-to-first-non-blank ()
+  (interactive)
+  (evil-delete (point) (save-excursion (evil-first-non-blank) (point)) t))
+
+(define-key evil-insert-state-map (kbd "s-<backspace>") 'evil-delete-to-first-non-blank)

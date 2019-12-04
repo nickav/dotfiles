@@ -62,6 +62,8 @@ alias crontab="VIM_CRONTAB=true crontab"
 
 # run commands
 alias ys='yarn start'
+alias yd='yarn dist'
+alias yb='yarn build'
 alias npr="npm run start"
 alias ns='npm run start'
 # easier navigation

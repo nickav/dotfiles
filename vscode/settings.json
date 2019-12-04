@@ -22,6 +22,7 @@
     "editor.renderWhitespace": "boundary",
     "editor.minimap.enabled": false,
     "editor.fontFamily": "Inconsolata, Monaco, 'Courier New', monospace",
+    "editor.cursorSurroundingLines": 10,
     "workbench.colorCustomizations": {
         "statusBar.background" : "#1A1A1A",
         "statusBar.noFolderBackground" : "#212121",
@@ -126,6 +127,17 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "extensions.ignoreRecommendations": true,
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "explorer.confirmDelete": false,
+    "[javascriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
 }

@@ -29,3 +29,6 @@ fi
 
 alias disablesleep='sudo pmset -b sleep 0; sudo pmset -b disablesleep 1'
 alias enablesleep='sudo pmset -b sleep 5; sudo pmset -b disablesleep 0'
+
+eval "$(direnv hook bash)"
+eval "$(pyenv init -)"
