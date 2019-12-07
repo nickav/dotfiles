@@ -1,4 +1,7 @@
+;;
 ;; packages
+;;
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
@@ -16,7 +19,12 @@
 ;; auto install packages on startup
 (add-hook 'after-init-hook (lambda () (package-install-selected-packages)))
 
-;; config
+;; window
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; built-in config
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -93,10 +101,6 @@
  ;; If there is more than one, they won't work right.
  '(whitespace-tab ((t (:foreground "#636363")))))
 
-;; window
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-(add-to-list 'default-frame-alist '(ns-appearance . dark))
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;;
 ;; plugins
@@ -108,16 +112,85 @@
   :init
     (setq evil-want-C-u-scroll t)
     (setq evil-want-C-d-scroll t)
+
   :config
     (evil-mode 1)
+
+    ;; vim emulation
+    (evil-ex-define-cmd "Explore" 'dired)
+
+    ;; leader key
+    (define-prefix-command 'leader-map)
+    (define-key evil-normal-state-map (kbd "SPC") leader-map)
+    (define-key leader-map "b" 'list-buffers)
+    (define-key leader-map "q" 'evil-quit)
+    (define-key leader-map "l" 'run-current-file)
+    (define-key leader-map (kbd "RET") 'run-current-project)
+    (define-key leader-map "p" 'run-current-project)
+    (define-key leader-map "g" 'magit-status)
+
+    (define-key evil-normal-state-map (kbd "S-s") 'save-buffer)
+
+    ;; keybindings
+    (define-key evil-normal-state-map (kbd ";") #'evil-ex)
+    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+    (define-key evil-normal-state-map (kbd "C-/") 'ag-project)
+
+    ;; splits
+    (defun evil-window-vsplit-focus ()
+      ;; split vertically and foucs new split
+      (interactive)(evil-window-vsplit) (other-window 1))
+
+    (defun evil-window-split-focus ()
+      ;; split horizontally and foucs new split
+      (interactive)(evil-window-split) (other-window 1))
+
+    (define-key evil-normal-state-map (kbd "C-w \\") 'evil-window-vsplit-focus)
+    (define-key evil-normal-state-map (kbd "C-w C-\\") 'evil-window-vsplit-focus)
+    (define-key evil-normal-state-map (kbd "C-w -") 'evil-window-split-focus)
+    (define-key evil-normal-state-map (kbd "C-w C--") 'evil-window-split-focus)
+    (define-key evil-normal-state-map (kbd "C-w <right>") 'evil-window-right)
+    (define-key evil-normal-state-map (kbd "<right>") 'evil-window-right)
+    (define-key evil-normal-state-map (kbd "C-w <left>") 'evil-window-left)
+    (define-key evil-normal-state-map (kbd "<left>") 'evil-window-left)
+    (define-key evil-normal-state-map (kbd "C-w <down>") 'evil-window-down)
+    (define-key evil-normal-state-map (kbd "C-w <up>") 'evil-window-up)
+
+    ;; toggle comment on current line
+    (define-key evil-normal-state-map (kbd "C-;") 'comment-line)
+
+    ;; scrolling
+    (define-key evil-normal-state-map (kbd "C-e") (lambda() (interactive) (evil-scroll-line-down 16)))
+    (define-key evil-normal-state-map (kbd "C-y") (lambda() (interactive) (evil-scroll-line-up 16)))
+
+    ;; M-x
+    (define-key evil-normal-state-map (kbd "C-m") 'execute-extended-command)
+    (global-set-key (kbd "C-c") 'keyboard-quit)
+
+    ;; escape key
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+
+    ;; zoom in and out
+    (define-key evil-normal-state-map (kbd "s-=") 'text-scale-increase)
+    (define-key evil-normal-state-map (kbd "s--") 'text-scale-decrease)
+    (define-key evil-normal-state-map (kbd "s-0") (lambda() (interactive) (text-scale-set 0)))
+    (setq text-scale-mode-step 1.2)
+
+    ;; cmd+backspace
+    (defun evil-delete-to-first-non-blank ()
+      (interactive)
+      (evil-delete (point) (save-excursion (evil-first-non-blank) (point)) t))
+
     (define-key evil-insert-state-map (kbd "s-<backspace>") 'evil-delete-to-first-non-blank)
+
+    (use-package key-chord
+      :config
+        ;; bind jk to escape
+        (key-chord-define evil-insert-state-map  "jk" 'evil-normal-state)
+      )
   )
 
 (use-package evil-surround)
-
-(defun evil-delete-to-first-non-blank ()
-  (interactive)
-  (evil-delete (point) (save-excursion (evil-first-non-blank) (point)) t))
 
 ;; projectile
 (use-package projectile
@@ -134,19 +207,23 @@
     (define-key projectile-mode-map (kbd "C-S-P") 'projectile-find-file-other-window)
     (define-key projectile-mode-map (kbd "<f5>") 'projectile-invalidate-cache)
     (define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
-  )
 
-(defun projectile-nocache-find-file ()
-  (interactive)
-  (projectile-invalidate-cache nil)
-  (projectile-find-file))
+    (defun projectile-nocache-find-file ()
+      (interactive)
+      (projectile-invalidate-cache nil)
+      (projectile-find-file))
+
+    (defun run-current-project ()
+      (interactive)
+      (projectile-compile-project 'nil))
+  )
 
 ;; git
 (use-package git-gutter
+  :ensure t
   :config
     (git-gutter-mode +1)
   )
-(global-auto-revert-mode t)
 
 ;; format-all
 (use-package format-all
@@ -155,15 +232,9 @@
     (defvar clang-format-style-option  "google")
   )
 
-;; rust
-(use-package rust-mode
-  :no-require t
-  :init (add-to-list 'auto-mode-alist '("\\.rs?$" . rust-mode))
-  :interpreter "rust"
-  )
-
 ;; magit
 (use-package magit
+  :ensure t
   :config
     (global-set-key (kbd "C-x g") 'magit-status)
     ;; emulate some fugitive shortcuts
@@ -175,6 +246,7 @@
 
 ;; company mode
 (use-package company
+  :ensure t
   :init
     (setq company-require-match 'never)
     (setq company-dabbrev-downcase nil)
@@ -210,6 +282,7 @@
                                 company-preview-frontend))
       (define-key company-active-map [tab] 'company-select-next-if-tooltip-visible-or-complete-selection)
       (define-key company-active-map (kbd "TAB") 'company-select-next-if-tooltip-visible-or-complete-selection))
+
     (company-ac-setup)
 
     (company-flx-mode +1)
@@ -223,40 +296,10 @@
 
 ;; rainbow delimeters
 (use-package rainbow-delimiters
+  :ensure t
   :init
     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
   )
-
-;; snippets
-(use-package yasnippet)
-
-;; javascript
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx$" . js2-jsx-mode))
-(add-to-list 'auto-mode-alist '("\\.mjs$" . js2-mode))
-
-;; typescript
-(use-package typescript-mode
-  :no-require t
-  :defer t
-  :init
-    (add-to-list 'auto-mode-alist '("\\.tsx?$" . typescript-mode))
-    (add-to-list 'auto-mode-alist '("\\.tsx?$" . web-mode))
-)
-
-(use-package web-mode
-  :defer t
-  :init
-    (add-hook 'web-mode-hook  'web-mode-init-hook)
-    (setq css-indent-offset 2)
-    (setq web-mode-enable-auto-closing t)
-    (setq web-mode-enable-auto-quoting nil)
-  )
-
-(defun web-mode-init-hook ()
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-markup-indent-offset 2))
 
 ;; emmet
 (use-package emmet-mode
@@ -273,6 +316,7 @@
           '((ivy-switch-buffer . ivy--regex-plus)
             (t . ivy--regex-fuzzy)))
   :config
+    (ivy-mode 1)
     (global-set-key (kbd "C-s") 'swiper)
     (global-set-key (kbd "M-x") 'counsel-M-x)
     (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -285,6 +329,7 @@
 
 ;; eyebrowse
 (use-package eyebrowse
+  :ensure t
   :init
     (setq eyebrowse-wrap-around t)
     (setq eyebrowse-new-workspace t)
@@ -296,6 +341,7 @@
     (define-key evil-normal-state-map (kbd "tp") 'eyebrowse-prev-window-config)
     (define-key evil-normal-state-map (kbd "tn") 'eyebrowse-next-window-config)
     (define-key evil-normal-state-map (kbd "tq") 'eyebrowse-close-window-config)
+
     ;; super+number
     (define-key evil-normal-state-map (kbd "s-1") 'eyebrowse-switch-to-window-config-1)
     (define-key evil-normal-state-map (kbd "s-2") 'eyebrowse-switch-to-window-config-2)
@@ -306,6 +352,7 @@
     (define-key evil-normal-state-map (kbd "s-7") 'eyebrowse-switch-to-window-config-7)
     (define-key evil-normal-state-map (kbd "s-8") 'eyebrowse-switch-to-window-config-8)
     (define-key evil-normal-state-map (kbd "s-9") 'eyebrowse-switch-to-window-config-9)
+
     ;; ctrl+number
     (define-key evil-normal-state-map (kbd "C-1") 'eyebrowse-switch-to-window-config-1)
     (define-key evil-normal-state-map (kbd "C-2") 'eyebrowse-switch-to-window-config-2)
@@ -318,13 +365,8 @@
     (define-key evil-normal-state-map (kbd "C-9") 'eyebrowse-switch-to-window-config-9)
   )
 
-;; lua
-(use-package lua-mode
-  :mode ("\\.lua$" . lua-mode)
-  :interpreter ("lua" . lua-mode)
-  :init
-    (setq lua-indent-level 2)
-  )
+;; snippets
+(use-package yasnippet)
 
 ;; dumb-jump
 ;; jump to definition
@@ -336,6 +378,80 @@
     (define-key evil-normal-state-map (kbd "<C-return>") 'dumb-jump-go)
   )
 
+;; multi compile
+(use-package multi-compile
+  :init
+    (setq multi-compile-alist '(
+      (rust-mode . (("rust-debug" . "cargo run")))
+      (c++-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
+      (c-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
+      (makefile-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
+      (makefile-bsdmake-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
+      (lua-mode . (("lua-run" . "lua %file-name")))
+      (haskell-mode . (("haskell-run" . "ghc --make %file-name && ./%file-sans")))
+      ("\\.lisp\\'" . (("lisp-script" . "sbcl --script %file-name")))
+      ("\\.js\\'" . (("node-run" . "node %file-name")))
+      ("\\.mjs\\'" . (("node-harmony-run" . "node --experimental-modules %file-name")))
+    ))
+
+  :config
+    (defun run-current-file ()
+      (interactive)
+      (if (derived-mode-p 'emacs-lisp-mode)
+        (load-file buffer-file-name)
+        (multi-compile-run)))
+  )
+
+;; highlight numbers
+(add-hook 'prog-mode-hook 'highlight-numbers-mode)
+
+;;
+;; languages
+;;
+
+;; javascript
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx$" . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs$" . js2-mode))
+
+;; typescript
+(use-package typescript-mode
+  :no-require t
+  :defer t
+  :mode ("\\.tsx?$" . typescript-mode)
+  :config
+    (add-to-list 'auto-mode-alist '("\\.tsx?$" . web-mode))
+)
+
+;; html
+(use-package web-mode
+  :defer t
+  :mode
+    ("\\.html$" . web-mode)
+  :init
+    (setq web-mode-code-indent-offset 2)
+    (setq web-mode-css-indent-offset 2)
+    (setq web-mode-markup-indent-offset 2)
+    (setq css-indent-offset 2)
+    (setq web-mode-enable-auto-closing t)
+    (setq web-mode-enable-auto-quoting nil)
+  )
+
+;; rust
+(use-package rust-mode
+  :no-require t
+  :mode ("\\.rs?$" . rust-mode)
+  :interpreter "rust"
+  )
+
+;; lua
+(use-package lua-mode
+  :mode ("\\.lua$" . lua-mode)
+  :interpreter ("lua" . lua-mode)
+  :init
+    (setq lua-indent-level 2)
+  )
+
 ;; ember
 (use-package slim-mode
   :no-require t
@@ -343,17 +459,18 @@
   :mode ("\\.emblem$" . slim-mode)
   )
 
-;; highlight numbers
-(add-hook 'prog-mode-hook 'highlight-numbers-mode)
-
+;;
 ;; theme
+;;
+
 (use-package naysayer-theme
+  :ensure t
   :config
     (load-theme 'naysayer t)
   )
 
 ;;
-;; detect system
+;; system
 ;;
 
 ;; TODO: handle other systems
@@ -429,54 +546,11 @@
 (setq auto-save-list-file-prefix autosave-dir)
 (setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
 
-;; keybindings
-(define-key evil-normal-state-map (kbd ";") #'evil-ex)
-(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-normal-state-map (kbd "C-/") 'ag-project)
-
-;; splits
-(defun evil-window-vsplit-focus ()
-  ;; split vertically and foucs new split
-  (interactive)(evil-window-vsplit) (other-window 1))
-
-(defun evil-window-split-focus ()
-  ;; split horizontally and foucs new split
-  (interactive)(evil-window-split) (other-window 1))
-
-(define-key evil-normal-state-map (kbd "C-w \\") 'evil-window-vsplit-focus)
-(define-key evil-normal-state-map (kbd "C-w C-\\") 'evil-window-vsplit-focus)
-(define-key evil-normal-state-map (kbd "C-w -") 'evil-window-split-focus)
-(define-key evil-normal-state-map (kbd "C-w C--") 'evil-window-split-focus)
-(define-key evil-normal-state-map (kbd "C-w <right>") 'evil-window-right)
-(define-key evil-normal-state-map (kbd "<right>") 'evil-window-right)
-(define-key evil-normal-state-map (kbd "C-w <left>") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "<left>") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "C-w <down>") 'evil-window-down)
-(define-key evil-normal-state-map (kbd "C-w <up>") 'evil-window-up)
-
-;; toggle comment on current line
-(define-key evil-normal-state-map (kbd "C-;") 'comment-line)
-
-;; scrolling
-(define-key evil-normal-state-map (kbd "C-e") (lambda() (interactive) (evil-scroll-line-down 16)))
-(define-key evil-normal-state-map (kbd "C-y") (lambda() (interactive) (evil-scroll-line-up 16)))
-
-;; M-x
-(define-key evil-normal-state-map (kbd "C-m") 'execute-extended-command)
-(global-set-key (kbd "C-c") 'keyboard-quit)
-
 ;; escape key
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
-(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-
-;; zoom in and out
-(define-key evil-normal-state-map (kbd "s-=") 'text-scale-increase)
-(define-key evil-normal-state-map (kbd "s--") 'text-scale-decrease)
-(define-key evil-normal-state-map (kbd "s-0") (lambda() (interactive) (text-scale-set 0)))
-(setq text-scale-mode-step 1.2)
 
 ;; tabs
-; START TABS CONFIG
+;; ---
 ;; Create a variable for our preferred tab width
 (setq custom-tab-width 2)
 
@@ -507,7 +581,9 @@
 ;; (OPTIONAL) Shift width for evil-mode users
 ;; For the vim-like motions of ">>" and "<<".
 (setq-default evil-shift-width custom-tab-width)
-; END TABS CONFIG
+;; ---
+
+;; indentation
 (electric-indent-mode +1)
 
 ;; whitespace
@@ -524,51 +600,6 @@
 ;; make links clickable
 (goto-address-mode t)
 
-;; vim emulation
-(evil-ex-define-cmd "Explore" 'dired)
-
-;; leader key
-(define-prefix-command 'leader-map)
-(define-key evil-normal-state-map (kbd "SPC") leader-map)
-(define-key leader-map "b" 'list-buffers)
-(define-key leader-map "q" 'evil-quit)
-(define-key leader-map "l" 'run-current-file)
-(define-key leader-map (kbd "RET") 'run-current-project)
-(define-key leader-map "p" 'run-current-project)
-(define-key leader-map "g" 'magit-status)
-
-(define-key evil-normal-state-map (kbd "S-r") 'run-current-file)
-(define-key evil-normal-state-map (kbd "S-s") 'save-buffer)
-
-(defun run-current-project ()
-  (interactive)
-  (projectile-compile-project 'nil))
-
-;; run file
-(defun run-current-file ()
-  (interactive)
-  (if (derived-mode-p 'emacs-lisp-mode)
-    (load-file buffer-file-name)
-    (multi-compile-run)))
-
-(setq multi-compile-alist '(
-  (rust-mode . (("rust-debug" . "cargo run")))
-  (c++-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
-  (c-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
-  (makefile-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
-  (makefile-bsdmake-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
-  (lua-mode . (("lua-run" . "lua %file-name")))
-  (haskell-mode . (("haskell-run" . "ghc --make %file-name && ./%file-sans")))
-  ("\\.lisp\\'" . (("lisp-script" . "sbcl --script %file-name")))
-  ("\\.js\\'" . (("node-run" . "node %file-name")))
-  ("\\.mjs\\'" . (("node-harmony-run" . "node --experimental-modules %file-name")))
-))
-
-;; shortcut to edit emacs config
-(defun edit-emacs-config ()
-  (interactive)
-  (find-file "~/.emacs"))
-
 ;; make comiplation mode use terminal colors
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
@@ -577,10 +608,17 @@
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-;; vim escape sequences
-;; bind jk to escape
-(key-chord-mode 1)
-(key-chord-define evil-insert-state-map  "jk" 'evil-normal-state)
+;; revert files when they change on disk
+(global-auto-revert-mode t)
+
+;;
+;; functions
+;;
+
+;; shortcut to edit emacs config
+(defun edit-emacs-config ()
+  (interactive)
+  (find-file "~/.emacs"))
 
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
@@ -597,6 +635,10 @@
           (rename-buffer new-name)
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil))))))
+
+;;
+;; inline plugins
+;;
 
 ;;; livedown.el --- Realtime Markdown previews for Emacs.
 
