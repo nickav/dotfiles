@@ -222,7 +222,7 @@
 (use-package git-gutter
   :ensure t
   :config
-    (git-gutter-mode +1)
+    (global-git-gutter-mode +1)
   )
 
 ;; format-all
@@ -295,11 +295,7 @@
   )
 
 ;; rainbow delimeters
-(use-package rainbow-delimiters
-  :ensure t
-  :init
-    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-  )
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;; emmet
 (use-package emmet-mode
@@ -403,7 +399,7 @@
   )
 
 ;; highlight numbers
-(add-hook 'prog-mode-hook 'highlight-numbers-mode)
+(add-hook 'prog-mode-hook #'highlight-numbers-mode)
 
 ;;
 ;; languages
@@ -440,7 +436,7 @@
 ;; rust
 (use-package rust-mode
   :no-require t
-  :mode ("\\.rs?$" . rust-mode)
+  :mode ("\\.rs$" . rust-mode)
   :interpreter "rust"
   )
 
