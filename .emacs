@@ -10,8 +10,11 @@
 (eval-when-compile
   (require 'use-package))
 
-; increase gc limit
+;; increase gc limit
 (setq gc-cons-threshold 50000000)
+
+;; auto install packages on startup
+(add-hook 'after-init-hook (lambda () (package-install-selected-packages)))
 
 ;; config
 (custom-set-variables
@@ -26,7 +29,7 @@
  '(async-bytecomp-package-mode nil)
  '(column-number-mode t)
  '(compilation-message-face (quote default))
- '(custom-enabled-themes (quote (naysayer-theme)))
+ '(custom-enabled-themes (quote (naysayer)))
  '(custom-safe-themes
    (quote
     ("248bdfa49a90a83804b3d88f762bf114dd81de37756323fe168529d68a6a62a5" "a2ec1b9fb1001e0ff20cf4d8081d274e9e4ea5d54b41111bc018aab481868fd5" "f8e4c37299ce73336c4bc742b6e21bce0488d4914bf0f39db249d20255f68278" "d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "a3fa4abaf08cc169b61dea8f6df1bbe4123ec1d2afeb01c17e11fdc31fc66379" "8aca557e9a17174d8f847fb02870cb2bb67f3b6e808e46c0e54a44e3e18e1020" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "49ec957b508c7d64708b40b0273697a84d3fee4f15dd9fc4a9588016adee3dad" "93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" "75d3dde259ce79660bac8e9e237b55674b910b470f313cdf4b019230d01a982a" "151bde695af0b0e69c3846500f58d9a0ca8cb2d447da68d7fbf4154dcf818ebc" "100e7c5956d7bb3fd0eebff57fde6de8f3b9fafa056a2519f169f85199cc1c96" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "7e78a1030293619094ea6ae80a7579a562068087080e01c2b8b503b27900165c" "d1b4990bd599f5e2186c3f75769a2c5334063e9e541e37514942c27975700370" "4697a2d4afca3f5ed4fdf5f715e36a6cac5c6154e105f3596b44a4874ae52c45" "6d589ac0e52375d311afaa745205abb6ccb3b21f6ba037104d71111e7e76a3fc" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "1c082c9b84449e54af757bcae23617d11f563fc9f33a832a8a2813c4d7dfb652" default)))
@@ -53,7 +56,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode prettier-js graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -100,111 +103,132 @@
 ;;
 
 ;; evil
-(setq evil-want-C-u-scroll t)
-(setq evil-want-C-d-scroll t)
-(evil-mode 1)
-(global-evil-surround-mode 1)
+(use-package evil
+  :ensure t
+  :init
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-d-scroll t)
+  :config
+    (evil-mode 1)
+    (define-key evil-insert-state-map (kbd "s-<backspace>") 'evil-delete-to-first-non-blank)
+  )
+
+(use-package evil-surround)
+
+(defun evil-delete-to-first-non-blank ()
+  (interactive)
+  (evil-delete (point) (save-excursion (evil-first-non-blank) (point)) t))
 
 ;; projectile
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key evil-normal-state-map (kbd "C-p") nil)
-(define-key projectile-mode-map (kbd "C-p") 'projectile-find-file)
-(define-key projectile-mode-map (kbd "C-S-P") 'projectile-find-file-other-window)
-(define-key projectile-mode-map (kbd "<f5>") 'projectile-invalidate-cache)
-(defun projectile-nocache-find-file()
+(use-package projectile
+  :ensure t
+  :init
+    (setq projectile-project-search-path '("~/dev/" "~/dotfiles/"))
+    (setq projectile-completion-system 'ivy)
+    (setq projectile-enable-caching 0)
+  :config
+    (projectile-mode +1)
+    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+    (define-key evil-normal-state-map (kbd "C-p") nil)
+    (define-key projectile-mode-map (kbd "C-p") 'projectile-find-file)
+    (define-key projectile-mode-map (kbd "C-S-P") 'projectile-find-file-other-window)
+    (define-key projectile-mode-map (kbd "<f5>") 'projectile-invalidate-cache)
+    (define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
+  )
+
+(defun projectile-nocache-find-file ()
   (interactive)
   (projectile-invalidate-cache nil)
   (projectile-find-file))
-(define-key evil-normal-state-map (kbd "C-S-SPC") 'projectile-nocache-find-file)
-(define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
-(setq projectile-project-search-path '("~/dev/" "~/dotfiles/"))
-(setq projectile-completion-system 'ivy)
-(setq projectile-enable-caching 0)
 
 ;; git
-(global-git-gutter-mode +1)
+(use-package git-gutter
+  :config
+    (git-gutter-mode +1)
+  )
 (global-auto-revert-mode t)
 
-;; prettier
-;(add-hook 'javascript-mode-hook 'prettier-js-mode)
-;(add-hook 'web-mode-hook 'prettier-js-mode)
-;(add-hook 'markdown-mode-hook 'prettier-js-mode)
-
 ;; format-all
-(define-key evil-normal-state-map (kbd "F") 'format-all-buffer)
-(defvar clang-format-style-option  "google")
+(use-package format-all
+  :config
+    (define-key evil-normal-state-map (kbd "F") 'format-all-buffer)
+    (defvar clang-format-style-option  "google")
+  )
 
 ;; rust
-(add-to-list 'auto-mode-alist '("\\.rs?$" . rust-mode))
+(use-package rust-mode
+  :no-require t
+  :init (add-to-list 'auto-mode-alist '("\\.rs?$" . rust-mode))
+  :interpreter "rust"
+  )
 
 ;; magit
-(global-set-key (kbd "C-x g") 'magit-status)
-;; emulate some fugitive shortcuts
-(evil-ex-define-cmd "Gdiff" 'magit-diff-buffer-file)
-(evil-ex-define-cmd "Gstatus" 'magit-status)
-(setq magit-completing-read-function 'ivy-completing-read)
-(evil-magit-init)
+(use-package magit
+  :config
+    (global-set-key (kbd "C-x g") 'magit-status)
+    ;; emulate some fugitive shortcuts
+    (evil-ex-define-cmd "Gdiff" 'magit-diff-buffer-file)
+    (evil-ex-define-cmd "Gstatus" 'magit-status)
+    (setq magit-completing-read-function 'ivy-completing-read)
+    (use-package evil-magit)
+  )
 
 ;; company mode
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-require-match 'never)
-(setq company-dabbrev-downcase nil)
-(setq company-dabbrev-ignore-case nil)
-(setq company-idle-delay 0.01)
-(setq company-minimum-prefix-length 2)
-(setq company-ddabbrev-code-everywhere t)
-(setq company-dabbrev-code-modes t)
-(setq company-dabbrev-code-other-buffers 'all)
-(setq company-dabbrev-ignore-buffers "\\`\\'")
+(use-package company
+  :init
+    (setq company-require-match 'never)
+    (setq company-dabbrev-downcase nil)
+    (setq company-dabbrev-ignore-case nil)
+    (setq company-idle-delay 0.01)
+    (setq company-minimum-prefix-length 2)
+    (setq company-ddabbrev-code-everywhere t)
+    (setq company-dabbrev-code-modes t)
+    (setq company-dabbrev-code-other-buffers 'all)
+    (setq company-dabbrev-ignore-buffers "\\`\\'")
+    (add-hook 'after-init-hook 'global-company-mode)
 
-(eval-after-load 'company
-  '(progn
-     (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
-     (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)))
+    (setq company-frontends
+          '(company-pseudo-tooltip-unless-just-one-frontend
+            company-preview-frontend
+            company-echo-metadata-frontend))
+  :config
+    (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+    (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
+    (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
+    (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
 
-(eval-after-load 'company
-  '(progn
-     (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
-     (define-key company-active-map (kbd "<backtab>") 'company-select-previous)))
+    (defun my-company-visible-and-explicit-action-p ()
+      (and (company-tooltip-visible-p)
+            (company-explicit-action-p)))
 
-(setq company-frontends
-      '(company-pseudo-tooltip-unless-just-one-frontend
-        company-preview-frontend
-        company-echo-metadata-frontend))
+    (defun company-ac-setup ()
+      "Sets up `company-mode' to behave similarly to `auto-complete-mode'."
+      (setq company-require-match nil)
+      (setq company-auto-complete #'my-company-visible-and-explicit-action-p)
+      (setq company-frontends '(company-echo-metadata-frontend
+                                company-pseudo-tooltip-unless-just-one-frontend-with-delay
+                                company-preview-frontend))
+      (define-key company-active-map [tab] 'company-select-next-if-tooltip-visible-or-complete-selection)
+      (define-key company-active-map (kbd "TAB") 'company-select-next-if-tooltip-visible-or-complete-selection))
+    (company-ac-setup)
 
-(defun my-company-visible-and-explicit-action-p ()
-  (and (company-tooltip-visible-p)
-        (company-explicit-action-p)))
+    (company-flx-mode +1)
+    (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+    (define-key company-active-map (kbd "C-j") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+    (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1)))
+    (define-key company-active-map (kbd "C-k") (lambda () (interactive) (company-complete-common-or-cycle -1)))
 
-(defun company-ac-setup ()
-  "Sets up `company-mode' to behave similarly to `auto-complete-mode'."
-  (setq company-require-match nil)
-  (setq company-auto-complete #'my-company-visible-and-explicit-action-p)
-  (setq company-frontends '(company-echo-metadata-frontend
-                            company-pseudo-tooltip-unless-just-one-frontend-with-delay
-                            company-preview-frontend))
-  (define-key company-active-map [tab] 'company-select-next-if-tooltip-visible-or-complete-selection)
-  (define-key company-active-map (kbd "TAB") 'company-select-next-if-tooltip-visible-or-complete-selection))
-
-(with-eval-after-load 'company
-  (company-ac-setup)
-  (company-flx-mode +1)
-  (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
-  (define-key company-active-map (kbd "C-j") (lambda () (interactive) (company-complete-common-or-cycle 1)))
-  (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1)))
-  (define-key company-active-map (kbd "C-k") (lambda () (interactive) (company-complete-common-or-cycle -1))))
-
-(eval-after-load 'company
-  (lambda ()
-    (set-face-attribute 'company-preview nil
-      :background (face-attribute 'company-preview-common :background))))
+    (set-face-attribute 'company-preview nil :background (face-attribute 'company-preview-common :background))
+  )
 
 ;; rainbow delimeters
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(use-package rainbow-delimiters
+  :init
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  )
 
 ;; snippets
-(yas-global-mode 1)
+(use-package yasnippet)
 
 ;; javascript
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
@@ -212,86 +236,121 @@
 (add-to-list 'auto-mode-alist '("\\.mjs$" . js2-mode))
 
 ;; typescript
-(add-to-list 'auto-mode-alist '("\\.tsx?$" . typescript-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx?$" . web-mode))
+(use-package typescript-mode
+  :no-require t
+  :defer t
+  :init
+    (add-to-list 'auto-mode-alist '("\\.tsx?$" . typescript-mode))
+    (add-to-list 'auto-mode-alist '("\\.tsx?$" . web-mode))
+)
+
+(use-package web-mode
+  :defer t
+  :init
+    (add-hook 'web-mode-hook  'web-mode-init-hook)
+    (setq css-indent-offset 2)
+    (setq web-mode-enable-auto-closing t)
+    (setq web-mode-enable-auto-quoting nil)
+  )
+
 (defun web-mode-init-hook ()
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-markup-indent-offset 2))
-(add-hook 'web-mode-hook  'web-mode-init-hook)
-(setq css-indent-offset 2)
-(setq web-mode-enable-auto-closing t)
-(setq web-mode-enable-auto-quoting nil)
-
 
 ;; emmet
-(define-key evil-insert-state-map (kbd "C-y") 'emmet-expand-line)
+(use-package emmet-mode
+  :init
+    (define-key evil-insert-state-map (kbd "C-y") 'emmet-expand-line)
+  )
 
 ;; ivy
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(setq ivy-re-builders-alist
-      '((ivy-switch-buffer . ivy--regex-plus)
-        (t . ivy--regex-fuzzy)))
-
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(use-package ivy
+  :init
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (setq ivy-re-builders-alist
+          '((ivy-switch-buffer . ivy--regex-plus)
+            (t . ivy--regex-fuzzy)))
+  :config
+    (global-set-key (kbd "C-s") 'swiper)
+    (global-set-key (kbd "M-x") 'counsel-M-x)
+    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  )
 
 ;; which key
-(which-key-mode)
+(use-package which-key
+  :defer t
+  )
 
 ;; eyebrowse
-(eyebrowse-mode t)
-(eyebrowse-setup-opinionated-keys)
-(setq eyebrowse-wrap-around t)
-(setq eyebrowse-new-workspace t)
-;; tmux-esque switching
-(define-key evil-normal-state-map (kbd "tp") 'eyebrowse-prev-window-config)
-(define-key evil-normal-state-map (kbd "tn") 'eyebrowse-next-window-config)
-(define-key evil-normal-state-map (kbd "tq") 'eyebrowse-close-window-config)
-;; super+number
-(define-key evil-normal-state-map (kbd "s-1") 'eyebrowse-switch-to-window-config-1)
-(define-key evil-normal-state-map (kbd "s-2") 'eyebrowse-switch-to-window-config-2)
-(define-key evil-normal-state-map (kbd "s-3") 'eyebrowse-switch-to-window-config-3)
-(define-key evil-normal-state-map (kbd "s-4") 'eyebrowse-switch-to-window-config-4)
-(define-key evil-normal-state-map (kbd "s-5") 'eyebrowse-switch-to-window-config-5)
-(define-key evil-normal-state-map (kbd "s-6") 'eyebrowse-switch-to-window-config-6)
-(define-key evil-normal-state-map (kbd "s-7") 'eyebrowse-switch-to-window-config-7)
-(define-key evil-normal-state-map (kbd "s-8") 'eyebrowse-switch-to-window-config-8)
-(define-key evil-normal-state-map (kbd "s-9") 'eyebrowse-switch-to-window-config-9)
-;; ctrl+number
-(define-key evil-normal-state-map (kbd "C-1") 'eyebrowse-switch-to-window-config-1)
-(define-key evil-normal-state-map (kbd "C-2") 'eyebrowse-switch-to-window-config-2)
-(define-key evil-normal-state-map (kbd "C-3") 'eyebrowse-switch-to-window-config-3)
-(define-key evil-normal-state-map (kbd "C-4") 'eyebrowse-switch-to-window-config-4)
-(define-key evil-normal-state-map (kbd "C-5") 'eyebrowse-switch-to-window-config-5)
-(define-key evil-normal-state-map (kbd "C-6") 'eyebrowse-switch-to-window-config-6)
-(define-key evil-normal-state-map (kbd "C-7") 'eyebrowse-switch-to-window-config-7)
-(define-key evil-normal-state-map (kbd "C-8") 'eyebrowse-switch-to-window-config-8)
-(define-key evil-normal-state-map (kbd "C-9") 'eyebrowse-switch-to-window-config-9)
+(use-package eyebrowse
+  :init
+    (setq eyebrowse-wrap-around t)
+    (setq eyebrowse-new-workspace t)
+  :config
+    (eyebrowse-mode t)
+    (eyebrowse-setup-opinionated-keys)
+
+    ;; tmux-esque switching
+    (define-key evil-normal-state-map (kbd "tp") 'eyebrowse-prev-window-config)
+    (define-key evil-normal-state-map (kbd "tn") 'eyebrowse-next-window-config)
+    (define-key evil-normal-state-map (kbd "tq") 'eyebrowse-close-window-config)
+    ;; super+number
+    (define-key evil-normal-state-map (kbd "s-1") 'eyebrowse-switch-to-window-config-1)
+    (define-key evil-normal-state-map (kbd "s-2") 'eyebrowse-switch-to-window-config-2)
+    (define-key evil-normal-state-map (kbd "s-3") 'eyebrowse-switch-to-window-config-3)
+    (define-key evil-normal-state-map (kbd "s-4") 'eyebrowse-switch-to-window-config-4)
+    (define-key evil-normal-state-map (kbd "s-5") 'eyebrowse-switch-to-window-config-5)
+    (define-key evil-normal-state-map (kbd "s-6") 'eyebrowse-switch-to-window-config-6)
+    (define-key evil-normal-state-map (kbd "s-7") 'eyebrowse-switch-to-window-config-7)
+    (define-key evil-normal-state-map (kbd "s-8") 'eyebrowse-switch-to-window-config-8)
+    (define-key evil-normal-state-map (kbd "s-9") 'eyebrowse-switch-to-window-config-9)
+    ;; ctrl+number
+    (define-key evil-normal-state-map (kbd "C-1") 'eyebrowse-switch-to-window-config-1)
+    (define-key evil-normal-state-map (kbd "C-2") 'eyebrowse-switch-to-window-config-2)
+    (define-key evil-normal-state-map (kbd "C-3") 'eyebrowse-switch-to-window-config-3)
+    (define-key evil-normal-state-map (kbd "C-4") 'eyebrowse-switch-to-window-config-4)
+    (define-key evil-normal-state-map (kbd "C-5") 'eyebrowse-switch-to-window-config-5)
+    (define-key evil-normal-state-map (kbd "C-6") 'eyebrowse-switch-to-window-config-6)
+    (define-key evil-normal-state-map (kbd "C-7") 'eyebrowse-switch-to-window-config-7)
+    (define-key evil-normal-state-map (kbd "C-8") 'eyebrowse-switch-to-window-config-8)
+    (define-key evil-normal-state-map (kbd "C-9") 'eyebrowse-switch-to-window-config-9)
+  )
 
 ;; lua
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-(setq lua-indent-level 2)
+(use-package lua-mode
+  :mode ("\\.lua$" . lua-mode)
+  :interpreter ("lua" . lua-mode)
+  :init
+    (setq lua-indent-level 2)
+  )
 
 ;; dumb-jump
 ;; jump to definition
-(dumb-jump-mode t)
-(define-key evil-normal-state-map (kbd "<C-return>") 'dumb-jump-go)
-(setq dumb-jump-selector 'ivy)
-
-;; auto install packages on startup
-(add-hook 'after-init-hook (lambda () (package-install-selected-packages)))
+(use-package dumb-jump
+  :defer t
+  :init
+    (setq dumb-jump-selector 'ivy)
+  :config
+    (define-key evil-normal-state-map (kbd "<C-return>") 'dumb-jump-go)
+  )
 
 ;; ember
-(add-to-list 'auto-mode-alist '("\\.emblem$" . slim-mode))
+(use-package slim-mode
+  :no-require t
+  :defer t
+  :mode ("\\.emblem$" . slim-mode)
+  )
 
 ;; highlight numbers
 (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+
+;; theme
+(use-package naysayer-theme
+  :config
+    (load-theme 'naysayer t)
+  )
 
 ;;
 ;; detect system
@@ -321,9 +380,6 @@
 ;;
 ;; config
 ;;
-
-;; theme
-(load-theme 'naysayer t)
 
 ;; config vars
 (setq inhibit-startup-screen t)
@@ -598,10 +654,3 @@
 
 (provide 'livedown)
 ;;; livedown.el ends here
-
-;; backspace
-(defun evil-delete-to-first-non-blank ()
-  (interactive)
-  (evil-delete (point) (save-excursion (evil-first-non-blank) (point)) t))
-
-(define-key evil-insert-state-map (kbd "s-<backspace>") 'evil-delete-to-first-non-blank)
