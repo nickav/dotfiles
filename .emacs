@@ -64,7 +64,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (ranger highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -400,6 +400,17 @@
 
 ;; highlight numbers
 (add-hook 'prog-mode-hook #'highlight-numbers-mode)
+
+;; ranger
+;; file explorer
+(use-package ranger
+  :init
+    (setq ranger-cleanup-on-disable t)
+    (setq ranger-show-hidden t)
+  :config
+    (global-set-key (kbd "s-b") 'ranger)
+    (define-key leader-map "d" 'ranger)
+  )
 
 ;;
 ;; languages
