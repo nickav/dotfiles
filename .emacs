@@ -377,6 +377,7 @@
 ;; snippets
 (use-package yasnippet
   :config
+    (setq yas-snippet-dirs (append '("~/dotfiles/snippets") yas-snippet-dirs))
     (yas-global-mode 1)
   )
 

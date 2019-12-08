@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: JavaScript#class
+# key: class
+# --
+class ${1:`(file-name-base (buffer-file-name))`} {
+  constructor({$2:arg}) {
+    $0
+  }
+}
