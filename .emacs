@@ -1,4 +1,27 @@
 ;;
+;; init
+;;
+
+;; increase gc limit
+(setq gc-cons-threshold 50000000)
+
+;; auto install packages on startup
+(add-hook 'after-init-hook (lambda () (package-install-selected-packages)))
+
+;; Turn off mouse interface early in startup to avoid momentary display
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+;; No splash screen please ... jeez
+(setq inhibit-startup-message t)
+
+;; window
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;;
 ;; packages
 ;;
 
@@ -12,17 +35,6 @@
 
 (eval-when-compile
   (require 'use-package))
-
-;; increase gc limit
-(setq gc-cons-threshold 50000000)
-
-;; auto install packages on startup
-(add-hook 'after-init-hook (lambda () (package-install-selected-packages)))
-
-;; window
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-(add-to-list 'default-frame-alist '(ns-appearance . dark))
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; built-in config
 (custom-set-variables
@@ -64,7 +76,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (ranger highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (diminish ranger highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -415,6 +427,9 @@
     (evil-ex-define-cmd "Explore" 'ranger)
   )
 
+;; diminish
+(use-package diminish)
+
 ;;
 ;; languages
 ;;
@@ -509,7 +524,6 @@
 ;;
 
 ;; config vars
-(setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
 (setq confirm-kill-emacs 'y-or-n-p)
 
@@ -621,6 +635,34 @@
 ;; revert files when they change on disk
 (global-auto-revert-mode t)
 
+;; webjump shortcut
+(global-set-key (kbd "C-x w") 'webjump)
+
+;; add stack overflow to webjump
+(eval-after-load "webjump"
+  '(add-to-list 'webjump-sites
+                '("Stack Overflow" .
+                  [simple-query
+                  "www.stackoverflow.com"
+                   "https://stackoverflow.com/search?q="
+                  ""])))
+
+;; Save point position between sessions
+(use-package saveplace
+  :init (save-place-mode))
+
+;; exit shell with C-d
+(defun comint-delchar-or-eof-or-kill-buffer (arg)
+  (interactive "p")
+  (if (null (get-buffer-process (current-buffer)))
+      (kill-buffer)
+    (comint-delchar-or-maybe-eof arg)))
+
+(add-hook 'shell-mode-hook
+  (lambda ()
+    (define-key shell-mode-map
+      (kbd "C-d") 'comint-delchar-or-eof-or-kill-buffer)))
+
 ;;
 ;; functions
 ;;
@@ -630,21 +672,24 @@
   (interactive)
   (find-file "~/.emacs"))
 
-;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
-(defun rename-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
   (let ((name (buffer-name))
         (filename (buffer-file-name)))
-    (if (not filename)
-        (message "Buffer '%s' is not visiting a file!" name)
-      (if (get-buffer new-name)
-          (message "A buffer named '%s' already exists!" new-name)
-        (progn
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
           (rename-file filename new-name 1)
           (rename-buffer new-name)
           (set-visited-file-name new-name)
-          (set-buffer-modified-p nil))))))
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
+(global-set-key (kbd "C-x C-r") 'rename-current-buffer-file)
 
 ;;
 ;; inline plugins
