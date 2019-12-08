@@ -320,7 +320,8 @@
 
 ;; which key
 (use-package which-key
-  :defer t
+  :config
+    (which-key-mode)
   )
 
 ;; eyebrowse
@@ -410,6 +411,8 @@
   :config
     (global-set-key (kbd "s-b") 'ranger)
     (define-key leader-map "d" 'ranger)
+    (defun explore () (interactive) (ranger))
+    (evil-ex-define-cmd "Explore" 'ranger)
   )
 
 ;;
