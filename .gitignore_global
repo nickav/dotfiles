@@ -1,5 +1,10 @@
 *~
-.DS_Store
 *.swp
 *.swo
+
+\#*\#
+.\#*
+
+.DS_Store
+
 notes.md
