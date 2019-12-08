@@ -375,7 +375,10 @@
   )
 
 ;; snippets
-(use-package yasnippet)
+(use-package yasnippet
+  :config
+    (yas-global-mode 1)
+  )
 
 ;; dumb-jump
 ;; jump to definition
@@ -422,6 +425,7 @@
     (setq ranger-show-hidden t)
   :config
     (global-set-key (kbd "s-b") 'ranger)
+    (global-set-key (kbd "C-x C-d") 'ranger)
     (define-key leader-map "d" 'ranger)
     (defun explore () (interactive) (ranger))
     (evil-ex-define-cmd "Explore" 'ranger)
@@ -690,6 +694,21 @@
                    name (file-name-nondirectory new-name)))))))
 
 (global-set-key (kbd "C-x C-r") 'rename-current-buffer-file)
+
+(defun delete-current-buffer-file ()
+  "Removes file connected to current buffer and kills buffer."
+  (interactive)
+  (let ((filename (buffer-file-name))
+        (buffer (current-buffer))
+        (name (buffer-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (ido-kill-buffer)
+      (when (yes-or-no-p "Are you sure you want to remove this file? ")
+        (delete-file filename)
+        (kill-buffer buffer)
+        (message "File '%s' successfully removed" filename)))))
+
+(global-set-key (kbd "C-x C-k") 'delete-current-buffer-file)
 
 ;;
 ;; inline plugins
