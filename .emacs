@@ -564,8 +564,8 @@
 (undo-tree-mode 1)
 
 ;; backups
-(defvar backup-dir (expand-file-name "~/.backups/"))
-(defvar autosave-dir (expand-file-name "~/.saves/"))
+(setq backup-dir (expand-file-name "~/.backups/"))
+(setq autosave-dir (expand-file-name "~/.saves/"))
 
 (setq delete-old-versions t)
 (setq kept-new-versions 6)
@@ -711,6 +711,17 @@
         (message "File '%s' successfully removed" filename)))))
 
 (global-set-key (kbd "C-x C-k") 'delete-current-buffer-file)
+
+(defun toggle-term ()
+  "Opens and closes a terminal in a buffer."
+  (interactive)
+  (if (get-buffer "*terminal*")
+      (kill-buffer "*terminal*")
+    (progn (split-window-below)
+      (other-window 1)
+      (enlarge-window -18)
+      (term "/usr/bin/zsh")
+      (set-window-dedicated-p (selected-window) t))))
 
 ;;
 ;; inline plugins
