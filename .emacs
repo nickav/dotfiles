@@ -220,7 +220,7 @@
     (define-key projectile-mode-map (kbd "<f5>") 'projectile-invalidate-cache)
     (define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
 
-    (defun projectile-nocache-find-file ()
+    (defun projectile-find-file-nocache ()
       (interactive)
       (projectile-invalidate-cache nil)
       (projectile-find-file))
@@ -440,13 +440,35 @@
 ;;
 
 ;; javascript
+(setq js2-basic-offset 2)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx$" . js2-jsx-mode))
 (add-to-list 'auto-mode-alist '("\\.mjs$" . js2-mode))
 
 ;; typescript
+(use-package tide
+  :init
+    (setq js2-basic-offset 2)
+    (setq typescript-indent-level 2)
+    (setq company-tooltip-align-annotations t)
+
+    (defun setup-tide-mode ()
+      "Set up Tide mode."
+      (interactive)
+      (tide-setup)
+      (flycheck-mode +1)
+      (setq flycheck-check-syntax-automatically '(save-mode-enabled))
+      (eldoc-mode +1)
+      (tide-hl-identifier-mode +1)
+      (company-mode +1))
+  :config
+    (add-hook 'typescript-mode-hook #'setup-tide-mode)
+    (add-hook 'before-save-hook 'tide-format-before-save)
+  )
+
 (use-package typescript-mode
   :no-require t
+  :disabled
   :defer t
   :mode ("\\.tsx?$" . typescript-mode)
   :config
@@ -722,6 +744,18 @@
       (enlarge-window -18)
       (term "/usr/bin/zsh")
       (set-window-dedicated-p (selected-window) t))))
+
+(defun kill-all-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer
+    (delq (current-buffer)
+      (remove-if-not 'buffer-file-name (buffer-list)))))
+
+(defun switch-to-scratch-buffer ()
+  "Opens the scratch buffer."
+  (interactive)
+  (switch-to-buffer (get-buffer-create "*scratch*")))
 
 ;;
 ;; inline plugins
