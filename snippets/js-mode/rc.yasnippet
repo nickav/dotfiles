@@ -5,7 +5,7 @@
 /******************************************************************************\
  * File: $1.jsx
  *
- * Author: Nick Aversano
+ * Author: ${2:Nick Aversano}
  *
  * Description:
  *
@@ -19,19 +19,17 @@ import classNames from 'classnames';
 // ------------------------------------------------------------------------------
 // Style ------------------------------------------------------------------------
 import styles from './$1.scss';
-//------------------------------------------------------------------------------
-// React Class -----------------------------------------------------------------
+//-------------------------------------------------------------------------------
+// React Class ------------------------------------------------------------------
 class ${1:`(file-name-base (buffer-file-name))`} extends React.Component {
   render() {
     const { className } = this.props;
 
-    const cn = classNames(styles.$1, {
-      [className]: !!className,
-    });
+    const cn = classNames(styles.$1, className, {});
 
     return (
       <div className={cn}>
-        ${0}
+        $0
       </div>
     );
   }
