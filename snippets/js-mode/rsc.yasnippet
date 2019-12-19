@@ -3,7 +3,7 @@
 # key: rsc
 # --
 static ${1:Component} = (${2:{ className }}) => (
-  <div className={styles.$1}>
+  <div className={classNames(styles.$1, className)}>
     $0
   </div>
 );
