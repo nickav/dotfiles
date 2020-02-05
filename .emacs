@@ -76,7 +76,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (pdf-tools diminish ranger highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (csharp-mode pdf-tools diminish ranger highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -210,7 +210,7 @@
   :init
     (setq projectile-project-search-path '("~/dev/" "~/dotfiles/"))
     (setq projectile-completion-system 'ivy)
-    (setq projectile-enable-caching 0)
+    (setq projectile-enable-caching 1)
   :config
     (projectile-mode +1)
     (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -524,6 +524,9 @@
     (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
   )
 
+;; c++
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
 ;;
 ;; theme
 ;;
@@ -755,7 +758,7 @@
     (progn (split-window-below)
       (other-window 1)
       (enlarge-window -18)
-      (term "/usr/bin/zsh")
+      (term "/bin/zsh")
       (set-window-dedicated-p (selected-window) t))))
 
 (defun kill-all-buffers ()

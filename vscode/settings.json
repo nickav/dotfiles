@@ -12,7 +12,7 @@
         "**/dist": true,
         "**/build": true
     },
-    "editor.fontSize": 12,
+    "editor.fontSize": 14,
     "editor.tabSize": 4,
     "editor.wordWrap": "off",
     "editor.wordWrapColumn": 80,
@@ -139,5 +139,6 @@
     "explorer.confirmDelete": false,
     "[javascriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "debug.console.fontSize": 14
 }
