@@ -318,6 +318,10 @@
 ;; ivy
 (use-package ivy
   :init
+    (setq read-file-name-function
+      (lambda (&rest args)
+        (let ((completing-read-function #'completing-read-default))
+          (apply #'read-file-name-default args))))
     (setq ivy-use-virtual-buffers t)
     (setq enable-recursive-minibuffers t)
     (setq ivy-re-builders-alist
@@ -599,7 +603,13 @@
 (menu-bar-mode -1)
 
 ; enable redo
-(undo-tree-mode 1)
+(use-package undo-tree
+  :defer t
+  :init
+    (setq undo-limit 800000)
+    (setq undo-strong-limit 12000000)
+    (setq undo-outer-limit 120000000)
+  )
 
 ;; backups
 (setq backup-dir (expand-file-name "~/.backups/"))
