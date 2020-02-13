@@ -528,7 +528,7 @@
     (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
   )
 
-;; c++
+;; cpp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;;
@@ -685,6 +685,17 @@
   (ansi-color-apply-on-region compilation-filter-start (point))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+;; hide compilation buffer after finish
+(setq compilation-finish-function
+  (lambda (buf str)
+    (if (null (string-match ".*exited abnormally.*" str))
+      ;;no errors, make the compilation window go away in a few seconds
+      (progn
+        (run-at-time
+          "0 sec" nil 'delete-windows-on
+          (get-buffer-create "*compilation*"))
+        (message "No Compilation Errors!")))))
 
 ;; revert files when they change on disk
 (global-auto-revert-mode t)
