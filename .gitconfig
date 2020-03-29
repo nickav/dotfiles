@@ -21,7 +21,10 @@
 	cm = commit -m
 	co = checkout
 	count = rev-list --all --count
-	day = log --since '1 day ago' --oneline --author nick23hi@gmail.com
+  day = diff --shortstat '@{1 day ago}'
+  week = diff --shortstat '@{1 week ago}'
+	log-day = log --since '1 day ago' --oneline --author nick23hi@gmail.com
+	log-week = log --since '1 week ago' --oneline --author nick23hi@gmail.com
 	dc = diff --cached
 	dd = reset HEAD --
 	di = checkout --
@@ -41,7 +44,6 @@
 	untrack = git rm --cached
 	up = "!git remote update -p; git merge --ff-only @{u}"
 	us = reset HEAD --
-	week = log --since '1 week ago' --oneline --author nick23hi@gmail.com
   code = "!git diff $(git rev-list --max-parents=0 HEAD)"
 [color]
 	diff = auto
