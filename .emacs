@@ -220,6 +220,24 @@
     (define-key projectile-mode-map (kbd "<f5>") 'projectile-invalidate-cache)
     (define-key evil-normal-state-map (kbd "C-w C-p") 'projectile-find-file-other-window)
 
+    (defun before-compile-hook ()
+      ;; if compilation buffer was not open, hide it after successful program execution
+      ;; otherwise, keep it open
+      (if (get-buffer-window "*compilation*" 'visible)
+        (setq compilation-finish-function (lambda (buf str) ()))
+
+        (setq compilation-finish-function
+          (lambda (buf str)
+            (if (null (string-match ".*exited abnormally.*" str))
+              ;;no errors, make the compilation window go away in a few seconds
+              (progn
+                (run-at-time
+                  "0 sec" nil 'delete-windows-on
+                  (get-buffer-create "*compilation*"))
+                (message "No Compilation Errors!")))))
+        )
+      )
+
     (defun projectile-find-file-nocache ()
       (interactive)
       (projectile-invalidate-cache nil)
@@ -227,6 +245,7 @@
 
     (defun run-current-project ()
       (interactive)
+      (before-compile-hook)
       (projectile-compile-project 'nil))
   )
 
@@ -422,13 +441,14 @@
       ))
     )
 
-    (use-default-build-commands)
-
-    (if (eq system-type 'win32) (use-win32-batch-build-commands))
+    (if (eq system-type 'win32)
+      (use-win32-batch-build-commands)
+      (use-default-build-commands))
 
   :config
     (defun run-current-file ()
       (interactive)
+      (before-compile-hook)
       (if (derived-mode-p 'emacs-lisp-mode)
         (load-file buffer-file-name)
         (multi-compile-run)))
@@ -718,17 +738,6 @@
   (ansi-color-apply-on-region compilation-filter-start (point))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-
-;; hide compilation buffer after finish
-(setq compilation-finish-function
-  (lambda (buf str)
-    (if (null (string-match ".*exited abnormally.*" str))
-      ;;no errors, make the compilation window go away in a few seconds
-      (progn
-        (run-at-time
-          "0 sec" nil 'delete-windows-on
-          (get-buffer-create "*compilation*"))
-        (message "No Compilation Errors!")))))
 
 ;; revert files when they change on disk
 (global-auto-revert-mode t)
