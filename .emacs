@@ -76,7 +76,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (csharp-mode pdf-tools diminish ranger highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (evil-surround csharp-mode pdf-tools diminish ranger highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -234,7 +234,7 @@
 (use-package git-gutter
   :ensure t
   :config
-    (global-git-gutter-mode +1)
+    (global-git-gutter-mode 0)
   )
 
 ;; format-all
@@ -398,18 +398,33 @@
 ;; multi compile
 (use-package multi-compile
   :init
-    (setq multi-compile-alist '(
-      (rust-mode . (("rust-debug" . "cargo run")))
-      (c++-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
-      (c-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
-      (makefile-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
-      (makefile-bsdmake-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
-      (lua-mode . (("lua-run" . "lua %file-name")))
-      (haskell-mode . (("haskell-run" . "ghc --make %file-name && ./%file-sans")))
-      ("\\.lisp\\'" . (("lisp-script" . "sbcl --script %file-name")))
-      ("\\.js\\'" . (("node-run" . "node %file-name")))
-      ("\\.mjs\\'" . (("node-harmony-run" . "node --experimental-modules %file-name")))
-    ))
+    (defun use-default-build-commands ()
+      (interactive "p")
+      (setq multi-compile-alist '(
+        (rust-mode . (("rust-debug" . "cargo run")))
+        (c++-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
+        (c-mode . (("cpp-run" . "make --no-print-directory -C %make-dir")))
+        (makefile-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
+        (makefile-bsdmake-mode . (("make-run" . "make --no-print-directory -C %make-dir")))
+        (lua-mode . (("lua-run" . "lua %file-name")))
+        (haskell-mode . (("haskell-run" . "ghc --make %file-name && ./%file-sans")))
+        ("\\.lisp\\'" . (("lisp-script" . "sbcl --script %file-name")))
+        ("\\.js\\'" . (("node-run" . "node %file-name")))
+        ("\\.mjs\\'" . (("node-harmony-run" . "node --experimental-modules %file-name")))
+      ))
+    )
+
+    (defun use-win32-batch-build-commands ()
+      (interactive "p")
+      (setq multi-compile-alist '(
+        (c++-mode . (("cpp-run" "scripts\\build.bat" (multi-compile-locate-file-dir ".git"))))
+        (c-mode . (("cpp-run" "scripts\\build.bat" (multi-compile-locate-file-dir ".git"))))
+      ))
+    )
+
+    (use-default-build-commands)
+
+    (if (eq system-type 'win32) (use-win32-batch-build-commands))
 
   :config
     (defun run-current-file ()
@@ -534,6 +549,8 @@
 
 ;; pdf
 (use-package pdf-tools
+  :no-require t
+  :defer t
   :pin manual
   :init
     (setq pdf-view-display-size 'fit-page)
@@ -580,7 +597,7 @@
 (setq-default frame-title-format '("%b - Emacs"))
 
 (if (>= emacs-major-version 25)
-      (setq w32-pipe-buffer-size (* 64 1024)))
+  (setq w32-pipe-buffer-size (* 64 1024)))
 
 ;;
 ;; config

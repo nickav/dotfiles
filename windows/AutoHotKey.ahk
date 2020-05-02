@@ -2,6 +2,12 @@
 ; MacOSX keymap emulator for Windows
 ; AutoHotkey Version 1.1.30.03
 ; --------------------------------------------------------------
+; Install Guide:
+; Your keyboard Alt and Window key should be switched (if possible do this on
+; the keyboard itself)
+; For "Spotlight" search, install a program like WOX and map it to Alt-Space
+; Optionally, install QuickLook (for Space to QuickLook in Explorer)
+
 #NoEnv
 #SingleInstance force
 #InstallKeybdHook
@@ -89,107 +95,107 @@ LWin & LButton::Send {MButton}
 ^BS:: send ^+{left}{delete}
 
 ; emoji picker
-^Space::Send {LWin down}.{LWin up}
+;^Space::Send {LWin down}.{LWin up}
 
 ; Disable start menu on left winkey
-LWin::return
+;LWin::return
 
 ; spotlight
 ;LWin & Space::LWin ; open windows launcher
-LWin & Space::Send !{Space} ; open keypirana
+;LWin & Space::Send !{Space} ; open keypirana
 
 ; Remap Windows + Tab to Alt + Tab.
-LWin & Tab::AltTab
+;LWin & Tab::AltTab
 
 ; command-delete deletes whole line
-#BS::Send {LShift down}{Home}{LShift Up}{Del}
+!BS::Send {LShift down}{Home}{LShift Up}{Del}
 
 ; alt-function-delete deletes next word
-!Delete::Send {LShift down}{LCtrl down}{Right}{LShift Up}{Lctrl up}{Del}
+#Delete::Send {LShift down}{LCtrl down}{Right}{LShift Up}{Lctrl up}{Del}
 
 ; alt-delete deletes previous word
-!BS::Send {LShift down}{LCtrl down}{Left}{LShift Up}{Lctrl up}{Del}
+#BS::Send {LShift down}{LCtrl down}{Left}{LShift Up}{Lctrl up}{Del}
 
 ; arrow keys
-!Up::Send {Home}
-!Down::Send {End}
-!Left::^Left
-!Right::^Right
+#Up::Send {Home}
+#Down::Send {End}
+#Left::^Left
+#Right::^Right
 
 ; letters and numbers:
-#a::Send ^a
-#b::Send ^b
-#c::Send ^c
-#d::Send ^d
-#e::Send ^e
-#f::Send ^f
-#g::Send ^g
-#h::Send ^h
-#i::Send ^i
-#j::Send ^j
-#k::Send ^k
-#l::Send ^l
-#m::WinMinimize,a
-#n::Send ^n
-#o::Send ^o
-#p::Send ^p
-#q::Send !{F4}
-#r::Send ^r
-#s::Send ^s
-#t::Send ^t
-#u::Send ^u
-#v::
+!a::Send ^a
+!b::Send ^b
+!c::Send ^c
+!d::Send ^d
+!e::Send ^e
+!f::Send ^f
+!g::Send ^g
+!h::Send ^h
+!i::Send ^i
+!j::Send ^j
+!k::Send ^k
+!l::Send ^l
+!m::WinMinimize,a
+!n::Send ^n
+!o::Send ^o
+!p::Send ^p
+!q::Send !{F4}
+!r::Send ^r
+!s::Send ^s
+!t::Send ^t
+!u::Send ^u
+!v::
   if (WinActive("ahk_class Emacs")) {
     Send +{Insert}
   } else {
     Send ^v
   }
 return
-#w::Send ^w
-#x::Send ^x
-#y::Send ^y
-#z::Send ^z
-#1::Send ^1
-#2::Send ^2
-#3::Send ^3
-#4::Send ^4
-#5::Send ^5
-#6::Send ^6
-#7::Send ^7
-#8::Send ^8
-#9::Send ^9
-#0::Send ^0
-#=::Send ^=
-#-::Send ^-
-#Enter::Send ^{Enter}
+!w::Send ^w
+!x::Send ^x
+!y::Send ^y
+!z::Send ^z
+!1::Send ^1
+!2::Send ^2
+!3::Send ^3
+!4::Send ^4
+!5::Send ^5
+!6::Send ^6
+!7::Send ^7
+!8::Send ^8
+!9::Send ^9
+!0::Send ^0
+!=::Send ^=
+!-::Send ^-
+; #Enter::Send ^{Enter}
 
 ; special letters and numbers
-#+a::Send ^+a
-#+b::Send ^+b
-#+c::Send ^+c
-#+d::Send ^+d
-#+e::Send ^+e
-#+f::Send ^+f
-#+g::Send ^+g
-#+h::Send ^+h
-#+i::Send ^+i
-#+j::Send ^+j
-#+k::Send ^+k
-#+l::Send ^+l
-#+m::Send ^+m
-#+n::Send ^+n
-#+o::Send ^+o
-#+p::Send ^+p
-#+q::Send ^+q
-#+r::Send ^+r
-#+s::Send ^+s
-#+t::Send ^+t
-#+u::Send ^+u
-#+v::Send ^+v
-#+w::Send ^+w
-#+x::Send ^+x
-#+y::Send ^+y
-#+z::Send ^+z
+!+a::Send ^+a
+!+b::Send ^+b
+!+c::Send ^+c
+!+d::Send ^+d
+!+e::Send ^+e
+!+f::Send ^+f
+!+g::Send ^+g
+!+h::Send ^+h
+!+i::Send ^+i
+!+j::Send ^+j
+!+k::Send ^+k
+!+l::Send ^+l
+!+m::Send ^+m
+!+n::Send ^+n
+!+o::Send ^+o
+!+p::Send ^+p
+!+q::Send ^+q
+!+r::Send ^+r
+!+s::Send ^+s
+!+t::Send ^+t
+!+u::Send ^+u
+!+v::Send ^+v
+!+w::Send ^+w
+!+x::Send ^+x
+!+y::Send ^+y
+!+z::Send ^+z
 
 ; lock screen
 #!Pause::
@@ -200,34 +206,36 @@ return
   DisableLockWorkstation(1)
 return
 
-Enter::
-  if (WinActive("ahk_class CabinetWClass")) {
-    ClassNN := GetFocusedControlClassNN()
-    if (ClassNN == "DirectUIHWND3") {
-      Send {F2}
-    } else {
-      Send {Enter}
-    }
-  } else {
-    Send {Enter}
-  }
-return
+; make enter to rename files
+; causes pretty janky behavior elsewhere on the system
+; Enter::
+;   if (WinActive("ahk_class CabinetWClass")) {
+;     ClassNN := GetFocusedControlClassNN()
+;     if (ClassNN == "DirectUIHWND3") {
+;       Send {F2}
+;     } else {
+;       Send {Enter}
+;     }
+;   } else {
+;     Send {Enter}
+;   }
+; return
 
 ; Keyboard Navigation
 
 ; CMD + Left/Right
-#Left::
+!Left::
 KeyWait ^
 Send {Home}
 return
 
-#Right::
+!Right::
 KeyWait ^
 Send {End}
 return
 
 ; CMD + Shift + Left/Right
-#+Left::
+!+Left::
 KeyWait ^
 Send {LControl up}
 Send +{Home}
@@ -235,7 +243,7 @@ Send {LControl down}
 Send {LControl up}
 return
 
-#+Right::
+!+Right::
 KeyWait ^
 Send {LControl up}
 Send +{End}
@@ -244,20 +252,20 @@ Send {LControl up}
 return
 
 ; Alt + Left/Right
-!Left::
+#Left::
 Send ^{Left}
 return
 
-!Right::
+#Right::
 Send ^{Right}
 return
 
 ; Alt + Shift + Left/Right
-!+Left::
+#+Left::
 Send ^+{Left}
 return
 
-!+Right::
+#+Right::
 Send ^+{Right}
 return
 
