@@ -32,3 +32,5 @@ alias enablesleep='sudo pmset -b sleep 5; sudo pmset -b disablesleep 0'
 
 eval "$(direnv hook bash)"
 eval "$(pyenv init -)"
+
+alias brew='HOMEBREW_NO_AUTO_UPDATE=1 brew'

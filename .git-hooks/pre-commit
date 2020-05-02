@@ -1,0 +1,16 @@
+#
+# Prevents commit if it finds 'nocheckin' anywhere in the changes you
+#
+
+# get the staged files
+s_files=$(git diff --name-only --cached)
+
+# if a staged file contains the keyword, get it out of the staged list
+for s_file in ${s_files};do
+  if grep -q -E 'nocheckin' ${s_file};then
+    echo "[pre-commit] Error ${s_file} contains nocheckin:"
+    echo ""
+    grep -E -B 5 -A 5 -n 'nocheckin' ${s_file}
+    exit 1
+  fi
+done
