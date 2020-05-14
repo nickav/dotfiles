@@ -76,7 +76,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (evil-surround csharp-mode pdf-tools diminish ranger highlight-numbers naysayer-theme tide slim-mode sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
+    (evil-surround csharp-mode pdf-tools diminish ranger highlight-numbers naysayer-theme tide sass-mode coffee-mode graphql-mode company-flx company ahk-mode typescript-mode exec-path-from-shell dumb-jump package-lint key-chord rainbow-mode rust-mode evil-magit cmake-mode haskell-mode clang-format flx counsel lua-mode eyebrowse which-key ivy markdown-mode multi-compile ag git-link web-mode yasnippet rainbow-delimiters emmet-mode format-all magit use-package powerline projectile git-gutter evil monokai-theme doom-themes ##)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#1B1D1E")
  '(scroll-bar-mode nil)
@@ -112,6 +112,32 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(whitespace-tab ((t (:foreground "#636363")))))
+
+
+;;
+;; system
+;;
+
+;; TODO: handle other systems
+(setq system-type 'darwin)
+(if (eq window-system 'w32)
+  (setq system-type 'win32))
+
+;; exec path fix
+(if (not (eq system-type 'win32))
+  (exec-path-from-shell-initialize))
+
+;;
+;; windows setup
+;;
+
+(if (eq system-type 'win32)
+  (add-to-list 'default-frame-alist '(font . "Meslo LG S-9")))
+
+(setq-default frame-title-format '("%b - Emacs"))
+
+(if (>= emacs-major-version 25)
+  (setq w32-pipe-buffer-size (* 64 1024)))
 
 
 ;;
@@ -560,13 +586,6 @@
     (setq lua-indent-level 2)
   )
 
-;; ember
-(use-package slim-mode
-  :no-require t
-  :defer t
-  :mode ("\\.emblem$" . slim-mode)
-  )
-
 ;; pdf
 (use-package pdf-tools
   :no-require t
@@ -584,6 +603,14 @@
 ;; cpp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
+;; glsl
+(add-to-list 'auto-mode-alist '("\\.vs$" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.fs$" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.gs$" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.vert\\'" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.frag\\'" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.geom\\'" . c-mode))
+
 ;;
 ;; theme
 ;;
@@ -593,31 +620,6 @@
   :config
     (load-theme 'naysayer t)
   )
-
-;;
-;; system
-;;
-
-;; TODO: handle other systems
-(setq system-type 'darwin)
-(if (eq window-system 'w32)
-  (setq system-type 'win32))
-
-;; exec path fix
-(if (not (eq system-type 'win32))
-  (exec-path-from-shell-initialize))
-
-;;
-;; windows setup
-;;
-
-(if (eq system-type 'win32)
-  (add-to-list 'default-frame-alist '(font . "Meslo LG S-9")))
-
-(setq-default frame-title-format '("%b - Emacs"))
-
-(if (>= emacs-major-version 25)
-  (setq w32-pipe-buffer-size (* 64 1024)))
 
 ;;
 ;; config

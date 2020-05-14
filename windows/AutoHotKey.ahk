@@ -58,6 +58,7 @@ LCtrl & k:: send {Up}
 
 ; bind cmd+click to open in new tab
 LWin & LButton::Send {MButton}
+LAlt & LButton::Send {MButton}
 
 ; spectacle emulation
 #!v::FullActiveWindow()
@@ -152,7 +153,7 @@ LWin & LButton::Send {MButton}
   }
 return
 !w::Send ^w
-!x::Send ^x
+;!x::Send ^x
 !y::Send ^y
 !z::Send ^z
 !1::Send ^1
@@ -269,6 +270,8 @@ return
 Send ^+{Right}
 return
 
+; M-x
+#x::Send !x
 
 ; --------------------------------------------------------------
 ; Application specific

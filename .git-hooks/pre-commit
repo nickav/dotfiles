@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Prevents commit if it finds 'nocheckin' anywhere in the changes you
 #
