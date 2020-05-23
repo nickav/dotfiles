@@ -603,6 +603,11 @@
 ;; cpp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
+(add-hook 'prog-mode-hook
+  (lambda ()
+    (font-lock-add-keywords nil
+    '(("\\<\\(it\\)\\>" . font-lock-keyword-face)))))
+
 ;; glsl
 (add-to-list 'auto-mode-alist '("\\.vs$" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.fs$" . c-mode))
