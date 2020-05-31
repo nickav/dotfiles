@@ -108,6 +108,10 @@ LAlt & LButton::Send {MButton}
 ; Remap Windows + Tab to Alt + Tab.
 ;LWin & Tab::AltTab
 
+; switch LWin and LAlt keys!
+LWin::LAlt
+LAlt::LWin
+
 ; command-delete deletes whole line
 !BS::Send {LShift down}{Home}{LShift Up}{Del}
 

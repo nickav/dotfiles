@@ -609,9 +609,7 @@
     '(("\\<\\(it\\)\\>" . font-lock-keyword-face)))))
 
 ;; glsl
-(add-to-list 'auto-mode-alist '("\\.vs$" . c-mode))
-(add-to-list 'auto-mode-alist '("\\.fs$" . c-mode))
-(add-to-list 'auto-mode-alist '("\\.gs$" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.gl\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.geom\\'" . c-mode))
