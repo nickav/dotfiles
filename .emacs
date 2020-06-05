@@ -603,16 +603,17 @@
 ;; cpp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-(add-hook 'prog-mode-hook
+(add-hook 'c++-mode-hook
   (lambda ()
+    (font-lock-add-keywords nil '(("cast\\((.*)\\)" 1 font-lock-type-face)))
     (font-lock-add-keywords nil
-    '(("\\<\\(it\\)\\>" . font-lock-keyword-face)))))
+      '(("\\<\\(it\\|cast\\)\\>" . font-lock-variable-name-face)))
+  ))
 
 ;; glsl
 (add-to-list 'auto-mode-alist '("\\.gl\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . c-mode))
-(add-to-list 'auto-mode-alist '("\\.geom\\'" . c-mode))
 
 ;;
 ;; theme

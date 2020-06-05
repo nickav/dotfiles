@@ -1,7 +1,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	autocrlf = input
-	pager = less
+	pager = less -FXe
 	whitespace = cr-at-eol
 	hooksPath = ~/.git-hooks/
 [user]
