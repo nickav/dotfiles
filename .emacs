@@ -608,6 +608,7 @@
     (font-lock-add-keywords nil '(("cast\\((.*)\\)" 1 font-lock-type-face)))
     (font-lock-add-keywords nil
       '(("\\<\\(it\\|cast\\)\\>" . font-lock-variable-name-face)))
+    (font-lock-add-keywords nil '(("\\<\\(null\\)\\>" . font-lock-constant-face)))
   ))
 
 ;; glsl

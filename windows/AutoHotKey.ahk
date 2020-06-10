@@ -3,8 +3,7 @@
 ; AutoHotkey Version 1.1.30.03
 ; --------------------------------------------------------------
 ; Install Guide:
-; Your keyboard Alt and Window key should be switched (if possible do this on
-; the keyboard itself)
+; Your keyboard Alt and Window key should not be switched
 ; For "Spotlight" search, install a program like WOX and map it to Alt-Space
 ; Optionally, install QuickLook (for Space to QuickLook in Explorer)
 
@@ -109,8 +108,8 @@ LAlt & LButton::Send {MButton}
 ;LWin & Tab::AltTab
 
 ; switch LWin and LAlt keys!
-LWin::LAlt
-LAlt::LWin
+;LWin::LAlt
+;LAlt::LWin
 
 ; command-delete deletes whole line
 !BS::Send {LShift down}{Home}{LShift Up}{Del}
@@ -210,21 +209,6 @@ return
   Sleep 50
   DisableLockWorkstation(1)
 return
-
-; make enter to rename files
-; causes pretty janky behavior elsewhere on the system
-; Enter::
-;   if (WinActive("ahk_class CabinetWClass")) {
-;     ClassNN := GetFocusedControlClassNN()
-;     if (ClassNN == "DirectUIHWND3") {
-;       Send {F2}
-;     } else {
-;       Send {Enter}
-;     }
-;   } else {
-;     Send {Enter}
-;   }
-; return
 
 ; Keyboard Navigation
 
