@@ -55,6 +55,13 @@ LCtrl & l:: send {Right}
 LCtrl & j:: send {Down}
 LCtrl & k:: send {Up}
 
+#If GetKeyState("CapsLock", "P")
+*h::send {Left}
+*j::send {Down}
+*k::send {Up}
+*l::send {Right}
+#If
+
 ; bind cmd+click to open in new tab
 LWin & LButton::Send {MButton}
 LAlt & LButton::Send {MButton}
