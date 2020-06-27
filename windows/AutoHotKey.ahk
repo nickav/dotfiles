@@ -163,7 +163,7 @@ LAlt & LButton::Send {MButton}
   }
 return
 !w::Send ^w
-;!x::Send ^x
+!x::Send ^x
 !y::Send ^y
 !z::Send ^z
 !1::Send ^1
