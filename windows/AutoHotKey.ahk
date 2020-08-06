@@ -102,13 +102,19 @@ LAlt & LButton::Send {MButton}
 ^BS:: send ^+{left}{delete}
 
 ; emoji picker
-;^Space::Send {LWin down}.{LWin up}
+^!Space::
+  KeyWait, LWin
+  Send {LWin down}.{LWin up}
+return
 
 ; Disable start menu on left winkey
 ;LWin::return
 
 ; spotlight
-;LWin & Space::LWin ; open windows launcher
+!Space::
+  KeyWait, Alt
+  Send {LWin}
+return
 ;LWin & Space::Send !{Space} ; open keypirana
 
 ; Remap Windows + Tab to Alt + Tab.
