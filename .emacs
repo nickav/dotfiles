@@ -279,7 +279,7 @@
 (use-package git-gutter
   :ensure t
   :config
-    (global-git-gutter-mode 0)
+    (global-git-gutter-mode 1)
   )
 
 ;; format-all
@@ -605,7 +605,7 @@
 
 (add-hook 'c++-mode-hook
   (lambda ()
-    (font-lock-add-keywords nil '(("cast\\((.*)\\)" 1 font-lock-type-face)))
+    (font-lock-add-keywords nil '(("cast(\\([^\\)]+\\))" 1 font-lock-type-face)))
     (font-lock-add-keywords nil
       '(("\\<\\(it\\|cast\\)\\>" . font-lock-variable-name-face)))
     (font-lock-add-keywords nil '(("\\<\\(null\\)\\>" . font-lock-constant-face)))
