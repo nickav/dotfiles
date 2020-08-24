@@ -166,6 +166,7 @@
     (define-key leader-map (kbd "RET") 'run-current-project)
     (define-key leader-map "p" 'run-current-project)
     (define-key leader-map "g" 'magit-status)
+    (define-key leader-map "i" 'ff-find-other-file)
 
     (define-key evil-normal-state-map (kbd "S-s") 'save-buffer)
 
@@ -220,6 +221,9 @@
       (evil-delete (point) (save-excursion (evil-first-non-blank) (point)) t))
 
     (define-key evil-insert-state-map (kbd "s-<backspace>") 'evil-delete-to-first-non-blank)
+
+    ;; toggle source / header files
+    (define-key evil-normal-state-map (kbd "<tab>") 'ff-find-other-file)
 
     (use-package key-chord
       :config
@@ -749,9 +753,6 @@
 ;; revert files when they change on disk
 (global-auto-revert-mode t)
 
-;; webjump shortcut
-(global-set-key (kbd "C-x w") 'webjump)
-
 ;; add stack overflow to webjump
 (eval-after-load "webjump"
   '(add-to-list 'webjump-sites
@@ -778,10 +779,15 @@
       (kbd "C-d") 'comint-delchar-or-eof-or-kill-buffer)))
 
 ;;
-;; functions
+;; keybindings
 ;;
 
+(global-set-key (kbd "C-x w") 'webjump)
 (global-set-key (kbd "C-s") 'save-buffer)
+
+;;
+;; functions
+;;
 
 ;; shortcut to edit emacs config
 (defun edit-emacs-config ()
