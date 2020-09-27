@@ -223,7 +223,8 @@
     (define-key evil-insert-state-map (kbd "s-<backspace>") 'evil-delete-to-first-non-blank)
 
     ;; toggle source / header files
-    (define-key evil-normal-state-map (kbd "<tab>") 'ff-find-other-file)
+    (define-key evil-normal-state-map (kbd "<C-tab>") 'ff-find-other-file)
+    (define-key evil-normal-state-map (kbd "<tab>") 'switch-to-previous-buffer)
 
     (use-package key-chord
       :config
@@ -850,6 +851,11 @@
   "Opens the scratch buffer."
   (interactive)
   (switch-to-buffer (get-buffer-create "*scratch*")))
+
+(defun switch-to-previous-buffer ()
+  "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 ;;
 ;; inline plugins
