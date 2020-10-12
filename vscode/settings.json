@@ -13,7 +13,7 @@
         "**/build": true
     },
     "editor.fontSize": 14,
-    "editor.tabSize": 4,
+    "editor.tabSize": 2,
     "editor.wordWrap": "off",
     "editor.wordWrapColumn": 80,
     "editor.lineNumbers": "relative",

@@ -213,6 +213,8 @@
     (define-key evil-normal-state-map (kbd "s-=") 'text-scale-increase)
     (define-key evil-normal-state-map (kbd "s--") 'text-scale-decrease)
     (define-key evil-normal-state-map (kbd "s-0") (lambda() (interactive) (text-scale-set 0)))
+    ;; globally increase font size:
+    ;(set-face-attribute 'default nil :height 150)
     (setq text-scale-mode-step 1.2)
 
     ;; cmd+backspace
@@ -607,6 +609,7 @@
 
 ;; cpp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . c++-mode))
 
 (add-hook 'c++-mode-hook
   (lambda ()

@@ -6,6 +6,7 @@ end
 
 local function remap(mods, key, pressFn)
 	hs.hotkey.bind(mods, key, pressFn, nil, nil)
+	hs.hotkey.bind({'cmd'}, key, pressFn, nil, nil)
 end
 
 -- prev (f7)
