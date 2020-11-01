@@ -274,6 +274,18 @@ return
 ; M-x
 #x::Send !x
 
+; Cmd + `: Cycle between windows of same application
+!`::    ; Next window
+WinGetClass, ActiveClass, A
+WinSet, Bottom,, A
+WinActivate, ahk_class %ActiveClass%
+return
+
+!+`::    ; Last window
+WinGetClass, ActiveClass, A
+WinActivateBottom, ahk_class %ActiveClass%
+return
+
 ; --------------------------------------------------------------
 ; Application specific
 ; --------------------------------------------------------------
