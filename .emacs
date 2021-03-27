@@ -131,6 +131,9 @@
 ;; windows setup
 ;;
 
+;(if (eq system-type 'win32)
+;  (set-face-attribute 'default nil :height 96 :family "Consolas"))
+
 (if (eq system-type 'win32)
   (add-to-list 'default-frame-alist '(font . "Meslo LG S-9")))
 
@@ -185,6 +188,7 @@
       (interactive)(evil-window-split) (other-window 1))
 
     (define-key evil-normal-state-map (kbd "C-w \\") 'evil-window-vsplit-focus)
+    (define-key evil-normal-state-map (kbd "C-w ]") 'evil-window-vsplit-focus)
     (define-key evil-normal-state-map (kbd "C-w C-\\") 'evil-window-vsplit-focus)
     (define-key evil-normal-state-map (kbd "C-w -") 'evil-window-split-focus)
     (define-key evil-normal-state-map (kbd "C-w C--") 'evil-window-split-focus)
@@ -203,7 +207,7 @@
     (define-key evil-normal-state-map (kbd "C-y") (lambda() (interactive) (evil-scroll-line-up 16)))
 
     ;; M-x
-    (define-key evil-normal-state-map (kbd "C-m") 'execute-extended-command)
+    (define-key evil-normal-state-map (kbd "C-m") 'counsel-M-x)
     (global-set-key (kbd "C-c") 'keyboard-quit)
 
     ;; escape key
@@ -315,8 +319,8 @@
     (setq company-require-match 'never)
     (setq company-dabbrev-downcase nil)
     (setq company-dabbrev-ignore-case nil)
-    (setq company-idle-delay 0.01)
-    (setq company-minimum-prefix-length 2)
+    (setq company-idle-delay 0.2)
+    (setq company-minimum-prefix-length 3)
     (setq company-ddabbrev-code-everywhere t)
     (setq company-dabbrev-code-modes t)
     (setq company-dabbrev-code-other-buffers 'all)
@@ -380,7 +384,7 @@
           '((ivy-switch-buffer . ivy--regex-plus)
             (t . ivy--regex-fuzzy)))
   :config
-    (ivy-mode 1)
+    (ivy-mode 0)
     ;(global-set-key (kbd "C-s") 'swiper)
     (global-set-key (kbd "M-x") 'counsel-M-x)
     (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -569,6 +573,7 @@
   :mode
     ("\\.html$" . web-mode)
     ("\\.jsx$" . web-mode)
+    ("\\.tsx$" . web-mode)
   :init
     (setq web-mode-code-indent-offset 2)
     (setq web-mode-css-indent-offset 2)
@@ -616,6 +621,8 @@
     (font-lock-add-keywords nil '(("cast(\\([^\\)]+\\))" 1 font-lock-type-face)))
     (font-lock-add-keywords nil
       '(("\\<\\(it\\|cast\\)\\>" . font-lock-variable-name-face)))
+    (font-lock-add-keywords nil
+      '(("\\<\\(defer\\|lambda\\)\\>" . font-lock-keyword-face)))
     (font-lock-add-keywords nil '(("\\<\\(null\\)\\>" . font-lock-constant-face)))
   ))
 

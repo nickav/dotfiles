@@ -286,6 +286,10 @@ WinGetClass, ActiveClass, A
 WinActivateBottom, ahk_class %ActiveClass%
 return
 
+;; mouse remapping
+XButton1::RButton
+XButton2::LButton
+
 ; --------------------------------------------------------------
 ; Application specific
 ; --------------------------------------------------------------
