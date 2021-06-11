@@ -1,0 +1,48 @@
+{
+	"color_scheme": "Monokai.sublime-color-scheme",
+	"file_exclude_patterns":
+	[
+		"*.pyc",
+		"*.pyo",
+		"*.exe",
+		"*.dll",
+		"*.obj",
+		"*.o",
+		"*.a",
+		"*.lib",
+		"*.so",
+		"*.dylib",
+		"*.ncb",
+		"*.sdf",
+		"*.suo",
+		"*.pdb",
+		"*.idb",
+		".DS_Store",
+		"*.class",
+		"*.psd",
+		"*.db",
+		"*.sublime-workspace",
+		"*.swp",
+		"*.#*",
+		"*.zip",
+	],
+	"folder_exclude_patterns":
+	[
+		"node_modules",
+		".github",
+		".git",
+		"bin"
+	],
+	"ignored_packages":
+	[
+	],
+	"scroll_past_end": true,
+	"scroll_speed": 2.0,
+	"tab_size": 2,
+	"theme": "Adaptive.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"vintage_ctrl_keys": true,
+	"vintage_start_in_command_mode": true,
+	"relative_line_numbers": true,
+	"font_size": 11,
+}
