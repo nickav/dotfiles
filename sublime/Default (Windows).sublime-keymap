@@ -17,6 +17,16 @@
     ]
   },
   {
+    "keys": ["ctrl+e"],
+    "command": "scroll_lines",
+    "args": {"amount": -10.0 }
+  },
+  {
+    "keys": ["ctrl+y"],
+    "command": "scroll_lines",
+    "args": {"amount": 10.0 }
+  },
+  {
     "keys": ["shift+f"],
     "command": "js_prettier",
     "context": [
