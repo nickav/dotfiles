@@ -1,0 +1,4 @@
+{
+  "cmd": ["cmd", "/k", "$folder/scripts/build.bat"],
+  "keyfiles": ["build.bat"]
+}
