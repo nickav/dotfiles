@@ -27,6 +27,14 @@
     "args": {"amount": 10.0 }
   },
   {
+    "keys": ["f5"],
+    "command": "build"
+  },
+  {
+    "keys": ["space", "l"],
+    "command": "build"
+  },
+  {
     "keys": ["shift+f"],
     "command": "js_prettier",
     "context": [
