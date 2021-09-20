@@ -337,6 +337,7 @@ LeftSplitActiveWindow() {
 
   ScreenWidth := WA_Right - WA_Left
   ScreenHeight := WA_Bottom - WA_Top
+  WinRestore, ahk_id %activeWin%
   WinGetTitle, Title, A
   WinMove, %Title%, , 0, 0, ScreenWidth / 2, ScreenHeight
 }
@@ -348,6 +349,7 @@ RightSplitActiveWindow() {
 
   ScreenWidth := WA_Right - WA_Left
   ScreenHeight := WA_Bottom - WA_Top
+  WinRestore, ahk_id %activeWin%
   WinGetTitle, Title, A
   WinMove, %Title%, , ScreenWidth / 2, 0, ScreenWidth / 2, ScreenHeight
 }
