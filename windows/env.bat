@@ -1,7 +1,9 @@
-:: Run regedit and go to HKEY_CURRENT_USER\Software\Microsoft\Command Processor
+:: Run regedit and go to HKEY_LOCAL_MACHINE\Software\Microsoft\Command Processor
 :: Add String Value entry with the name AutoRun and the full path of your .bat/.cmd file.
-:: For example, %USERPROFILE%\env.bat
+:: For example, C:\dev\dotfiles\windows\env.bat
 @echo off
+
+set dotfiles_path=%~dp0%
 
 :: Linux commands
 doskey alias=doskey $* $^^*
@@ -38,7 +40,7 @@ doskey ...   = cd ..\..\$*
 doskey ....  = cd ..\..\..\$*
 doskey ..... = cd ..\..\..\..\$*
 doskey ~=cd %homepath%
-doskey cd=%homepath%\dotfiles\windows\cdtilde.bat $*
+::doskey cd=%dotfiles_path%\cdtilde.bat $*
 
 doskey doc = cd %homepath%\Documents
 doskey dev = cd %homepath%\dev
@@ -87,8 +89,12 @@ doskey e=exit
 doskey em=emacs -nw $*
 doskey vi=vim $*
 
-:: cl command
-doskey vcvars=call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x64
+:: cl commands
+:: "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x64
+:: "C:\Program Files (x86)\Microsoft Visual Studio\2017\WDExpress\VC\Auxiliary\Build\vcvarsall.bat" x64
+:: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 
 :: generate with: set > post.env
-FOR /F "tokens=*" %%i in (C:\Users\Nick\dotfiles\windows\post.env) do set %%i
+FOR /F "tokens=*" %%i in (%dotfiles_path%\post.env) do set %%i
+
+cd C:\dev
