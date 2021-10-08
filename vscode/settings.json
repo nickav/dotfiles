@@ -21,7 +21,7 @@
     "editor.codeLens": false,
     "editor.renderWhitespace": "boundary",
     "editor.minimap.enabled": false,
-    "editor.fontFamily": "Inconsolata, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "Monaco, Consolas, 'Courier New', monospace",
     "editor.cursorSurroundingLines": 10,
     "workbench.colorCustomizations": {
         "statusBar.background" : "#1A1A1A",
