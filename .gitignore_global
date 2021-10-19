@@ -11,3 +11,8 @@ notes.md
 hours.md
 journal.md
 log.md
+
+*.sublime-project
+*.sublime-workspace
+
+*.patch

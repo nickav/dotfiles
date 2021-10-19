@@ -1,9 +1,9 @@
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/nick/.gitignore_global
 	autocrlf = input
 	pager = less -FXe
 	whitespace = cr-at-eol
-	hooksPath = ~/.git-hooks/
+  hooksPath = ~/.git-hooks/
 [user]
 	name = Nick Aversano
 	email = nick23hi@gmail.com
@@ -26,6 +26,7 @@
   week = diff --shortstat '@{1 week ago}'
 	log-day = log --since '1 day ago' --oneline --author nick23hi@gmail.com
 	log-week = log --since '1 week ago' --oneline --author nick23hi@gmail.com
+  logs = log --pretty=oneline
 	dc = diff --cached
 	dd = reset HEAD --
 	di = checkout --
@@ -36,22 +37,32 @@
 	master-alias = symbolic-ref refs/heads/m refs/heads/master
 	me = "!git log --author=\"$(git config user.name)\""
 	oc = checkout
-  pub = publish
 	review = remote update -p
 	s = status
 	st = status
+  sync = "!git stash && git pull && git stash pop"
+  pub = "!git stash && git checkout master && git pull && git checkout - && git rebase master && git checkout master && git merge - && git push && git checkout -"
 	undo = reset --soft HEAD^
 	unstage = reset HEAD --
 	untrack = git rm --cached
 	up = "!git remote update -p; git merge --ff-only @{u}"
 	us = reset HEAD --
   code = "!git diff $(git rev-list --max-parents=0 HEAD)"
+  squash = merge --squash
 [color]
 	diff = auto
 [push]
 	default = simple
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	required = true
-	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Users/nick/Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/nick/.stCommitMsg
