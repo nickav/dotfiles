@@ -50,5 +50,6 @@
       { "key": "setting.command_mode", "operand": false },
       { "key": "setting.is_widget", "operand": false }
     ]
-  }
+  },
+  {"keys": ["ctrl+shift+o"], "command": "prompt_open_folder" },
 ]
