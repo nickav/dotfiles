@@ -75,6 +75,11 @@ LAlt & LButton::Send {MButton}
 #!l::LeftSplitActiveWindow()
 ^`::MoveActiveWindowToNextMonitor()
 
+^#!Left::TopLeftSplitActiveWindow()
+^#!Right::TopRightSplitActiveWindow()
+^#!Up::BottomLeftSplitActiveWindow()
+^#!Down::BottomRightSplitActiveWindow()
+
 ; media keys
 ; alt+fn
 !F7::Send {Media_Prev}
@@ -352,6 +357,54 @@ RightSplitActiveWindow() {
   WinRestore, ahk_id %activeWin%
   WinGetTitle, Title, A
   WinMove, %Title%, , ScreenWidth / 2, 0, ScreenWidth / 2, ScreenHeight
+}
+
+TopLeftSplitActiveWindow() {
+  WinGet activeWin, ID, A
+  ActiveMonitor := GetMonitorIndexFromWindow(activeWin)
+  SysGet, WA_, MonitorWorkArea, %ActiveMonitor%
+
+  ScreenWidth := WA_Right - WA_Left
+  ScreenHeight := WA_Bottom - WA_Top
+  WinRestore, ahk_id %activeWin%
+  WinGetTitle, Title, A
+  WinMove, %Title%, , 0, 0, ScreenWidth / 2, ScreenHeight / 2
+}
+
+TopRightSplitActiveWindow() {
+  WinGet activeWin, ID, A
+  ActiveMonitor := GetMonitorIndexFromWindow(activeWin)
+  SysGet, WA_, MonitorWorkArea, %ActiveMonitor%
+
+  ScreenWidth := WA_Right - WA_Left
+  ScreenHeight := WA_Bottom - WA_Top
+  WinRestore, ahk_id %activeWin%
+  WinGetTitle, Title, A
+  WinMove, %Title%, , ScreenWidth / 2, 0, ScreenWidth / 2, ScreenHeight / 2
+}
+
+BottomLeftSplitActiveWindow() {
+  WinGet activeWin, ID, A
+  ActiveMonitor := GetMonitorIndexFromWindow(activeWin)
+  SysGet, WA_, MonitorWorkArea, %ActiveMonitor%
+
+  ScreenWidth := WA_Right - WA_Left
+  ScreenHeight := WA_Bottom - WA_Top
+  WinRestore, ahk_id %activeWin%
+  WinGetTitle, Title, A
+  WinMove, %Title%, , 0, ScreenHeight / 2, ScreenWidth / 2, ScreenHeight / 2
+}
+
+BottomRightSplitActiveWindow() {
+  WinGet activeWin, ID, A
+  ActiveMonitor := GetMonitorIndexFromWindow(activeWin)
+  SysGet, WA_, MonitorWorkArea, %ActiveMonitor%
+
+  ScreenWidth := WA_Right - WA_Left
+  ScreenHeight := WA_Bottom - WA_Top
+  WinRestore, ahk_id %activeWin%
+  WinGetTitle, Title, A
+  WinMove, %Title%, , ScreenWidth / 2, ScreenHeight / 2, ScreenWidth / 2, ScreenHeight / 2
 }
 
 ; NOTE(nick): untested
