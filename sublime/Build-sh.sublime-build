@@ -1,0 +1,4 @@
+{
+  "cmd": ["bash", "$folder/build.sh"],
+  "keyfiles": ["build.sh"]
+}
