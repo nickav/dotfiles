@@ -62,3 +62,5 @@ function gsh { git stash $Args }
 function gsp { git stash pop $Args }
 
 function open { explorer.exe $Args }
+
+function touch { New-Item -ItemType file $Args }
