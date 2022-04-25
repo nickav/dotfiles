@@ -85,6 +85,10 @@ contexts:
   unique-variables:
     - match: \bthis\b
       scope: variable.language.c++
+    - match: \bit\b
+      scope: variable.language.c++
+    - match: \bself\b
+      scope: variable.language.c++
     # common C++ instance var naming idiom -- fMemberName
     - match: '\b(f|m)[[:upper:]]\w*\b'
       scope: variable.other.readwrite.member.c++
@@ -158,6 +162,8 @@ contexts:
           (?:(?:l{1,2}|L{1,2})[uU]?|[uU](?:l{0,2}|L{0,2})|(?:i[fl]?|h|min|[mun]?s|_\w*))?)\b
         )
         (?!\.) # Number must not be followed by a decimal point
+      scope: constant.numeric.c++
+    - match: '\b(null)\b'
       scope: constant.numeric.c++
 
   identifiers:
