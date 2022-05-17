@@ -1,6 +1,5 @@
 // Place your settings in this file to overwrite the default settings
 {
-    "window.zoomLevel": 0,
     "files.eol": "\n",
     "files.exclude": {
         "**/.git": true,
@@ -140,5 +139,8 @@
     "[javascriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "debug.console.fontSize": 14
+    "debug.console.fontSize": 14,
+    "explorer.confirmDragAndDrop": false,
+    "workbench.startupEditor": "none",
+    "security.workspace.trust.untrustedFiles": "open"
 }

@@ -1,5 +1,6 @@
 [
   { "keys": ["ctrl+p"], "command": "show_overlay", "args": {"overlay": "goto", "show_files": true} },
+
   { "keys": ["ctrl+tab"], "command": "next_view" },
   { "keys": ["ctrl+shift+tab"], "command": "prev_view" },
   {
@@ -9,6 +10,7 @@
       { "key": "setting.is_widget", "operand": false }
     ]
   },
+  
   {
     "keys": ["t", "p"], "command": "prev_view",
     "context": [
@@ -16,6 +18,7 @@
       { "key": "setting.is_widget", "operand": false }
     ]
   },
+
   {
     "keys": ["ctrl+e"],
     "command": "scroll_lines",
@@ -26,14 +29,27 @@
     "command": "scroll_lines",
     "args": {"amount": 10.0 }
   },
+
   {
-    "keys": ["shift+f"],
-    "command": "js_prettier",
-    "context": [
-      { "key": "setting.command_mode", "operand": true },
-      { "key": "setting.is_widget", "operand": false }
-    ]
+    "keys": ["alt+s"],
+    "command": "save",
   },
+
+  {
+    "keys": ["ctrl+alt+p"],
+    "command": "prompt_select_workspace",
+  },
+  
+  { "keys": ["ctrl+shift+d"], "command": "goto_definition", },
+  { "keys": ["alt+d"],        "command": "goto_definition" },
+
+  { "keys": ["alt+w"], "command": "close_file" },
+
+  { "keys": ["f5"], "command": "build" },
+  { "keys": ["shift+f5"], "command": "cancel_build" },
+
+  { "keys": ["alt+b"], "command": "build" },
+
   {
     "keys": ["escape"],
     "command": "exit_insert_mode",
@@ -43,5 +59,9 @@
       { "key": "setting.is_widget", "operand": false }
     ]
   },
+
   {"keys": ["ctrl+shift+o"], "command": "prompt_open_folder" },
+
+  { "keys": ["ctrl+alt+u"], "command": "open_dir", "args": {"dir": "$packages/User"} },
 ]
+

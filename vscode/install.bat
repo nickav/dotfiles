@@ -1,5 +1,7 @@
 @echo off
 
+if not "%1"=="am_admin" (powershell start -verb runas '%0' am_admin & exit /b)
+
 set cwd=%~dp0%
 
 pushd "%APPDATA%\Code\User\"
