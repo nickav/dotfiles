@@ -1,0 +1,14 @@
+{
+  "windows": {
+    "cmd": ["cmd", "/k", "$file"],
+    "selector": "source.batch",
+  },
+  "osx": {
+    "cmd": ["bash", "$file"],
+    "selector": "source.shell",
+  },
+  "linux": {
+    "cmd": ["bash", "$file"],
+    "selector": "source.shell",
+  },
+}

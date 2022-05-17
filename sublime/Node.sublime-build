@@ -1,3 +1,17 @@
 {
-  "shell_cmd": ["node", "$file"],
+  "windows": {
+    "cmd": ["C:/Program Files/nodejs/node.exe", "$file"],
+    "selector": "source.js",
+    "file_regex": "^(.*):(\\d+)",
+  },
+  "osx": {
+    "shell_cmd": ["node", "$file"],
+    "selector": "source.js",
+    "file_regex": "^(.*):(\\d+)",
+  },
+  "linux": {
+    "shell_cmd": ["node", "$file"],
+    "selector": "source.js",
+    "file_regex": "^(.*):(\\d+)",
+  },
 }

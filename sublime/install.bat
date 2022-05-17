@@ -12,8 +12,9 @@ pushd "%APPDATA%\Sublime Text\Packages\User\"
     C++11.sublime-syntax
     Default.sublime-keymap
     Default.sublime-mousemap
-    Node.sublime-build
     Preferences.sublime-settings
+    Node.sublime-build
+    Shell.sublime-build
   ) do (
     if exist %%x del %%x
     mklink /H %%x "%cwd%%%x"
