@@ -43,7 +43,10 @@ ExitFunc(ExitReason, ExitCode) {
 }
 
 ; reload this script
-^!r::Reload
+^!r::
+  Reload
+  MsgBox "Reloaded!"
+return
 
 ; permanantly disable capslock, make it act like control
 SetCapsLockState, AlwaysOff
@@ -74,6 +77,7 @@ LAlt & LButton::Send {MButton}
 #!Right::RightSplitActiveWindow()
 #!l::LeftSplitActiveWindow()
 ^`::MoveActiveWindowToNextMonitor()
+#!m::MoveActiveWindowToNextMonitor()
 
 ^#!Left::TopLeftSplitActiveWindow()
 ^#!Right::TopRightSplitActiveWindow()
@@ -319,7 +323,7 @@ FullActiveWindow() {
   ScreenWidth := WA_Right - WA_Left
   ScreenHeight := WA_Bottom - WA_Top
   WinGetTitle, Title, A
-  WinMove, %Title%, , 0, 0, ScreenWidth, ScreenHeight
+  WinMove, %Title%, , WA_Left, WA_Top, ScreenWidth, ScreenHeight
   WinMaximize, ahk_id %activeWin%
 }
 
@@ -332,7 +336,7 @@ CenterActiveWindow() {
   ScreenHeight := WA_Bottom - WA_Top
 
   WinGetActiveStats, Title, Width, Height, X, Y
-  WinMove, %Title%, , ((ScreenWidth - Width) / 2), ((ScreenHeight - Height) / 2), Width, Height
+  WinMove, %Title%, , WA_Left + ((ScreenWidth - Width) / 2), WA_Top + ((ScreenHeight - Height) / 2), Width, Height
 }
 
 LeftSplitActiveWindow() {
@@ -344,7 +348,7 @@ LeftSplitActiveWindow() {
   ScreenHeight := WA_Bottom - WA_Top
   WinRestore, ahk_id %activeWin%
   WinGetTitle, Title, A
-  WinMove, %Title%, , 0, 0, ScreenWidth / 2, ScreenHeight
+  WinMove, %Title%, , WA_Left, WA_Top, ScreenWidth / 2, ScreenHeight
 }
 
 RightSplitActiveWindow() {
@@ -356,7 +360,7 @@ RightSplitActiveWindow() {
   ScreenHeight := WA_Bottom - WA_Top
   WinRestore, ahk_id %activeWin%
   WinGetTitle, Title, A
-  WinMove, %Title%, , ScreenWidth / 2, 0, ScreenWidth / 2, ScreenHeight
+  WinMove, %Title%, , WA_Left + ScreenWidth / 2, WA_Top, ScreenWidth / 2, ScreenHeight
 }
 
 TopLeftSplitActiveWindow() {
@@ -368,7 +372,7 @@ TopLeftSplitActiveWindow() {
   ScreenHeight := WA_Bottom - WA_Top
   WinRestore, ahk_id %activeWin%
   WinGetTitle, Title, A
-  WinMove, %Title%, , 0, 0, ScreenWidth / 2, ScreenHeight / 2
+  WinMove, %Title%, , WA_Left, WA_Top, ScreenWidth / 2, ScreenHeight / 2
 }
 
 TopRightSplitActiveWindow() {
@@ -380,7 +384,7 @@ TopRightSplitActiveWindow() {
   ScreenHeight := WA_Bottom - WA_Top
   WinRestore, ahk_id %activeWin%
   WinGetTitle, Title, A
-  WinMove, %Title%, , ScreenWidth / 2, 0, ScreenWidth / 2, ScreenHeight / 2
+  WinMove, %Title%, , WA_Left + ScreenWidth / 2, WA_Top, ScreenWidth / 2, ScreenHeight / 2
 }
 
 BottomLeftSplitActiveWindow() {
@@ -392,7 +396,7 @@ BottomLeftSplitActiveWindow() {
   ScreenHeight := WA_Bottom - WA_Top
   WinRestore, ahk_id %activeWin%
   WinGetTitle, Title, A
-  WinMove, %Title%, , 0, ScreenHeight / 2, ScreenWidth / 2, ScreenHeight / 2
+  WinMove, %Title%, , WA_Left, WA_Top + ScreenHeight / 2, ScreenWidth / 2, ScreenHeight / 2
 }
 
 BottomRightSplitActiveWindow() {
@@ -404,31 +408,36 @@ BottomRightSplitActiveWindow() {
   ScreenHeight := WA_Bottom - WA_Top
   WinRestore, ahk_id %activeWin%
   WinGetTitle, Title, A
-  WinMove, %Title%, , ScreenWidth / 2, ScreenHeight / 2, ScreenWidth / 2, ScreenHeight / 2
+  WinMove, %Title%, , WA_Left + ScreenWidth / 2, WA_Top + ScreenHeight / 2, ScreenWidth / 2, ScreenHeight / 2
 }
 
 ; NOTE(nick): untested
 MoveActiveWindowToNextMonitor() {
   WinGet activeWin, ID, A
-  ActiveMonitorIndex := GetMonitorIndexFromWindow(activeWin)
+  ActiveMonitor := GetMonitorIndexFromWindow(activeWin)
   SysGet, MonitorCount, MonitorCount
 
-  NextMonitorIndex = ActiveMonitorIndex + 1
-	if (NextMonitorIndex >= MonitorCount) {
-		NextMonitorIndex = 1
+  NextMonitor := ActiveMonitor + 1
+	if (NextMonitor > MonitorCount) {
+		NextMonitor = 1
   }
 
 	; only one monitor, nothing to do
-	if (NextMonitorIndex == ActiveMonitorIndex) {
+	if (NextMonitor == ActiveMonitor) {
     return
   }
 
-  SysGet, WA_, MonitorWorkArea, %ActiveMonitor%
+  SysGet, Old_WA_, MonitorWorkArea, %ActiveMonitor%
+  PrevScreenWidth := Old_WA_Right - Old_WA_Left
+  PrevScreenHeight := Old_WA_Bottom - Old_WA_Top
+
+
+  SysGet, WA_, MonitorWorkArea, %NextMonitor%
   ScreenWidth := WA_Right - WA_Left
   ScreenHeight := WA_Bottom - WA_Top
+
   WinGetTitle, Title, A
-  WinMove, %Title%, , 0, 0, ScreenWidth, ScreenHeight
-  WinMaximize, ahk_id %activeWin%
+  WinMove, %Title%, , WA_Left, WA_Top, ScreenWidth, ScreenHeight
 }
 
 /**
@@ -443,7 +452,8 @@ GetMonitorIndexFromWindow(windowHandle) {
     VarSetCapacity(monitorInfo, 40)
     NumPut(40, monitorInfo)
     if (monitorHandle := DllCall("MonitorFromWindow", "uint", windowHandle, "uint", 0x2))
-        && DllCall("GetMonitorInfo", "uint", monitorHandle, "uint", &monitorInfo) {
+        && DllCall("GetMonitorInfo", "uint", monitorHandle, "uint", &monitorInfo)
+    {
         monitorLeft   := NumGet(monitorInfo,  4, "Int")
         monitorTop    := NumGet(monitorInfo,  8, "Int")
         monitorRight  := NumGet(monitorInfo, 12, "Int")
@@ -453,7 +463,9 @@ GetMonitorIndexFromWindow(windowHandle) {
         workRight     := NumGet(monitorInfo, 28, "Int")
         workBottom    := NumGet(monitorInfo, 32, "Int")
         isPrimary     := NumGet(monitorInfo, 36, "Int") & 1
+
         SysGet, monitorCount, MonitorCount
+
         Loop, %monitorCount% {
             SysGet, tempMon, Monitor, %A_Index%
             ; Compare location to determine the monitor index.
@@ -464,7 +476,7 @@ GetMonitorIndexFromWindow(windowHandle) {
             }
         }
     }
-    return %monitorIndex%
+    return monitorIndex
 }
 
 GetFocusedControlClassNN() {

@@ -64,3 +64,5 @@ function gsp { git stash pop $Args }
 function open { explorer.exe $Args }
 
 function touch { New-Item -ItemType file $Args }
+
+function ys { yarn start }

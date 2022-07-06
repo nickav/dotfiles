@@ -32,18 +32,20 @@
 		"node_modules",
 		".github",
 		".git",
-		"bin"
+		"bin",
+		"build",
 	],
 	"ignored_packages":
 	[
 	],
 	"scroll_past_end": true,
 	"scroll_speed": 2.0,
-	"tab_size": 2,
+	"tab_size": 4,
 	"theme": "Adaptive.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"vintage_ctrl_keys": true,
 	"vintage_start_in_command_mode": true,
 	"relative_line_numbers": true,
-	"font_size": 12,
+	"font_size": 11,
+	"highlight_line": true,
 }

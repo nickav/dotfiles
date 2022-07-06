@@ -42,6 +42,7 @@
   
   { "keys": ["ctrl+shift+d"], "command": "goto_definition", },
   { "keys": ["alt+d"],        "command": "goto_definition" },
+  { "keys": ["alt+."],        "command": "goto_definition" },
 
   { "keys": ["alt+w"], "command": "close_file" },
 
