@@ -46,6 +46,6 @@
 	"vintage_ctrl_keys": true,
 	"vintage_start_in_command_mode": true,
 	"relative_line_numbers": true,
-	"font_size": 11,
+	"font_size": 12,
 	"highlight_line": true,
 }

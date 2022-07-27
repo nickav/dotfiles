@@ -7,11 +7,13 @@ set cwd=%~dp0%
 pushd "%APPDATA%\Sublime Text\Packages\User\"
 
   for %%x in (
+    Adaptive.sublime-theme
     Build.sublime-build 
     C++11.sublime-settings
     C++11.sublime-syntax
     Default.sublime-keymap
     Default.sublime-mousemap
+    Monokai.sublime-color-scheme
     Preferences.sublime-settings
     Node.sublime-build
     Shell.sublime-build
