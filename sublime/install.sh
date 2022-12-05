@@ -2,7 +2,7 @@ cwd="$(cd "$(dirname "$0")" && pwd -P)"
 
 echo $cwd
 
-pushd ~/Library/Application\ Support/Sublime\ Text/Packages/User
+pushd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User
 
   files="
     Adaptive.sublime-theme
@@ -19,7 +19,7 @@ pushd ~/Library/Application\ Support/Sublime\ Text/Packages/User
 
   for x in $files;
   do
-    rm $x
+    rm -f $x
     ln -s $cwd/$x $x
   done
 
