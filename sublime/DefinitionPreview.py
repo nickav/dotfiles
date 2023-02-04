@@ -13,8 +13,9 @@ def debug(*args):
 
 #
 # TODO(nick):
-# - bold current word within function definition
-# - normalize function defintions (and de-duplicate)
+# - de-duplicate function definitions (e.g. C forward declarations)
+# - publish the plugin?
+# - user config?
 #
 
 #
@@ -25,6 +26,9 @@ def debug(*args):
 # - fix expand_to_symbol
 # - only show function where cursor is inside parens foo(|)
 # - filter out the actual function definition (if over it)
+# - bold current word within function definition
+# - fix cursor on right paren choosing wrong (outer) function: `foo(fun_func(a));`
+# - normalize function defintions
 #
 
 def get_filtered_symbol_locations(window, view, word, cursor):
@@ -64,6 +68,33 @@ def expand_scope_backwards_until(view, point, selector):
 
     return sublime.Region(start_index, point.b)
 
+def find_matching_brace(text, start_index, braces):
+    open_brace = braces[0]
+    close_brace = braces[1]
+
+    start_char = text[start_index]
+    match_forward = start_char == open_brace
+    match_backward = start_char == close_brace
+
+    if not match_forward and not match_backward:
+        return -1
+
+    d = 1 if match_forward else -1
+    index = start_index + d
+    count = 1
+
+    while count > 0 and index > 0 and index < len(text):
+        it = text[index]
+
+        if it == open_brace:
+            count += d
+
+        if it == close_brace:
+            count -= d
+
+        index += d
+
+    return index if count == 0 else -1
 
 def find_nearest_function_parens(text, offset):
     start_index = offset
@@ -173,10 +204,64 @@ def view_from_file(filename, fallback_syntax):
 def loc_link(loc, content):
     return ("<a href='%s:%d:%d' style='color: inherit; text-decoration: none'>" % (loc.path, loc.row, loc.col)) + content + "</a>"
 
+def highlight_function_argument(html, arg_index):
+    if arg_index < 0:
+        return html
+
+    start_index = html.find("(")
+    if start_index >= 0:
+        end_index = start_index
+        while arg_index >= 0:
+            start_index = end_index
+            end_index = html.find(",", end_index+1)
+            if end_index < 0:
+                end_index = html.find(")", start_index+1)
+                if end_index < 0:
+                    end_index = start_index
+
+            arg_index -= 1
+
+        if html[start_index] == ",":
+            start_index += 1
+
+        html = html[0:start_index] + "<b>" + html[start_index:end_index] + "</b>" + html[end_index:]
+
+    return html
+
+def find_argument_index(text, index):
+    si, ei = find_nearest_function_parens(text, index)
+
+    if si == ei:
+        return -1
+
+    return text[0:index].count(",")
+
+def normalize_whitespace(html, go_full_bore = False):
+    html = html.replace("<br>", " ")
+    html = html.replace("&nbsp;", " ")
+    html = html.strip(" ")
+
+    if go_full_bore:
+        html = html.replace(" ( ", "(")
+        html = html.replace(" (", "(")
+        html = html.replace(" )", ")")
+
+        if html[-1] == "{":
+            html = html[0:-1]
+
+    html = html.strip(" ")
+    return html
+
 # NOTE(nick): look in the source location for the word definition
-def build_popup_preview_html(view, word, locs):
+def build_popup_preview_html(view, locs, cursor = None, scope = None):
     window = sublime.active_window()
     result = ""
+
+    relative_cursor = 0
+    arg_index = -1
+    if cursor is not None and scope is not None:
+        relative_cursor = cursor.a - scope.a
+        arg_index = find_argument_index(view.substr(scope), relative_cursor)
 
     for index, loc in enumerate(locs):
         view = view_from_file(loc.path, view.syntax())
@@ -185,17 +270,17 @@ def build_popup_preview_html(view, word, locs):
             p1 = view.text_point(loc.row + 0, 0)
 
             region = sublime.Region(p0, p1)
-            scope = expand_to_symbol(view, region)
+            symbol_region = expand_to_symbol(view, region)
 
-            result += loc_link(loc, view.export_to_html(scope, minihtml=True))
+            html = view.export_to_html(symbol_region, minihtml=True)
+
+            if loc.kind[0] == sublime.KIND_FUNCTION[0]:
+                html = highlight_function_argument(normalize_whitespace(html, True), arg_index)
+
+            result += loc_link(loc, html)
 
             if index < len(locs) - 1:
                 result += "<br />"
-
-    # NOTE(nick): normalize whitespace
-    #result = result.replace("<br>", " ")
-    #result = result.replace("&nbsp;&nbsp;", "")
-    #debug("html", result)
 
     result = "<div style='font-size: 0.9rem; padding: 0.25rem;'>" + result + "</div>"
     return result
@@ -242,21 +327,24 @@ class DefinitionPreview(sublime_plugin.EventListener):
         debug("[do_update] cursor:", cursor_range.a, "scope:", scope_name)
 
         # NOTE(nick): skip function declarations
-        if "meta.function." in scope_name and "meta.function-call" not in scope_name:
-            self.maybe_hide_popup()
-            return
-
-        if "meta.struct." in scope_name:
+        if "entity.name.function." in scope_name:
             self.maybe_hide_popup()
             return
 
         # NOTE(nick): skip structs
+        if "meta.struct." in scope_name:
+            self.maybe_hide_popup()
+            return
+
+        expanded = None
+        scope = None
 
         if "meta.function-call" in scope_name:
             scope_name = find_latest_scope_sub_name(view, scope_name, "meta.function-call")
             expanded = view.expand_to_scope(cursor_range.a, scope_name)
 
             # NOTE(nick): limit scope to only the start of the function
+            scope = sublime.Region(expanded.a, expanded.b)
             expanded.b = expanded.a
 
             is_nested = scope_name.count("meta.function-call") > 1
@@ -270,8 +358,21 @@ class DefinitionPreview(sublime_plugin.EventListener):
                 dummy = view.expand_to_scope(dummy.a, parent_scope)
 
                 offset = cursor_range.a - dummy.a
+                text   = view.substr(dummy)
 
-                start_index, end_index = find_nearest_function_parens(view.substr(dummy), offset)
+                start_index = -1
+                end_index = -1
+
+                if text[offset] == ')':
+                    result = find_matching_brace(text, offset, "()")
+                    if result >= 0:
+                        start_index = result
+                        end_index   = offset
+                else:
+                    start_index, end_index = find_nearest_function_parens(view.substr(dummy), offset)
+
+                inner_range = sublime.Region(dummy.a + start_index, dummy.a + end_index)
+
                 if start_index != end_index:
                     inner_range = sublime.Region(dummy.a + start_index, dummy.a + end_index)
 
@@ -280,9 +381,8 @@ class DefinitionPreview(sublime_plugin.EventListener):
 
                     if total_scope_depth == scope_depth:
                         expanded = view.expand_to_scope(inner_range.a - 1, parent_scope)
+                        scope = sublime.Region(expanded.a, expanded.b)
                         expanded.b = expanded.a
-
-                #debug("  dummy", view.substr(dummy), "\n   index:", start_index, end_index)
 
             word = get_word_at(view, expanded)
 
@@ -294,7 +394,7 @@ class DefinitionPreview(sublime_plugin.EventListener):
             self.maybe_hide_popup()
             return
 
-        popup_html = build_popup_preview_html(view, word, locs)
+        popup_html = build_popup_preview_html(view, locs, cursor_range, scope)
 
         self.popup = view.show_popup(
             popup_html,
