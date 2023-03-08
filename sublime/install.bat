@@ -13,6 +13,7 @@ pushd "%APPDATA%\Sublime Text\Packages\User\"
     C++11.sublime-syntax
     Default.sublime-keymap
     Default.sublime-mousemap
+    DefinitionPreview.py
     Monokai.sublime-color-scheme
     Preferences.sublime-settings
     Node.sublime-build
