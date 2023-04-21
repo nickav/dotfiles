@@ -12,8 +12,7 @@ doskey l=dir /w
 doskey ls=dir /w
 doskey ll=dir
 doskey la=dir
-doskey l=wsl ls --color $*
-doskey ls=wsl ls --color $*
+doskey ls=dir
 doskey ll=wsl ls -l --color $*
 doskey la=wsl ls -al --color $*
 doskey mv=move $*
@@ -98,3 +97,12 @@ doskey vi=vim $*
 FOR /F "tokens=*" %%i in (%dotfiles_path%\post.env) do set %%i
 
 cd C:\dev
+
+
+::
+:: NOTE(nick): you can create "shims" that are like symlinks that set the path variables
+:: using Chocholately's built-in program like such:
+::
+:: C:\ProgramData\chocolatey\tools\shimgen.exe --output=C:\apps\bfxr.exe --path="C:\apps\Bfxr\Bfxr.exe"
+::
+

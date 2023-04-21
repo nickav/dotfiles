@@ -1,9 +1,11 @@
 # cd C:\Users\%USERNAME%\Documents\WindowsPowerShell\ && mklink Profile.ps1 C:\dev\dotfiles\windows\Profile.ps1
 
+Set-Location C:\dev
+
 function mv { move $Args }
 function cp { copy $Args }
 function rm { del $Args }
-function which { where $Args }
+function which { Get-Command $Args }
 
 function mklink ($target, $link) {
   New-Item -Path $link -ItemType SymbolicLink -Value $target
@@ -29,6 +31,7 @@ function ga. { git add . $Args }
 function gam { git commit --amend $Args }
 function gau { git add -u  $Args }
 function gs { git status $Args }
+function gb { git branch $Args }
 
 Remove-Item alias:gc -Force
 function gc { git checkout $Args }
@@ -60,6 +63,8 @@ function gpf { git push --force-with-lease $Args }
 function gpl { git pull $Args }
 function gsh { git stash $Args }
 function gsp { git stash pop $Args }
+
+function grbm { git rebase main $Args }
 
 function open { explorer.exe $Args }
 
