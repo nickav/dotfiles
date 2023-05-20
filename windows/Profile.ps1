@@ -1,4 +1,11 @@
-# cd C:\Users\%USERNAME%\Documents\WindowsPowerShell\ && mklink Profile.ps1 C:\dev\dotfiles\windows\Profile.ps1
+#
+# NOTE(nick): you need to run this (in Power Shell admin):
+# Set-ExecutionPolicy RemoteSigned
+#
+
+$env:Path += ";C:\Program Files\nodejs;C:\Users\Nick\AppData\Roaming\npm"
+
+$env:Path += ";C:\apps"
 
 Set-Location C:\dev
 

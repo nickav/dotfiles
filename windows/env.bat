@@ -1,6 +1,6 @@
 :: Run regedit and go to HKEY_LOCAL_MACHINE\Software\Microsoft\Command Processor
 :: Add String Value entry with the name AutoRun and the full path of your .bat/.cmd file.
-:: For example, C:\dev\dotfiles\windows\env.bat
+:: For example: C:\dev\dotfiles\windows\env.bat
 @echo off
 
 set dotfiles_path=%~dp0%

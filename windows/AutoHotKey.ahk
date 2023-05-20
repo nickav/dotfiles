@@ -101,9 +101,6 @@ LAlt & LButton::Send {MButton}
 #F11::Send {Volume_Down 4}
 #F12::Send {Volume_Up 4}
 
-; global vim shortcuts
-^[::Send {Esc}
-
 ; --------------------------------------------------------------
 ; OS X system shortcuts
 ; --------------------------------------------------------------
@@ -436,8 +433,22 @@ MoveActiveWindowToNextMonitor() {
   ScreenWidth := WA_Right - WA_Left
   ScreenHeight := WA_Bottom - WA_Top
 
+  ; TODO(nick): support monitors with different resolutions
+
+  WinGetPos, PrevWin_X, PrevWin_Y, PrevWin_Width, PrevWin_Height, ahk_id %activeWin%
+
+  RelPosX := PrevWin_X - Old_WA_Left
+  RelPosY := PrevWin_Y - Old_WA_Top
+
+  Width := PrevWin_Width
+  Height := PrevWin_Height
+
   WinGetTitle, Title, A
-  WinMove, %Title%, , WA_Left, WA_Top, ScreenWidth, ScreenHeight
+  WinMove, %Title%, , WA_Left + RelPosX, WA_Top + RelPosY, Width, Height
+
+  if (Width == ScreenWidth && Height == ScreenHeight) {
+    WinMove, %Title%, , WA_Left + RelPosX, WA_Top + RelPosY, Width, Height
+  }
 }
 
 /**
