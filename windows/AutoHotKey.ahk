@@ -439,14 +439,26 @@ MoveActiveWindowToNextMonitor() {
 
   RelPosX := PrevWin_X - Old_WA_Left
   RelPosY := PrevWin_Y - Old_WA_Top
+  if (RelPosX < 0) {
+    RelPosX = 0
+  }
+  if (RelPosY < 0) {
+    RelPosY = 0
+  }
 
   Width := PrevWin_Width
   Height := PrevWin_Height
 
   WinGetTitle, Title, A
-  WinMove, %Title%, , WA_Left + RelPosX, WA_Top + RelPosY, Width, Height
 
-  if (Width == ScreenWidth && Height == ScreenHeight) {
+  if (Width >= ScreenWidth && Height >= ScreenHeight)
+  {
+    WinRestore, ahk_id %activeWin%
+    WinMove, %Title%, , WA_Left + RelPosX, WA_Top + RelPosY, Width, Height
+    WinMaximize, ahk_id %activeWin%
+  }
+  else
+  {
     WinMove, %Title%, , WA_Left + RelPosX, WA_Top + RelPosY, Width, Height
   }
 }
