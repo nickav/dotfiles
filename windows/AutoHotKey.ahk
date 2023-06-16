@@ -1,18 +1,10 @@
-; --------------------------------------------------------------
-; MacOSX keymap emulator for Windows
-; AutoHotkey Version 1.1.30.03
-; --------------------------------------------------------------
-; Install Guide:
-; Your keyboard Alt and Window key should not be switched
-; For "Spotlight" search, install a program like WOX and map it to Alt-Space
-; Optionally, install QuickLook (for Space to QuickLook in Explorer)
-
 #NoEnv
 #SingleInstance force
 #InstallKeybdHook
+#InstallMouseHook
 
 SetWorkingDir %A_ScriptDir%
-SendMode, Input
+SendMode Input
 
 ; Note:
 ; ! = ALT
@@ -41,12 +33,6 @@ OnExit("ExitFunc")
 ExitFunc(ExitReason, ExitCode) {
   DisableLockWorkstation(0)
 }
-
-; reload this script
-^!r::
-  Reload
-  MsgBox "Reloaded!"
-return
 
 ; permanantly disable capslock, make it act like control
 SetCapsLockState, AlwaysOff
@@ -113,23 +99,6 @@ LAlt & LButton::Send {MButton}
   Send {LWin down}.{LWin up}
 return
 
-; Disable start menu on left winkey
-;LWin::return
-
-; spotlight
-!Space::
-  KeyWait, Alt
-  Send {LWin}
-return
-;LWin & Space::Send !{Space} ; open keypirana
-
-; Remap Windows + Tab to Alt + Tab.
-;LWin & Tab::AltTab
-
-; switch LWin and LAlt keys!
-;LWin::LAlt
-;LAlt::LWin
-
 ; command-delete deletes whole line
 !BS::Send {LShift down}{Home}{LShift Up}{Del}
 
@@ -167,13 +136,7 @@ return
 !s::Send ^s
 !t::Send ^t
 !u::Send ^u
-!v::
-  if (WinActive("ahk_class Emacs")) {
-    Send +{Insert}
-  } else {
-    Send ^v
-  }
-return
+!v::Send ^v
 !w::Send ^w
 !x::Send ^x
 !y::Send ^y
@@ -190,7 +153,6 @@ return
 !0::Send ^0
 !=::Send ^=
 !-::Send ^-
-; #Enter::Send ^{Enter}
 
 ; special letters and numbers
 !+a::Send ^+a
