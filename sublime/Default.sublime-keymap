@@ -43,6 +43,7 @@
   { "keys": ["ctrl+shift+d"], "command": "goto_definition", },
   { "keys": ["alt+d"],        "command": "goto_definition" },
   { "keys": ["alt+."],        "command": "goto_definition" },
+  { "keys": ["ctrl+."],        "command": "goto_definition" },
 
   // goto symbol in file
   { "keys": ["ctrl+t"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
@@ -87,5 +88,13 @@
   {"keys": ["ctrl+shift+o"], "command": "prompt_open_folder" },
 
   { "keys": ["ctrl+alt+u"], "command": "open_dir", "args": {"dir": "$packages/User"} },
+
+  { "keys": ["ctrl+f1"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
+  { "keys": ["shift+f1"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
+  { "keys": ["shift+f2"], "command": "reveal_in_side_bar" },
+  { "keys": ["shift+f4"], "command": "reveal_in_side_bar" },
+
+  { "keys": ["f11"], "command": "toggle_distraction_free" },
+
 ]
 

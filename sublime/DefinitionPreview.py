@@ -305,6 +305,8 @@ class DefinitionPreview(sublime_plugin.EventListener):
 
 
     def do_update(self):
+        #return
+
         start = time.time()
 
         view = self.view
@@ -407,6 +409,8 @@ class DefinitionPreview(sublime_plugin.EventListener):
 
 
     def on_selection_modified_async(self, view):
+        #return
+        
         if self.timer:
             self.timer.cancel()
             self.timer = None

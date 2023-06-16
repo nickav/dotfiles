@@ -41,12 +41,9 @@ doskey ..... = cd ..\..\..\..\$*
 doskey ~=cd %homepath%
 ::doskey cd=%dotfiles_path%\cdtilde.bat $*
 
-doskey doc = cd %homepath%\Documents
-doskey dev = cd %homepath%\dev
-doskey des = cd %homepath%\Desktop
-doskey dow = cd %homepath%\Downloads
-doskey dot = cd %homepath%\dotfiles
-doskey dots = cd %homepath%\dotfiles
+doskey docs = cd C:\docs
+doskey dev = cd C:\dev
+doskey dots = cd C:\dotfiles
 
 :: Git shortcuts
 doskey g=git $*
@@ -96,7 +93,8 @@ doskey vi=vim $*
 :: generate with: set > post.env
 FOR /F "tokens=*" %%i in (%dotfiles_path%\post.env) do set %%i
 
-cd C:\dev
+:: NOTE(nick): this breaks things like vim and npm install
+::cd C:\dev
 
 
 ::

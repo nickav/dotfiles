@@ -78,3 +78,5 @@ function open { explorer.exe $Args }
 function touch { New-Item -ItemType file $Args }
 
 function ys { yarn start }
+
+function build { .\build.bat }
