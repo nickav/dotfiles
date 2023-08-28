@@ -41,5 +41,10 @@
             "foreground": "var(blue)",
             "font_style": "normal"
         },
+        {
+            "name": "Macro newline",
+            "scope": "source.c++ meta.preprocessor.macro.c++ punctuation.separator.continuation.c",
+            "foreground": "color(var(white3) alpha(0.35))",
+        }
     ]
 }
