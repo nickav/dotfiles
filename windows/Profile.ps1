@@ -4,8 +4,8 @@
 #
 
 $env:Path += ";C:\Program Files\nodejs;C:\Users\Nick\AppData\Roaming\npm"
-
 $env:Path += ";C:\apps"
+$env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\Llvm\bin"
 
 Set-Location C:\dev
 

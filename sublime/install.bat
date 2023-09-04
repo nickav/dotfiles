@@ -9,8 +9,10 @@ pushd "%APPDATA%\Sublime Text\Packages\User\"
   for %%x in (
     Adaptive.sublime-theme
     Build.sublime-build 
-    C++11.sublime-settings
     C++11.sublime-syntax
+    C++11.sublime-settings
+    C11.sublime-syntax
+    C11.sublime-settings
     Default.sublime-keymap
     Default.sublime-mousemap
     DefinitionPreview.py
