@@ -95,7 +95,7 @@ LAlt & LButton::Send {MButton}
 
 ; emoji picker
 ^!Space::
-  KeyWait, LWin
+  KeyWait LWin
   Send {LWin down}.{LWin up}
 return
 
@@ -195,18 +195,15 @@ return
 
 ; CMD + Left/Right
 !Left::
-KeyWait ^
 Send {Home}
 return
 
 !Right::
-KeyWait ^
 Send {End}
 return
 
 ; CMD + Shift + Left/Right
 !+Left::
-KeyWait ^
 Send {LControl up}
 Send +{Home}
 Send {LControl down}
@@ -214,7 +211,6 @@ Send {LControl up}
 return
 
 !+Right::
-KeyWait ^
 Send {LControl up}
 Send +{End}
 Send {LControl down}

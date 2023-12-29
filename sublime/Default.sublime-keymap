@@ -40,7 +40,6 @@
     "command": "prompt_select_workspace",
   },
   
-  { "keys": ["ctrl+shift+d"], "command": "goto_definition", },
   { "keys": ["alt+d"],        "command": "goto_definition" },
   { "keys": ["alt+."],        "command": "goto_definition" },
   { "keys": ["ctrl+."],        "command": "goto_definition" },
@@ -96,5 +95,14 @@
 
   { "keys": ["f11"], "command": "toggle_distraction_free" },
 
+  // { "keys": ["ctrl+d"], "command": "find_under_expand" },
+  { "keys": ["ctrl+shift+d"], "command": "find_under_expand", },
+
+  { "keys": ["ctrl+["], "command": "jump_back" },
+  { "keys": ["ctrl+]"], "command": "jump_forward" },
+  { "keys": ["super+["], "command": "jump_back" },
+  { "keys": ["super+]"], "command": "jump_forward" },
+  { "keys": ["alt+["], "command": "jump_back" },
+  { "keys": ["alt+]"], "command": "jump_forward" },
 ]
 

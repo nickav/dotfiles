@@ -133,6 +133,11 @@ def find_nearest_function_parens(text, offset):
 
     return start_index, end_index
 
+def expand_to_struct(view, scope):
+    if "meta.struct.c" in view.scope_name(scope.a):
+        scope = expand_to_scope(view, scope, "meta.struct.c")
+    return scope
+
 def expand_to_symbol(view, scope):
     if "meta.struct.c" in view.scope_name(scope.a):
         scope = expand_to_scope(view, scope, "meta.struct.c")
@@ -228,6 +233,7 @@ def highlight_function_argument(html, arg_index):
 
     return html
 
+# @Incomplete: this doesn't support nested function calls / commas
 def find_argument_index(text, index):
     si, ei = find_nearest_function_parens(text, index)
 
@@ -263,14 +269,26 @@ def build_popup_preview_html(view, locs, cursor = None, scope = None):
         relative_cursor = cursor.a - scope.a
         arg_index = find_argument_index(view.substr(scope), relative_cursor)
 
+    shown_symbols = {}
+
     for index, loc in enumerate(locs):
+        start = time.time()
         view = view_from_file(loc.path, view.syntax())
+        end = time.time()
+        debug("  view_from_file", (end - start) * 1000, "ms", loc.path)
         if view:
             p0 = view.text_point(loc.row - 1, 0)
             p1 = view.text_point(loc.row + 0, 0)
 
             region = sublime.Region(p0, p1)
-            symbol_region = expand_to_symbol(view, region)
+            symbol_region = region
+
+            # @Incomplete: fix this??
+            #symbol_region = expand_to_symbol(view, region)
+            symbol_region = expand_to_struct(view, region)
+
+            #symbol_region = normalize_symbol(view, symbol_region)
+            #print("symbol_region=", view.substr(symbol_region), "||")
 
             html = view.export_to_html(symbol_region, minihtml=True)
 
