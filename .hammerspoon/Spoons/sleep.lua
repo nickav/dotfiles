@@ -8,3 +8,4 @@ end
 
 -- sleep command
 remap({'alt', 'cmd'}, 'f15', runCommand("pmset sleepnow"))
+remap({'alt', 'cmd'}, 'f12', runCommand("pmset sleepnow"))

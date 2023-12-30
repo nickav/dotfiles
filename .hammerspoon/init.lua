@@ -1,4 +1,5 @@
 require 'Spoons/remap_control_hjkl'
+require 'Spoons/remap_control_fn'
 require 'Spoons/map_vim_escape'
 require 'Spoons/media'
 require 'Spoons/sleep'

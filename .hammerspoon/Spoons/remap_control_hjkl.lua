@@ -4,13 +4,14 @@ local function pressFn(mods, key)
 		mods = {}
 	end
 
-	return function() hs.eventtap.keyStroke(mods, key, 1000) end
+	return function()
+		hs.eventtap.keyStroke(mods, key, 200)
+	end
 end
 
 local function remap(mods, key, pressFn)
 	hs.hotkey.bind(mods, key, pressFn, nil, pressFn)
 end
-
 
 remap({'ctrl'}, 'h', pressFn('left'))
 remap({'ctrl'}, 'j', pressFn('down'))

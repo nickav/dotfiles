@@ -2,7 +2,16 @@ cwd="$(cd "$(dirname "$0")" && pwd -P)"
 
 echo $cwd
 
-pushd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User
+# NOTE(nick): strategy 2 - symlink entire directory
+rm ~/Library/Application\ Support/Sublime\ Text/Packages/User
+ln -s $cwd ~/Library/Application Support/Sublime\ Text/Packages/User
+
+
+exit
+
+# NOTE(nick): strategy 1 - link individual files
+
+pushd ~/Library/Application\ Support/Sublime\ Text/Packages/User
 
   files="
     Adaptive.sublime-theme
@@ -21,7 +30,8 @@ pushd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User
   for x in $files;
   do
     rm -f $x
-    ln -s $cwd/$x $x
+    #ln -s $cwd/$x $x
+    cp -f $cwd/$x $x
   done
 
 popd

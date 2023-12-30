@@ -104,5 +104,16 @@
   { "keys": ["super+]"], "command": "jump_forward" },
   { "keys": ["alt+["], "command": "jump_back" },
   { "keys": ["alt+]"], "command": "jump_forward" },
+
+  { "keys": ["ctrl+/"], "command": "toggle_comment", "args": { "block": false } },
+
+  { "keys": ["super+shift+1"], "command": "set_layout", "args":
+    { "cells": [[0, 0, 1, 1]], "cols": [0.0, 1.0], "rows": [0.0, 1.0] }
+  },
+
+  { "keys": ["super+shift+2"], "command": "set_layout", "args":
+    { "cells": [[0, 0, 1, 1], [1, 0, 2, 1]], "cols": [0.0, 0.5, 1.0], "rows": [0.0, 1.0] }
+  },
+
 ]
 

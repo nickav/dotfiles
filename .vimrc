@@ -102,10 +102,10 @@ autocmd FileType javascript,javascript.jsx,json,scss,css nmap <S-F> :Neoformat p
 " typescript
 autocmd BufRead,BufNewFile *.ts setlocal filetype=javascript
 " graphql
-Plug 'jparise/vim-graphql'
+"Plug 'jparise/vim-graphql'
 
 " typescript
-Plug 'leafgarland/typescript-vim'
+"Plug 'leafgarland/typescript-vim'
 
 "Plug 'Quramy/tsuquyomi'
 "let g:tsuquyomi_completion_detail = 1
@@ -126,8 +126,8 @@ Plug 'shime/vim-livedown'
 " snippets
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
-imap <C-]> <Plug>snipMateNextOrTrigger
+"Plug 'garbas/vim-snipmate'
+"imap <C-]> <Plug>snipMateNextOrTrigger
 
 " Initialize plugin system
 call plug#end()

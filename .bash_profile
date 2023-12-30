@@ -34,8 +34,8 @@ fi;
 
 export PATH=/usr/local/Cellar:$PATH
 
-if [ -f ~/.cargo/env ]; then
-	source ~/.cargo/env
-fi
-eval "$(direnv hook bash)"
-eval "$(pyenv init -)"
+#if [ -f ~/.cargo/env ]; then
+#	source ~/.cargo/env
+#fi
+#eval "$(direnv hook bash)"
+#eval "$(pyenv init -)"

@@ -37,6 +37,7 @@
 	],
 	"ignored_packages":
 	[
+		"Package Control",
 	],
 	"scroll_past_end": true,
 	"scroll_speed": 2.0,
@@ -48,6 +49,6 @@
 	"relative_line_numbers": true,
 	"font_size": 11,
 	"highlight_line": true,
-	"ui_scale": 1.125,
+	"ui_scale": 1.0,
 	"index_files": true,
 }
