@@ -40,9 +40,10 @@
     "command": "prompt_select_workspace",
   },
   
-  { "keys": ["alt+d"],        "command": "goto_definition" },
-  { "keys": ["alt+."],        "command": "goto_definition" },
-  { "keys": ["ctrl+."],        "command": "goto_definition" },
+  { "keys": ["alt+d"],   "command": "goto_definition" },
+  { "keys": ["alt+."],   "command": "goto_definition" },
+  { "keys": ["ctrl+."],  "command": "goto_definition" },
+  { "keys": ["super+."], "command": "goto_definition" },
 
   // goto symbol in file
   { "keys": ["ctrl+t"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },

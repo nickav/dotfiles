@@ -78,3 +78,15 @@ alias dt="cd ~/Desktop"
 alias dev="cd ~/dev"
 alias dot="cd ~/dotfiles"
 alias dots="cd ~/dotfiles"
+
+alias sub="subl"
+
+alias mroe='more'
+
+alias pdk="open /Applications/Plato\ Development\ Kit.app"
+
+alias m='make'
+alias mk='make'
+alias mb='make build'
+alias mr='make run'
+alias ma='make all'

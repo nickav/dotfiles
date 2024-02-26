@@ -49,6 +49,7 @@
 	us = reset HEAD --
   code = "!git diff $(git rev-list --max-parents=0 HEAD)"
   squash = merge --squash
+  squash-all = "!git reset --soft $(git merge-base master HEAD)"
 [color]
 	diff = auto
 [push]
@@ -66,3 +67,5 @@
 	trustExitCode = true
 [commit]
 	template = /Users/nick/.stCommitMsg
+[url "git@github.com:plato-app"]
+	insteadOf = https://github.com/plato-app
