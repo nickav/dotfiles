@@ -116,5 +116,8 @@
     { "cells": [[0, 0, 1, 1], [1, 0, 2, 1]], "cols": [0.0, 0.5, 1.0], "rows": [0.0, 1.0] }
   },
 
+  { "keys": ["ctrl+super+up"], "command": "select_lines", "args": {"forward": false} },
+  { "keys": ["ctrl+super+down"], "command": "select_lines", "args": {"forward": true} },
+
 ]
 
