@@ -49,8 +49,8 @@ variables:
   custom_types_char: '\b(char8|char16|char32)\b'
   custom_types_other: '\bFILE|va_list\b'
   custom_types_int_t: '\b(int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|intptr_t|uintptr_t|ptrdiff_t|size_t|ssize_t)\b'
-  #custom_types_pascal: '\b(?:[a-z]*)?[A-Z]+\w*\b(?!\s*\()' # Allows for namespace prefixes e.g. gbMutex
-  custom_types: '{{custom_types_int_t}}|{{custom_types_int}}|{{custom_types_float}}|{{custom_types_real}}|{{custom_types_char}}|{{custom_types_other}}'
+  custom_types_pascal: '\b[A-Z]+\w*\b(?!\s*\()'
+  custom_types: '{{custom_types_int_t}}|{{custom_types_int}}|{{custom_types_float}}|{{custom_types_real}}|{{custom_types_char}}|{{custom_types_other}}|{{custom_types_pascal}}'
 
   custom_constants_snake: '\b([A-Z_][A-Z0-9_]+)\b(?!\s*\()'
 
