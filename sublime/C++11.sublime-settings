@@ -10,4 +10,6 @@
     "translate_tabs_to_spaces": true,
     "detect_indentation": true,
     */
+
+    "show_errors_inline": true,
 }

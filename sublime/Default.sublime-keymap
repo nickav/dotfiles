@@ -119,5 +119,8 @@
   { "keys": ["ctrl+super+up"], "command": "select_lines", "args": {"forward": false} },
   { "keys": ["ctrl+super+down"], "command": "select_lines", "args": {"forward": true} },
 
+  { "keys": ["ctrl+k", "ctrl+t"], "command": "toggle_tabs" },
+  { "keys": ["super+k", "super+t"], "command": "toggle_tabs" },
+
 ]
 

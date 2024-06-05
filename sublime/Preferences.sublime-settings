@@ -46,8 +46,9 @@
 	"vintage_ctrl_keys": true,
 	"vintage_start_in_command_mode": true,
 	"relative_line_numbers": true,
-	"font_size": 12,
+	"font_size": 13,
 	"highlight_line": true,
 	"ui_scale": 1.0,
 	"index_files": true,
+	"show_errors_inline": true,
 }
