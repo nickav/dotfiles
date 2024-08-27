@@ -1,0 +1,13 @@
+<snippet>
+    <content><![CDATA[@echo off
+
+set project_root=%~dp0%
+
+pushd %project_root%
+    ${1}
+popd
+exit /B %errorlevel%]]></content>
+    <tabTrigger>build</tabTrigger>
+    <scope>source.dosbatch</scope>
+    <description>template for build.bat files</description>
+</snippet>

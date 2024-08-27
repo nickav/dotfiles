@@ -1,0 +1,13 @@
+<snippet>
+    <content><![CDATA[#!/bin/bash
+set -e
+
+project_root="\$(cd "\$(dirname "\$0")" && pwd -P)"
+
+pushd \$project_root
+    ${1}
+popd]]></content>
+    <tabTrigger>build</tabTrigger>
+    <scope>source.shell.bash</scope>
+    <description>template for build.sh files</description>
+</snippet>
