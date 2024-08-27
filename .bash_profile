@@ -2,7 +2,7 @@
 # .bash_profile only runs on each login
 #
 
-export PATH=~/bin:$PATH
+export PATH=/Users/nick/bin:$PATH
 export PATH=$PATH:/usr/local/mysql/bin
 export PATH=/usr/local/opt/ruby/bin:$PATH
 export PATH=/usr/local/bin:$PATH
