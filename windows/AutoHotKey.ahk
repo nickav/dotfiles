@@ -14,6 +14,7 @@ SendMode Input
 
 Init() {
   static DidInit = 0
+  DidInit = 1
 
   if (!DidInit) {
     ; Needs to be run as admin to write to registry
@@ -26,9 +27,9 @@ Init() {
   }
 }
 
-Init()
-
-OnExit("ExitFunc")
+; NOTE(nick): setup admin hook
+; Init()
+; OnExit("ExitFunc")
 
 ExitFunc(ExitReason, ExitCode) {
   DisableLockWorkstation(0)
@@ -184,11 +185,13 @@ return
 
 ; lock screen
 #!Pause::
-  DisableLockWorkstation(0)
-  Sleep 50
-  DllCall("LockWorkStation")
-  Sleep 50
-  DisableLockWorkstation(1)
+;   DisableLockWorkstation(0)
+;   Sleep 50
+
+    DllCall("LockWorkStation")
+
+;   Sleep 50
+;   DisableLockWorkstation(1)
 return
 
 ; Keyboard Navigation
@@ -266,6 +269,7 @@ if WinActive("ahk_class Chrome_WidgetWin_1") {
   #!u::Send ^u
 }
 
+; NOTE(nick): need admin privlidges to use this function
 DisableLockWorkstation(value) {
   RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, %value%
 }
