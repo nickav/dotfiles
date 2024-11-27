@@ -2,7 +2,7 @@
   "windows": {
     "cmd": ["cmd", "/k", "$folder/build.bat"],
     "keyfiles": ["build.bat"],
-    "syntax": "Bash.sublime-syntax",
+    "syntax": "Batch File.sublime-syntax",
     "file_regex": "^(.*)\\((\\d+),?(\\d+)?\\)\\s?:\\s([^\n]+)",
   },
   "osx": {

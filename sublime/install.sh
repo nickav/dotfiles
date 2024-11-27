@@ -3,10 +3,8 @@ cwd="$(cd "$(dirname "$0")" && pwd -P)"
 echo $cwd
 
 # NOTE(nick): strategy 2 - symlink entire directory
-rm ~/Library/Application\ Support/Sublime\ Text/Packages/User
-ln -s $cwd ~/Library/Application Support/Sublime\ Text/Packages/User
-
-
+rm -rf /Users/nick/Library/Application\ Support/Sublime\ Text/Packages/User
+ln -s $cwd /Users/nick/Library/Application Support/Sublime\ Text/Packages/User
 exit
 
 # NOTE(nick): strategy 1 - link individual files

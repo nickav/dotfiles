@@ -122,5 +122,8 @@
   { "keys": ["ctrl+k", "ctrl+t"], "command": "toggle_tabs" },
   { "keys": ["super+k", "super+t"], "command": "toggle_tabs" },
 
+  { "keys": ["super+0",], "command": "reset_font_size" },
+  { "keys": ["ctrl+0",], "command": "reset_font_size" },
+
 ]
 
