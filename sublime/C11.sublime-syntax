@@ -1359,3 +1359,13 @@ contexts:
               scope: punctuation.definition.string.end.c
               pop: true
     - include: preprocessor-practical-workarounds
+    
+  block-comment-documentation-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.documentation.c
+    - match: \*+/
+      scope: punctuation.definition.comment.end.c
+      pop: true
+    - match: ^\s*(\*)(?!\**/)
+      captures:
+        1: punctuation.definition.comment.c
