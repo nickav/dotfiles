@@ -51,7 +51,7 @@ variables:
   non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__'
 
   # Custom Stuff
-  custom_modifiers: '\b(defer|cast|size_of|type_of|offset_of|count_of|internal|function|global|local_persist|read_only|thread_local|force_inline|fallthrough|engine_function|api_function|export_function)\b'
+  custom_modifiers: '\b(defer|cast|size_of|type_of|typeof|offset_of|offsetof|count_of|internal|function|global|local_persist|read_only|thread_local|force_inline|fallthrough|engine_function|api_function|export_function)\b'
   custom_types_int: '\b(boolean|bool|b8|b16|b32|bool8|bool16|bool32|s8|s16|s32|s64|i8|i16|i32|i64|u8|u16|u32|u64|int8|int16|int32|int64|uint8|uint16|uint32|uint64|isize|ssize|usize|ptrdiff|uintptr|intptr|uint)\b'
   custom_types_float: '\b(f16|f32|f64|f80|f128|float16|float32|float64|float80|float128)\b'
   custom_types_int_t: '\b(int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|intptr_t|uintptr_t|ptrdiff_t|size_t|ssize_t)\b'

@@ -33,6 +33,7 @@
 		".git",
 		"bin",
 		"build",
+		"_build",
 		"dist",
 	],
 	"ignored_packages":
@@ -46,9 +47,22 @@
 	"vintage_ctrl_keys": true,
 	"vintage_start_in_command_mode": true,
 	"relative_line_numbers": true,
-	"font_size": 13,
+	// "font_size": 13,
 	"highlight_line": true,
 	"ui_scale": 1.0,
 	"index_files": true,
 	"show_errors_inline": true,
+	/*"font_size": 14,*/
+	"update_check": true,
+	"auto_complete_selector": true,
+	/*"font_size": 14,*/
+	/*"font_size": 14,*/
+	/*"font_size": 32,*/
+	/*"font_size": 14,*/
+	/*"font_size": 13,*/
+	"font_size": 13,
+	"ignored_words":
+	[
+		"we’re"
+	],
 }

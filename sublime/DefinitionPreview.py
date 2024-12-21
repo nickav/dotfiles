@@ -14,12 +14,14 @@ def debug(*args):
 #
 # TODO(nick):
 # - de-duplicate function definitions (e.g. C forward declarations)
-# - publish the plugin?
 # - user config?
+# - fix janky stuff
 #
 
 #
 # DONE:
+# - publish the plugin
+#
 # - limit matches to only files of current file type!
 # - figure out some sort of simple code highlighting story
 # - better multiline support 
@@ -323,6 +325,7 @@ class DefinitionPreview(sublime_plugin.EventListener):
 
 
     def do_update(self):
+        # :DisablePlugin
         #return
 
         start = time.time()
@@ -427,6 +430,7 @@ class DefinitionPreview(sublime_plugin.EventListener):
 
 
     def on_selection_modified_async(self, view):
+        # :DisablePlugin
         #return
         
         if self.timer:
