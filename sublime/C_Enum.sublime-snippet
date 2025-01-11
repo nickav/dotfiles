@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[typedef enum
+{
+    ${0}
+    ${1}_COUNT
+} ${1};]]></content>
+    <tabTrigger>enum</tabTrigger>
+    <scope>source.c, source.c++</scope>
+    <description>template for C enums</description>
+</snippet>

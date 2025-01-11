@@ -4,7 +4,7 @@
 set project_root=%~dp0%
 
 pushd %project_root%
-    ${1}
+    ${0}
 popd
 exit /B %errorlevel%]]></content>
     <tabTrigger>build</tabTrigger>

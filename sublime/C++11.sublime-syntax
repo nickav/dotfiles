@@ -16,7 +16,7 @@ file_extensions:
   - h++
   - inl
   - ipp
-  - meta
+  - metal
 first_line_match: '-\*- C\+\+ -\*-'
 scope: source.c++
 variables:

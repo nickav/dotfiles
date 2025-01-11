@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[typedef struct ${1} ${1};
+struct ${1}
+{
+    ${0}
+};]]></content>
+    <tabTrigger>struct</tabTrigger>
+    <scope>source.c, source.c++</scope>
+    <description>template for C structs</description>
+</snippet>

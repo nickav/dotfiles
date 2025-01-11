@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[typedef u64 ${1};
+enum
+{
+    ${0}
+};]]></content>
+    <tabTrigger>flags</tabTrigger>
+    <scope>source.c, source.c++</scope>
+    <description>template for C enum flags</description>
+</snippet>
