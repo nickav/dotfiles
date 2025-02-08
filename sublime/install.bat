@@ -20,6 +20,11 @@ pushd "%APPDATA%\Sublime Text\Packages\User\"
     Preferences.sublime-settings
     Node.sublime-build
     Shell.sublime-build
+    BuildBat.sublime-snippet 
+    BuildSh.sublime-snippet 
+    C_Enum.sublime-snippet
+    C_Flags.sublime-snippet
+    C_Struct.sublime-snippet
   ) do (
     if exist %%x del %%x
     mklink /H %%x "%cwd%%%x"
