@@ -54,7 +54,23 @@
   { "keys": ["f5"], "command": "build" },
   { "keys": ["shift+f5"], "command": "cancel_build" },
 
-  { "keys": ["alt+b"], "command": "build" },
+  { "keys": ["ctrl+b"], "command": "build" },
+  {
+    "keys": ["ctrl+,"],
+    "command": "edit_settings", 
+    "args": {
+        "base_file": "${packages}/Default/Default ($platform).sublime-keymap", 
+        "default": "[\n\t$0\n]\n"
+    }
+  },
+  {
+    "keys": ["alt+,"],
+    "command": "edit_settings", 
+    "args": {
+        "base_file": "${packages}/Default/Default ($platform).sublime-keymap", 
+        "default": "[\n\t$0\n]\n"
+    }
+  },
 
   // NOTE(nick): just for plugin dev
   {
