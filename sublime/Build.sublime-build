@@ -9,7 +9,7 @@
     "cmd": ["bash", "$folder/build.sh"],
     "keyfiles": ["build.sh"],
     "syntax": "Bash.sublime-syntax",
-    "working_dir": "$folder/build",
+    "working_dir": "$folder",
     "file_regex": "^(.+):([0-9]*):([0-9]*):(.*)$"
   },
   
