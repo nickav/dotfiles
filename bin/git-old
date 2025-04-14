@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Get Old Files in a Directory
+# Example:
+#     ./git-old .
+#
+
+target_dir="${1:-.}"
+if [ "$target_dir" != "." ]; then
+    if [ ! -d "$target_dir" ]; then
+        echo "Error: Directory '$target_dir' does not exist"
+        exit 1
+    fi
+    cd "$target_dir" || { echo "Error: Cannot change to directory '$target_dir'"; exit 1; }
+fi
+
+
+temp_file=$(mktemp)
+
+echo "FILENAME LAST_MODIFIED_DATE" > "$temp_file"
+
+git ls-files | grep -v "/" | while read file; do
+    date=$(git log -1 --format="%ci" -- "$file")
+    echo "$file $date" >> "$temp_file"
+done
+
+sort -k2 -r "$temp_file" | column -t
+
+rm "$temp_file"
