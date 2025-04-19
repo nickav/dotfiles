@@ -96,13 +96,24 @@ ZSH_THEME_GIT_PROMPT_DIRTY="*"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 setopt no_share_history
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
 
 if [[ $- == *i* ]]; then
+
+fzf-history-dedup() {
+  if [ $options[HIST_FIND_NO_DUPS] = on ]; then
+    perl -ne 'print if !$seen{($_ =~ s/^[0-9\s]*//r)}++'
+  else
+    cat
+  fi
+}
+
 # CTRL-R - Paste the selected command from history into the command line
 fzf-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail 2> /dev/null
-  selected=( $(fc -rl 1 |
+  selected=( $(fc -rl 1 | fzf-history-dedup |
     FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" fzf) )
   local ret=$?
   if [ -n "$selected" ]; then
@@ -114,6 +125,7 @@ fzf-history-widget() {
   zle reset-prompt
   return $ret
 }
+
 zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 fi
@@ -126,5 +138,37 @@ fi
 # shorthand for ignorespace and ignoredups
 export HISTCONTROL=ignoreboth
 
-export PATH="/Users/Nick/bin:$PATH"
+export PATH="/Users/nick/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/nick/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nick/bin/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/nick/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nick/bin/google-cloud-sdk/completion.zsh.inc'; fi
+
+# bun completions
+[ -s "/Users/nick/.bun/_bun" ] && source "/Users/nick/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$(brew --prefix llvm@16)/bin:$PATH"
+export PATH="$PATH:$(go env GOPATH)/bin"
+
+export PATH="$PATH:/Users/nick/bin/odin/"
+export PATH="$(brew --prefix)/path/to/python3.10:$PATH"
+
+eval "$(fnm env)"
+alias python=python3
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+# ZVM
+export ZVM_INSTALL="$HOME/.zvm/self"
+export PATH="$PATH:$HOME/.zvm/bin"
+export PATH="$PATH:$ZVM_INSTALL/"
