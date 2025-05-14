@@ -31,3 +31,18 @@ tell application "Brave"
 end tell
 ]]))
 
+
+remap({'ctrl'}, '5', runApplescript([[
+tell application "Obsidian"
+	reopen
+	activate
+end tell
+]]))
+
+remap({'ctrl'}, '6', runApplescript([[
+tell application "Spotify"
+	reopen
+	activate
+end tell
+]]))
+
