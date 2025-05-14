@@ -44,7 +44,7 @@ variables:
   # Custom Stuff
   custom_modifiers: '\b(defer|cast|size_of|type_of|typeof|offset_of|offsetof|count_of|internal|function|global|local_persist|read_only|thread_local|force_inline|fallthrough|engine_function|api_function|export_function)\b'
   custom_types_int: '\b(boolean|b8|b16|b32|bool8|bool16|bool32|s8|s16|s32|s64|i8|i16|i32|i64|u8|u16|u32|u64|int8|int16|int32|int64|uint8|uint16|uint32|uint64|isize|ssize|usize|ptrdiff|uintptr|intptr|uint)\b'
-  custom_types_float: '\b(f16|f32|f64|f80|f128|float16|float32|float64|float80|float128)\b'
+  custom_types_float: '\b(f16|f32|f64|f80|f128|float16|float32|float64|float80|float128|fp32|fp64)\b'
   custom_types_real: '\b(r16|r32|r64|r80|r128|real16|real32|real64|real80|real128)\b'
   custom_types_char: '\b(char8|char16|char32)\b'
   custom_types_other: '\bFILE|va_list\b'
