@@ -49,6 +49,7 @@
   { "keys": ["ctrl+t"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
   //{ "keys": ["ctrl+shift+t"],        "command": "goto_symbol_in_project" },
 
+  { "keys": ["ctrl+w"], "command": "close_file" },
   { "keys": ["alt+w"], "command": "close_file" },
 
   { "keys": ["f5"], "command": "build" },

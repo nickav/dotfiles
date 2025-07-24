@@ -5,12 +5,18 @@
 
 $env:Path += ";C:\Program Files\nodejs;C:\Users\Nick\AppData\Roaming\npm"
 $env:Path += ";C:\apps"
-#$env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\Llvm\bin"
 $env:Path += ";C:\Program Files\LLVM\bin"
 $env:Path += ";C:\Program Files\Go\bin\;C:\Users\Nick\go\bin"
 $env:Path += ";C:\Users\Nick\.cargo\bin"
 
 Set-Location C:\dev
+
+Get-Content "C:\dev\dotfiles\windows\post.env" | ForEach-Object {
+  if ($_ -match '^([^=]+)=(.*)$') {
+    # Set-Variable -Name $matches[1] -Value $matches[2] -Scope Global
+    [Environment]::SetEnvironmentVariable($matches[1], $matches[2], 'Process')
+  }
+}
 
 function mv { move $Args }
 function cp { copy $Args }
