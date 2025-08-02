@@ -82,10 +82,17 @@ function gsp { git stash pop $Args }
 
 function grbm { git rebase main $Args }
 
-function open { explorer.exe $Args }
+#function open { explorer.exe $Args }
+function open { FPilot.exe $Args }
 
 function touch { New-Item -ItemType file $Args }
 
 function ys { yarn start }
 
 function build { .\build.bat }
+
+function l { dir }
+function ll { dir }
+function la { dir }
+
+function grep { ag $Args }

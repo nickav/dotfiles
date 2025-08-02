@@ -116,14 +116,20 @@
   // { "keys": ["ctrl+d"], "command": "find_under_expand" },
   { "keys": ["ctrl+shift+d"], "command": "find_under_expand", },
 
-  { "keys": ["ctrl+["], "command": "jump_back" },
-  { "keys": ["ctrl+]"], "command": "jump_forward" },
-  { "keys": ["super+["], "command": "jump_back" },
-  { "keys": ["super+]"], "command": "jump_forward" },
-  { "keys": ["alt+["], "command": "jump_back" },
-  { "keys": ["alt+]"], "command": "jump_forward" },
+  { "keys": ["ctrl+shift+["], "command": "jump_back" },
+  { "keys": ["ctrl+shift+]"], "command": "jump_forward" },
+  { "keys": ["super+shift+["], "command": "jump_back" },
+  { "keys": ["super+shift+]"], "command": "jump_forward" },
+  { "keys": ["alt+shift+["], "command": "jump_back" },
+  { "keys": ["alt+shift+]"], "command": "jump_forward" },
+
+  { "keys": ["ctrl+["], "command": "focus_neighboring_group", "args": {"forward": true} },
+  { "keys": ["ctrl+]"], "command": "focus_neighboring_group", "args": {"forward": false} },
+  { "keys": ["alt+["], "command": "focus_neighboring_group", "args": {"forward": true} },
+  { "keys": ["alt+]"], "command": "focus_neighboring_group", "args": {"forward": false} },
 
   { "keys": ["ctrl+/"], "command": "toggle_comment", "args": { "block": false } },
+  { "keys": ["alt+/"], "command": "toggle_comment", "args": { "block": false } },
 
   { "keys": ["super+shift+1"], "command": "set_layout", "args":
     { "cells": [[0, 0, 1, 1]], "cols": [0.0, 1.0], "rows": [0.0, 1.0] }

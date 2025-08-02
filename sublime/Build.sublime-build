@@ -3,6 +3,7 @@
     "cmd": ["cmd", "/k", "$folder/build.bat"],
     "keyfiles": ["build.bat"],
     "syntax": "Batch File.sublime-syntax",
+    "working_dir": "$folder",
     "file_regex": "^(.*)\\((\\d+),?(\\d+)?\\)\\s?:\\s([^\n]+)",
   },
   "osx": {
@@ -18,6 +19,7 @@
     "cmd": ["bash", "$folder/build.sh"],
     "keyfiles": ["build.sh"],
     "syntax": "Bash.sublime-syntax",
+    "working_dir": "$folder",
     "file_regex":"^(|..[^:]*):([0-9]*):?([0-9]*)?:? (.*)$",
   },
 }
