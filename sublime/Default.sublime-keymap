@@ -148,5 +148,14 @@
   { "keys": ["super+0",], "command": "reset_font_size" },
   { "keys": ["ctrl+0",], "command": "reset_font_size" },
 
+  { 
+      "keys": ["tab"], 
+      "command": "next_view_in_stack",
+      "context": [
+          { "key": "setting.command_mode", "operator": "equal", "operand": true },
+          { "key": "setting.is_widget", "operator": "equal", "operand": false }
+      ]
+  },
+
 ]
 
