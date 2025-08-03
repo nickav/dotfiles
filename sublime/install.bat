@@ -9,6 +9,7 @@ pushd "%APPDATA%\Sublime Text\Packages\User\"
   for %%x in (
     Adaptive.sublime-theme
     Build.sublime-build 
+    BuildZig.sublime-build 
     C++11.sublime-syntax
     C++11.sublime-settings
     C11.sublime-syntax
