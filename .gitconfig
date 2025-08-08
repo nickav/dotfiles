@@ -36,6 +36,7 @@
 	last = log -1 HEAD
 	master-alias = symbolic-ref refs/heads/m refs/heads/master
 	me = "!git log --author=\"$(git config user.name)\""
+  month = "!git log --author=\"$(git config user.name)\" --since=\"1 month ago\" --oneline"
 	oc = checkout
 	review = remote update -p
 	s = status
