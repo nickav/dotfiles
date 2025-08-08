@@ -116,13 +116,15 @@
   // { "keys": ["ctrl+d"], "command": "find_under_expand" },
   { "keys": ["ctrl+shift+d"], "command": "find_under_expand", },
 
-  { "keys": ["ctrl+shift+["], "command": "jump_back" },
-  { "keys": ["ctrl+shift+]"], "command": "jump_forward" },
   { "keys": ["super+shift+["], "command": "jump_back" },
   { "keys": ["super+shift+]"], "command": "jump_forward" },
+  { "keys": ["ctrl+shift+["], "command": "jump_back" },
+  { "keys": ["ctrl+shift+]"], "command": "jump_forward" },
   { "keys": ["alt+shift+["], "command": "jump_back" },
   { "keys": ["alt+shift+]"], "command": "jump_forward" },
 
+  { "keys": ["super+["], "command": "focus_neighboring_group", "args": {"forward": true} },
+  { "keys": ["super+]"], "command": "focus_neighboring_group", "args": {"forward": false} },
   { "keys": ["ctrl+["], "command": "focus_neighboring_group", "args": {"forward": true} },
   { "keys": ["ctrl+]"], "command": "focus_neighboring_group", "args": {"forward": false} },
   { "keys": ["alt+["], "command": "focus_neighboring_group", "args": {"forward": true} },
