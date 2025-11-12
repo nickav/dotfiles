@@ -123,12 +123,12 @@
   { "keys": ["alt+shift+["], "command": "jump_back" },
   { "keys": ["alt+shift+]"], "command": "jump_forward" },
 
-  { "keys": ["super+["], "command": "focus_neighboring_group", "args": {"forward": true} },
-  { "keys": ["super+]"], "command": "focus_neighboring_group", "args": {"forward": false} },
-  { "keys": ["ctrl+["], "command": "focus_neighboring_group", "args": {"forward": true} },
-  { "keys": ["ctrl+]"], "command": "focus_neighboring_group", "args": {"forward": false} },
-  { "keys": ["alt+["], "command": "focus_neighboring_group", "args": {"forward": true} },
-  { "keys": ["alt+]"], "command": "focus_neighboring_group", "args": {"forward": false} },
+  { "keys": ["super+["], "command": "focus_neighboring_group", "args": {"forward": false} },
+  { "keys": ["super+]"], "command": "focus_neighboring_group", "args": {"forward": true} },
+  { "keys": ["ctrl+["], "command": "focus_neighboring_group", "args": {"forward": false} },
+  { "keys": ["ctrl+]"], "command": "focus_neighboring_group", "args": {"forward": true} },
+  { "keys": ["alt+["], "command": "focus_neighboring_group", "args": {"forward": false} },
+  { "keys": ["alt+]"], "command": "focus_neighboring_group", "args": {"forward": true} },
 
   { "keys": ["ctrl+/"], "command": "toggle_comment", "args": { "block": false } },
   { "keys": ["alt+/"], "command": "toggle_comment", "args": { "block": false } },
