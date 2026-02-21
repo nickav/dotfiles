@@ -1,0 +1,25 @@
+{
+  "windows": {
+    "cmd": ["cmd", "/k", "$folder/build.bat"],
+    "keyfiles": ["build.bat"],
+    "syntax": "Batch File.sublime-syntax",
+    "working_dir": "$folder",
+    "file_regex": "^([^(]+\\.odin)\\((\\d+):(\\d+)\\)\\s+(.*)",
+  },
+  "osx": {
+    "cmd": ["bash", "$folder/build.sh"],
+    "keyfiles": ["build.sh"],
+    "syntax": "Bash.sublime-syntax",
+    "working_dir": "$folder",
+    "file_regex": "^([^(]+\\.odin)\\((\\d+):(\\d+)\\)\\s+(.*)",
+  },
+  
+  // NOTE(nick): untested!
+  "linux": {
+    "cmd": ["bash", "$folder/build.sh"],
+    "keyfiles": ["build.sh"],
+    "syntax": "Bash.sublime-syntax",
+    "working_dir": "$folder",
+    "file_regex": "^([^(]+\\.odin)\\((\\d+):(\\d+)\\)\\s+(.*)",
+  },
+}
