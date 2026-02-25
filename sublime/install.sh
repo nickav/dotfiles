@@ -15,8 +15,10 @@ pushd ~/Library/Application\ Support/Sublime\ Text/Packages/User
     Adaptive.sublime-theme
     Build.sublime-build
     BuildZig.sublime-build
+    BuildOdin.sublime-build
     C++11.sublime-settings
     C++11.sublime-syntax
+    Odin.sublime-syntax
     Default.sublime-keymap
     Default.sublime-mousemap
     DefinitionPreview.py
