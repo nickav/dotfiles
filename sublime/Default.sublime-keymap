@@ -133,6 +133,11 @@
   { "keys": ["ctrl+/"], "command": "toggle_comment", "args": { "block": false } },
   { "keys": ["alt+/"], "command": "toggle_comment", "args": { "block": false } },
 
+  // { "keys": ["ctrl+d"], "command": "find_under_expand" },
+  { "keys": ["ctrl+shift+d"], "command": "find_under_expand" },
+  { "keys": ["alt+d"], "command": "find_under_expand" },
+  { "keys": ["cmd+d"], "command": "find_under_expand" },
+
   { "keys": ["super+shift+1"], "command": "set_layout", "args":
     { "cells": [[0, 0, 1, 1]], "cols": [0.0, 1.0], "rows": [0.0, 1.0] }
   },

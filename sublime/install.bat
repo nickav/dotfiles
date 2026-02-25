@@ -10,10 +10,12 @@ pushd "%APPDATA%\Sublime Text\Packages\User\"
     Adaptive.sublime-theme
     Build.sublime-build 
     BuildZig.sublime-build 
+    BuildOdin.sublime-build 
     C++11.sublime-syntax
     C++11.sublime-settings
     C11.sublime-syntax
     C11.sublime-settings
+    Odin.sublime-syntax
     Default.sublime-keymap
     Default.sublime-mousemap
     DefinitionPreview.py
