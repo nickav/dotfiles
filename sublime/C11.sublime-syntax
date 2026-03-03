@@ -62,6 +62,18 @@ variables:
   custom_constants_snake: '\b([A-Z_][A-Z0-9_]+)\b(?!\s*\()'
 
 contexts:
+  struct-macro:
+    - match: '\b(Struct|Union|Enum)\s*(\()'
+      captures:
+        1: keyword.declaration.c
+        2: punctuation.section.group.begin.c
+      push:
+        - meta_scope: meta.struct-macro.c
+        - match: '({{identifier}})\s*(\))'
+          captures:
+            1: entity.name.class.c
+            2: punctuation.section.group.end.c
+          pop: true
   main:
     - include: preprocessor-global
     - include: global
@@ -438,6 +450,7 @@ contexts:
     - include: comments
     - include: case-default
     - include: typedef
+    - include: struct-macro
     - include: keywords-parens
     - include: keywords
     - include: numbers
