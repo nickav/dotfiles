@@ -20,7 +20,7 @@ Get-Content "C:\dev\dotfiles\windows\post.env" | ForEach-Object {
 
 function mv { move $Args }
 function cp { copy $Args }
-function rm { del $Args }
+function rm { Remove-Item -Path $Args }
 function which { Get-Command $Args }
 
 function mklink ($target, $link) {
@@ -88,6 +88,7 @@ function open { FPilot.exe $Args }
 function touch { New-Item -ItemType file $Args }
 
 function ys { yarn start }
+function ns { npm start }
 
 function build { .\build.bat }
 
@@ -96,3 +97,5 @@ function ll { dir }
 function la { dir }
 
 function grep { ag $Args }
+
+function rmrf { Remove-Item -Path $Args -Recurse -Force }

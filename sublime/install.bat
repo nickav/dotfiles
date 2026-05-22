@@ -11,6 +11,7 @@ pushd "%APPDATA%\Sublime Text\Packages\User\"
     Build.sublime-build 
     BuildZig.sublime-build 
     BuildOdin.sublime-build 
+    BuildJai.sublime-build 
     C++11.sublime-syntax
     C++11.sublime-settings
     C11.sublime-syntax

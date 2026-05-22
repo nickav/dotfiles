@@ -33,7 +33,9 @@
 		".git",
 		"bin",
 		"build",
+		".build",
 		"_build",
+		"_site",
 		"dist",
 	],
 	"ignored_packages":
@@ -60,7 +62,7 @@
 	/*"font_size": 32,*/
 	/*"font_size": 14,*/
 	/*"font_size": 13,*/
-	"font_size": 13,
+	"font_size": 11,
 	"ignored_words":
 	[
 		"we’re"

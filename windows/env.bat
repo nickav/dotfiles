@@ -33,7 +33,8 @@ doskey touch=copy nul $* > nul
 doskey which=where $*
 
 :: Easier navigation
-doskey open=start $*
+rem doskey open=start $*
+doskey open=fp $*
 doskey ..    = cd ..\$*
 doskey ...   = cd ..\..\$*
 doskey ....  = cd ..\..\..\$*
@@ -79,6 +80,9 @@ doskey gm=git merge $*
 doskey gm-=git merge - $*
 doskey gu=git pull $*
 doskey gg=git grep $*
+
+doskey ys=yarn start
+doskey ns=npm start
 
 :: My bash aliases
 doskey e=exit
