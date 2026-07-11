@@ -99,3 +99,11 @@ function la { dir }
 function grep { ag $Args }
 
 function rmrf { Remove-Item -Path $Args -Recurse -Force }
+
+function appify {
+  param(
+    [Parameter(Mandatory)][string]$SourcePath,
+    [string]$AppName = (Split-Path $SourcePath -Leaf)
+  )
+  & "C:\ProgramData\chocolatey\tools\shimgen.exe" --output="C:\apps\$AppName" --path="$SourcePath"
+}

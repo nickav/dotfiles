@@ -40,10 +40,34 @@ SetCapsLockState, AlwaysOff
 CapsLock::LCtrl
 
 ; map ctrl+hjkl to arrow keys
-LCtrl & h:: send {Left}
-LCtrl & l:: send {Right}
-LCtrl & j:: send {Down}
-LCtrl & k:: send {Up}
+LCtrl & h::
+if GetKeyState("Shift", "P")
+    Send {LCtrl up}{Shift down}{Left}{Shift up}
+else
+    Send {LCtrl up}{Left}{LCtrl down}
+return
+
+LCtrl & l::
+if GetKeyState("Shift", "P")
+    Send {LCtrl up}{Shift down}{Right}{Shift up}
+else
+    Send {LCtrl up}{Right}{LCtrl down}
+return
+
+LCtrl & j::
+if GetKeyState("Shift", "P")
+    Send {LCtrl up}{Shift down}{Down}{Shift up}
+else
+    Send {LCtrl up}{Down}{LCtrl down}
+return
+
+LCtrl & k::
+if GetKeyState("Shift", "P")
+    Send {LCtrl up}{Shift down}{Up}{Shift up}
+else
+    Send {LCtrl up}{Up}{LCtrl down}
+return
+
 
 #If GetKeyState("CapsLock", "P")
 *h::
