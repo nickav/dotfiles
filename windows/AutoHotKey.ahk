@@ -46,10 +46,33 @@ LCtrl & j:: send {Down}
 LCtrl & k:: send {Up}
 
 #If GetKeyState("CapsLock", "P")
-*h::send {Left}
-*j::send {Down}
-*k::send {Up}
-*l::send {Right}
+*h::
+if GetKeyState("Shift", "P")
+    Send {LCtrl up}{Shift down}{Left}{Shift up}
+else
+    Send {LCtrl up}{Left}{LCtrl down}
+return
+
+*j::
+if GetKeyState("Shift", "P")
+    Send {LCtrl up}{Shift down}{Down}{Shift up}
+else
+    Send {LCtrl up}{Down}{LCtrl down}
+return
+
+*k::
+if GetKeyState("Shift", "P")
+    Send {LCtrl up}{Shift down}{Up}{Shift up}
+else
+    Send {LCtrl up}{Up}{LCtrl down}
+return
+
+*l::
+if GetKeyState("Shift", "P")
+    Send {LCtrl up}{Shift down}{Right}{Shift up}
+else
+    Send {LCtrl up}{Right}{LCtrl down}
+return
 #If
 
 ; bind cmd+click to open in new tab
