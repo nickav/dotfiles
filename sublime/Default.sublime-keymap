@@ -102,6 +102,8 @@
     ]
   },
 
+  { "keys": ["escape"], "command": "clear_selection" },
+
   {"keys": ["ctrl+shift+o"], "command": "prompt_open_folder" },
 
   { "keys": ["ctrl+alt+u"], "command": "open_dir", "args": {"dir": "$packages/User"} },

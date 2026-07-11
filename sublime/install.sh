@@ -23,6 +23,7 @@ pushd ~/Library/Application\ Support/Sublime\ Text/Packages/User
     Default.sublime-keymap
     Default.sublime-mousemap
     DefinitionPreview.py
+    clear_selection.py
     Monokai.sublime-color-scheme
     Preferences.sublime-settings
     Node.sublime-build
