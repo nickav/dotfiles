@@ -3,12 +3,9 @@
 	autocrlf = input
 	pager = less -FXe
 	whitespace = cr-at-eol
-  hooksPath = ~/.git-hooks/
 [user]
 	name = Nick Aversano
 	email = nick23hi@gmail.com
-[credential]
-	helper = osxkeychain
 [alias]
 	a = add
 	aa = add .
@@ -51,15 +48,11 @@
   code = "!git diff $(git rev-list --max-parents=0 HEAD)"
   squash = merge --squash
   squash-all = "!git reset --soft $(git merge-base master HEAD)"
+  sync-upstream = "!git fetch --all && git checkout main && git pull && git merge upstream/main && git push origin main && git push upstream main"
 [color]
 	diff = auto
 [push]
 	default = simple
-[filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
@@ -70,3 +63,22 @@
 	template = /Users/nick/.stCommitMsg
 [url "git@github.com:plato-app"]
 	insteadOf = https://github.com/plato-app
+[http]
+	sslVerify = true
+	sslBackend = openssl
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[credential]
+	helper = osxkeychain
+[init]
+	defaultBranch = main
+[safe]
+	director = public
+	directory = /p/public
+	directory = *
+	directory = /p/public

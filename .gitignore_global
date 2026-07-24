@@ -11,6 +11,7 @@ notes.md
 hours.md
 journal.md
 log.md
+notes*.md
 
 *.sublime-project
 *.sublime-workspace

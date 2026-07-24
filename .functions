@@ -115,3 +115,20 @@ fkill() {
     echo $pid | xargs kill -${1:-9}
   fi
 }
+
+rip() {
+  local url="$1"
+  local out="${2:-$1.mp4}"
+  ffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto -i "$url" -c copy "$out"
+}
+
+
+video_to_gif() {
+  local in="$1" out="$2" fps="${3:-20}" width="${4:-960}"
+  local palette="$(mktemp /tmp/palette.XXXXXX.png)"
+
+  ffmpeg -y -i "$in" -vf "fps=${fps},scale=${width}:-1:flags=lanczos,palettegen" "$palette"
+  ffmpeg -y -i "$in" -i "$palette" -lavfi "fps=${fps},scale=${width}:-1:flags=lanczos [x]; [x][1:v] paletteuse" "$out"
+
+  rm -f "$palette"
+}

@@ -82,6 +82,7 @@ export EDITOR='vim'
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 source ~/.aliases
+source ~/.functions
 
 source ~/.extra
 
