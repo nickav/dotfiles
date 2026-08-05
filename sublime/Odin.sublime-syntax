@@ -55,6 +55,8 @@ contexts:
       scope: keyword.control.odin
     - match: \b(fallthrough|break|continue|case)\b
       scope: keyword.control.odin
+    - match: \b(global)\b
+      scope: keyword.control.odin
     - match: \b(using|([#]force_inline)|([#]force_no_inline))\b
       scope: keyword.control.odin
     - match: \b(asm|or_else|or_return|or_break|or_continue)\b
