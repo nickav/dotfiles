@@ -52,6 +52,34 @@ local function send_shortcut_once(mods, key)
   end
 end
 
+-- Apps with their own native SUPER+<key> binding (Ghostty/Sublime, configured
+-- in config/ghostty and sublime/) get the raw SUPER+<key> forwarded to them
+-- unchanged, via the "activewindow" window target so it's delivered directly
+-- to that surface rather than re-entering Hyprland's own bind matching.
+-- Every other app gets CTRL+<key> sent instead.
+local NATIVE_SUPER_KEY_APPS = { "com.mitchellh.ghostty", "sublime_text" }
+
+local function forward_native_or_send_ctrl(key)
+  return function()
+    local window = hl.get_active_window()
+    local class = window and window.class
+    local is_native = false
+    for _, app_class in ipairs(NATIVE_SUPER_KEY_APPS) do
+      if class == app_class then
+        is_native = true
+        break
+      end
+    end
+
+    local mods = is_native and "SUPER" or "CTRL"
+    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down", window = "activewindow" }))
+
+    hl.timer(function()
+      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up", window = "activewindow" }))
+    end, { timeout = 50, type = "oneshot" })
+  end
+end
+
 o.bind("CTRL + H", "Left arrow", send_key_once("Left"), { repeating = true })
 o.bind("CTRL + J", "Down arrow", send_key_once("Down"), { repeating = true })
 o.bind("CTRL + K", "Up arrow", send_key_once("Up"), { repeating = true })
@@ -61,6 +89,7 @@ o.bind("CTRL + L", "Right arrow", send_key_once("Right"), { repeating = true })
 -- (default: bindings/tiling.lua) to SUPER+Y instead.
 hl.unbind("SUPER + T")
 o.bind("SUPER + Y", "Toggle window floating/tiling", hl.dsp.window.float({ action = "toggle" }))
+o.bind("SUPER + T", "New tab (native) / Send Ctrl+T", forward_native_or_send_ctrl("T"))
 
 -- Disable webapp shortcuts (default: bindings/applications.lua) and lazydocker.
 -- Generic Browser / Browser (private) bindings are left intact.
@@ -110,6 +139,7 @@ o.bind("SUPER + S", "Send Ctrl+S", send_shortcut_once("CTRL", "S"))
 hl.unbind("SUPER + W")
 hl.unbind("SUPER + SHIFT + W") -- was: Omawrite
 o.bind("SUPER + SHIFT + W", "Close window", hl.dsp.window.close())
+o.bind("SUPER + W", "Close tab (native) / Send Ctrl+W", forward_native_or_send_ctrl("W"))
 
 -- SUPER+O / SUPER+SHIFT+O send Ctrl+O / Ctrl+Shift+O to the focused window
 -- (Open File / Open Folder in most apps, incl. Sublime's own defaults).
@@ -126,10 +156,10 @@ o.bind("SUPER + L", "Send Ctrl+L", send_shortcut_once("CTRL", "L"))
 o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
 
 -- Every other free SUPER+<letter> sends Ctrl+<letter> to the focused
--- window. Excludes SUPER+T, SUPER+W, and SUPER+D on purpose: those are
--- left unbound here so Ghostty's/Sublime's own native tab/split bindings
--- (configured in config/ghostty and sublime/) receive the raw keypress
--- instead.
+-- window. Excludes SUPER+T and SUPER+W, which have their own conditional
+-- forward_native_or_send_ctrl bindings above, and SUPER+D, which is left
+-- unbound so Ghostty's/Sublime's own native split bindings (configured in
+-- config/ghostty and sublime/) receive the raw keypress instead.
 for _, letter in ipairs({ "A", "B", "E", "H", "I", "K", "M", "N", "P", "R", "U", "Z" }) do
   o.bind("SUPER + " .. letter, "Send Ctrl+" .. letter, send_shortcut_once("CTRL", letter))
 end

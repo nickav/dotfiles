@@ -67,4 +67,6 @@
 	[
 		"we’re"
 	],
+	"themed_title_bar": false,
+    "gtk_client_side_window_decorations": false,
 }

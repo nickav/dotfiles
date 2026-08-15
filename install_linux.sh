@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 cd "$(dirname "${BASH_SOURCE}")";
 
+# Run a command, or just print it if print_only is set.
+function cmd() {
+	if [ $print_only ]; then
+		echo "$@";
+	else
+		"$@";
+	fi
+}
+
 function install() {
 	print_only="$1";
 	dir=`pwd`;
@@ -14,31 +23,21 @@ function install() {
 		name=`basename "$f"`;
 		target="$HOME/.config/$name";
 
-		if [ -e "$target" -o -L "$target" ]; then
-			if [ ! -L "$target" ]; then
-				if [ $print_only ]; then
-					echo "cp -r $target ~/.backup/config/$name";
-				else
-					cp -r "$target" ~/.backup/config/$name;
-				fi
-			fi
+		if [ -e "$target" -o -L "$target" ] && [ ! -L "$target" ]; then
+			cmd cp -r "$target" ~/.backup/config/$name;
 		fi
 
-		if [ $print_only ]; then
-			echo "ln -sf $dir/$f $target";
-		else
-			rm -rf "$target";
-			ln -sf "$dir/$f" "$target";
-		fi
+		cmd rm -rf "$target";
+		cmd ln -sf "$dir/$f" "$target";
 	done
 	unset f;
 
 	# Wire up sublime's own installer alongside the config/ symlinks.
-	if [ $print_only ]; then
-		echo "./sublime/install_linux.sh"
-	else
-		./sublime/install_linux.sh
-	fi
+	cmd ./sublime/install_linux.sh
+
+	# bindings.lua dofiles the altswitch plugin unconditionally, so it must
+	# be installed for hyprctl reload to succeed on a fresh machine.
+	cmd omarchy plugin add https://github.com/Pablo-Merino/omarchy-altswitch.git --enable
 
 	# Omarchy's nvim theme hook (lua/plugins/theme.lua) is a symlink to the
 	# live theme file. It must be absolute (not relative) since config/nvim
@@ -46,11 +45,7 @@ function install() {
 	# would resolve against the repo path instead of $HOME. Recreate it
 	# fresh here rather than trusting whatever got committed to git.
 	if [ -d "config/nvim" ]; then
-		if [ $print_only ]; then
-			echo "ln -sf $HOME/.local/state/omarchy/current/theme/neovim.lua $dir/config/nvim/lua/plugins/theme.lua";
-		else
-			ln -sf "$HOME/.local/state/omarchy/current/theme/neovim.lua" "$dir/config/nvim/lua/plugins/theme.lua";
-		fi
+		cmd ln -sf "$HOME/.local/state/omarchy/current/theme/neovim.lua" "$dir/config/nvim/lua/plugins/theme.lua";
 	fi
 }
 
