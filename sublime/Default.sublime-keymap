@@ -92,6 +92,8 @@
   },
   */
 
+  { "keys": ["escape"], "command": "clear_selection" },
+
   {
     "keys": ["escape"],
     "command": "exit_insert_mode",
@@ -101,8 +103,6 @@
       { "key": "setting.is_widget", "operand": false }
     ]
   },
-
-  { "keys": ["escape"], "command": "clear_selection" },
 
   {"keys": ["ctrl+shift+o"], "command": "prompt_open_folder" },
 

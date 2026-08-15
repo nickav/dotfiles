@@ -1,9 +1,14 @@
 {
 	"installed_packages":
 	[
-		"Package Control"
+		"HexViewer",
+		"MarkdownPreview",
+		"Odin",
+		"Package Control",
+		"Shader Syntax (GLSL HLSL Cg)",
 	],
 	"in_process_packages":
 	[
 	],
+	"bootstrapped": true,
 }
