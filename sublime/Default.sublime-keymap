@@ -123,8 +123,6 @@
   // { "keys": ["ctrl+d"], "command": "find_under_expand" },
   { "keys": ["ctrl+shift+d"], "command": "find_under_expand", },
 
-  { "keys": ["super+shift+["], "command": "jump_back" },
-  { "keys": ["super+shift+]"], "command": "jump_forward" },
   { "keys": ["ctrl+shift+["], "command": "jump_back" },
   { "keys": ["ctrl+shift+]"], "command": "jump_forward" },
   { "keys": ["alt+shift+["], "command": "jump_back" },
@@ -132,6 +130,9 @@
 
   { "keys": ["super+["], "command": "focus_neighboring_group", "args": {"forward": false} },
   { "keys": ["super+]"], "command": "focus_neighboring_group", "args": {"forward": true} },
+  { "keys": ["super+shift+["], "command": "focus_neighboring_group", "args": {"forward": false} },
+  { "keys": ["super+shift+]"], "command": "focus_neighboring_group", "args": {"forward": true} },
+  { "keys": ["super+d"], "command": "clone_file", "args": {"add_to_selection": true, "retain_viewport_position": true} },
   { "keys": ["ctrl+["], "command": "focus_neighboring_group", "args": {"forward": false} },
   { "keys": ["ctrl+]"], "command": "focus_neighboring_group", "args": {"forward": true} },
   { "keys": ["alt+["], "command": "focus_neighboring_group", "args": {"forward": false} },

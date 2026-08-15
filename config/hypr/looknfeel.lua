@@ -7,12 +7,9 @@ hl.env("HYPRCURSOR_SIZE", "20")
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#general
 hl.config({
   general = {
-    -- No gaps between windows, borders, or the screen edge. In the
-    -- scrolling layout, gaps_in also governs the edge padding of the
-    -- single visible column, not just the space between windows.
     gaps_in = 0,
     gaps_out = 0,
-    gaps_out = 0,
+    border_size = 0,
   },
 })
 
@@ -41,12 +38,12 @@ hl.config({
 -- })
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#animations
--- hl.config({
---   animations = {
---     -- Disable all animations.
---     enabled = false,
---   },
--- })
+hl.config({
+  animations = {
+    -- Disable all animations.
+    enabled = false,
+  },
+})
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#layout
 -- hl.config({
@@ -57,9 +54,10 @@ hl.config({
 -- })
 
 -- https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/
--- hl.config({
---   scrolling = {
---     -- See only one column per screen instead of two.
---     column_width = 0.97,
---   },
--- })
+hl.config({
+  scrolling = {
+    -- A single window/column stretches to fill the whole workspace
+    -- instead of sitting at column_width.
+    fullscreen_on_one_column = true,
+  },
+})

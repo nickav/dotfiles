@@ -126,10 +126,11 @@ o.bind("SUPER + L", "Send Ctrl+L", send_shortcut_once("CTRL", "L"))
 o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
 
 -- Every other free SUPER+<letter> sends Ctrl+<letter> to the focused
--- window. Excludes SUPER+T and SUPER+W on purpose: those are left unbound
--- here so Ghostty's/Sublime's own native tab bindings (configured in
--- config/ghostty and sublime/) receive the raw keypress instead.
-for _, letter in ipairs({ "A", "B", "D", "E", "H", "I", "K", "M", "N", "P", "R", "U", "Z" }) do
+-- window. Excludes SUPER+T, SUPER+W, and SUPER+D on purpose: those are
+-- left unbound here so Ghostty's/Sublime's own native tab/split bindings
+-- (configured in config/ghostty and sublime/) receive the raw keypress
+-- instead.
+for _, letter in ipairs({ "A", "B", "E", "H", "I", "K", "M", "N", "P", "R", "U", "Z" }) do
   o.bind("SUPER + " .. letter, "Send Ctrl+" .. letter, send_shortcut_once("CTRL", letter))
 end
 
