@@ -43,6 +43,9 @@ export FIGNORE=DS_Store;
 export EDITOR='vim';
 export GREP_OPTIONS="--color=auto";
 
+# linux-only overrides (see .linux)
+[ "$(uname)" = "Linux" ] && [ -f ~/.linux ] && source ~/.linux
+
 # larger bash history (default 500)
 export HISTSIZE=2048;
 export HISTFILESIZE=$HISTSIZE;

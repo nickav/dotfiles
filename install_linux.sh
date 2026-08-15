@@ -32,6 +32,20 @@ function install() {
 	done
 	unset f;
 
+	# Symlink shared dotfiles used by Omarchy's default ~/.bashrc.
+	cmd ln -sf "$dir/.aliases" "$HOME/.aliases";
+	cmd ln -sf "$dir/.linux" "$HOME/.linux";
+
+	# Wire ~/.linux into ~/.bashrc (Omarchy's default rc already sources
+	# ~/.aliases the same way; this just extends that convention).
+	if ! grep -q '~/.linux' "$HOME/.bashrc" 2>/dev/null; then
+		if [ $print_only ]; then
+			echo "append linux sourcing to $HOME/.bashrc";
+		else
+			printf '\n# Linux-only shell config from ~/dev/dotfiles\n[ -f ~/.linux ] && source ~/.linux\n' >> "$HOME/.bashrc";
+		fi
+	fi
+
 	# Wire up sublime's own installer alongside the config/ symlinks.
 	cmd ./sublime/install_linux.sh
 

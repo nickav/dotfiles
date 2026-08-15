@@ -70,6 +70,7 @@ alias yb='yarn build'
 alias npr="npm run start"
 alias ns='npm run start'
 alias mk='make'
+
 # easier navigation
 # folder shortcuts
 alias doc="cd ~/Documents"

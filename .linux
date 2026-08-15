@@ -1,0 +1,10 @@
+# linux-only overrides, sourced by .bashrc / .zshrc when $(uname) = Linux
+
+alias vi='nvim'
+alias vim='nvim'
+export EDITOR='nvim'
+
+# open a file/folder in the default file explorer (mac `open` equivalent)
+function open () {
+  xdg-open "${1:-.}" >/dev/null 2>&1 & disown
+}

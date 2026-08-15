@@ -75,6 +75,9 @@ source $ZSH/oh-my-zsh.sh
 
 export EDITOR='vim'
 
+# linux-only overrides (see .linux)
+[ "$(uname)" = "Linux" ] && [ -f ~/.linux ] && source ~/.linux
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
