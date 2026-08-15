@@ -75,3 +75,27 @@ o.bind("SUPER + bracketleft", "Focus on previous window", hl.dsp.window.cycle_ne
 
 dofile(os.getenv("HOME") .. "/.config/omarchy/plugins/io.github.pablo-merino.altswitch/altswitch.lua")
 
+-- Move "Keybindings" (default: bindings/applications.lua, was SUPER + K)
+-- to SUPER + SHIFT + SLASH. That combo was previously "Passwords"
+-- (1Password); overridden here since Keybindings help takes priority.
+hl.unbind("SUPER + K")
+hl.unbind("SUPER + SHIFT + SLASH") -- was: Passwords (1Password)
+o.bind("SUPER + SHIFT + SLASH", "Keybindings", "omarchy-menu-keybindings")
+hl.unbind("SUPER + SLASH") -- was: Monitor scaling up
+
+-- Disable a default binding without replacing it.
+hl.unbind("SUPER + P") -- was: Pseudo window (toggle pseudo-tiling)
+hl.unbind("SUPER + O") -- was: Pop window out (float & pin)
+
+-- Guard "Toggle window split" (default: bindings/tiling.lua): togglesplit is
+-- a dwindle-only layoutmsg, so it throws a Lua runtime error ("no such
+-- layoutmsg for scrolling") when the active workspace is using the
+-- scrolling layout (SUPER + L) instead of dwindle.
+hl.unbind("SUPER + J")
+o.bind("SUPER + J", "Toggle window split", function()
+  local workspace = hl.get_active_workspace()
+  if workspace and workspace.tiled_layout == "dwindle" then
+    hl.dispatch(hl.dsp.layout("togglesplit"))
+  end
+end)
+

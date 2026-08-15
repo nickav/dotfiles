@@ -1,5 +1,7 @@
 [
   { "keys": ["ctrl+p"], "command": "show_overlay", "args": {"overlay": "goto", "show_files": true} },
+  { "keys": ["super+p"], "command": "show_overlay", "args": {"overlay": "goto", "show_files": true} },
+  { "keys": ["super+shift+p"], "command": "show_overlay", "args": {"overlay": "command_palette"} },
 
   { "keys": ["ctrl+tab"], "command": "next_view" },
   { "keys": ["ctrl+shift+tab"], "command": "prev_view" },
@@ -92,7 +94,7 @@
   },
   */
 
-  { "keys": ["escape"], "command": "clear_selection" },
+  // { "keys": ["escape"], "command": "clear_selection" },
 
   {
     "keys": ["escape"],

@@ -39,6 +39,19 @@ function install() {
 	else
 		./sublime/install_linux.sh
 	fi
+
+	# Omarchy's nvim theme hook (lua/plugins/theme.lua) is a symlink to the
+	# live theme file. It must be absolute (not relative) since config/nvim
+	# is reached through the ~/.config/nvim symlink, so a relative target
+	# would resolve against the repo path instead of $HOME. Recreate it
+	# fresh here rather than trusting whatever got committed to git.
+	if [ -d "config/nvim" ]; then
+		if [ $print_only ]; then
+			echo "ln -sf $HOME/.local/state/omarchy/current/theme/neovim.lua $dir/config/nvim/lua/plugins/theme.lua";
+		else
+			ln -sf "$HOME/.local/state/omarchy/current/theme/neovim.lua" "$dir/config/nvim/lua/plugins/theme.lua";
+		fi
+	fi
 }
 
 if [ "$1" == "--print" -o "$1" == "-p" ]; then
