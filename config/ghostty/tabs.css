@@ -1,0 +1,11 @@
+/* Shrink the Ghostty tab bar (GTK/libadwaita tab strip) font size */
+tabbar .tab-label,
+tabbar label {
+  font-size: 12px;
+}
+
+/* Reduce padding around each tab */
+tabbar tab {
+  padding: 2px 6px;
+  min-height: 0;
+}

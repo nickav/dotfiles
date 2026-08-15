@@ -37,7 +37,7 @@ function install() {
 
 	# bindings.lua dofiles the altswitch plugin unconditionally, so it must
 	# be installed for hyprctl reload to succeed on a fresh machine.
-	cmd omarchy plugin add https://github.com/Pablo-Merino/omarchy-altswitch.git --enable
+	cmd omarchy plugin add https://github.com/Pablo-Merino/omarchy-altswitch.git --enable --yes
 
 	# Omarchy's nvim theme hook (lua/plugins/theme.lua) is a symlink to the
 	# live theme file. It must be absolute (not relative) since config/nvim
