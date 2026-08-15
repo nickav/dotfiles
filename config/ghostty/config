@@ -26,6 +26,8 @@ shell-integration-features = no-cursor,ssh-env
 keybind = shift+insert=paste_from_clipboard
 keybind = control+insert=copy_to_clipboard
 keybind = super+t=new_tab
+keybind = super+shift+t=new_tab
+keybind = super+w=close_tab:this
 keybind = super+d=new_split:right
 keybind = super+shift+[=goto_split:previous
 keybind = super+shift+]=goto_split:next

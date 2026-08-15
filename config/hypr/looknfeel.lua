@@ -5,6 +5,17 @@ hl.env("XCURSOR_SIZE", "20")
 hl.env("HYPRCURSOR_SIZE", "20")
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#general
+hl.config({
+  general = {
+    -- No gaps between windows, borders, or the screen edge. In the
+    -- scrolling layout, gaps_in also governs the edge padding of the
+    -- single visible column, not just the space between windows.
+    gaps_in = 0,
+    gaps_out = 0,
+    gaps_out = 0,
+  },
+})
+
 -- hl.config({
 --   general = {
 --     -- No gaps between windows or borders.

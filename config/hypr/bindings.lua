@@ -42,6 +42,16 @@ local function send_key_once(key)
   end
 end
 
+local function send_shortcut_once(mods, key)
+  return function()
+    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
+
+    hl.timer(function()
+      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
+    end, { timeout = 50, type = "oneshot" })
+  end
+end
+
 o.bind("CTRL + H", "Left arrow", send_key_once("Left"), { repeating = true })
 o.bind("CTRL + J", "Down arrow", send_key_once("Down"), { repeating = true })
 o.bind("CTRL + K", "Up arrow", send_key_once("Up"), { repeating = true })
@@ -86,6 +96,42 @@ hl.unbind("SUPER + SLASH") -- was: Monitor scaling up
 -- Disable a default binding without replacing it.
 hl.unbind("SUPER + P") -- was: Pseudo window (toggle pseudo-tiling)
 hl.unbind("SUPER + O") -- was: Pop window out (float & pin)
+
+-- Move "Toggle scratchpad" (default: bindings/tiling.lua) from SUPER+S to
+-- SUPER+grave, freeing SUPER+S to send Ctrl+S (save) to the focused window.
+hl.unbind("SUPER + S")
+o.bind("SUPER + GRAVE", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
+o.bind("SUPER + S", "Send Ctrl+S", send_shortcut_once("CTRL", "S"))
+
+-- Swap "Close window" (default: bindings/tiling.lua) from SUPER+W to
+-- SUPER+SHIFT+W, freeing SUPER+W for apps' own "close tab" bindings
+-- (Ghostty/Sublime, configured separately). SUPER+SHIFT+W was previously
+-- "Omawrite".
+hl.unbind("SUPER + W")
+hl.unbind("SUPER + SHIFT + W") -- was: Omawrite
+o.bind("SUPER + SHIFT + W", "Close window", hl.dsp.window.close())
+
+-- SUPER+O / SUPER+SHIFT+O send Ctrl+O / Ctrl+Shift+O to the focused window
+-- (Open File / Open Folder in most apps, incl. Sublime's own defaults).
+-- SUPER+SHIFT+O was previously "Obsidian".
+hl.unbind("SUPER + SHIFT + O") -- was: Obsidian
+o.bind("SUPER + O", "Send Ctrl+O", send_shortcut_once("CTRL", "O"))
+o.bind("SUPER + SHIFT + O", "Send Ctrl+Shift+O", send_shortcut_once("CTRL SHIFT", "O"))
+
+-- SUPER+L sends Ctrl+L to the focused window. Was "Toggle workspace layout".
+-- Distinct from the plain CTRL+L arrow-key remap above (different modifier).
+hl.unbind("SUPER + L") -- was: Toggle workspace layout
+o.bind("SUPER + L", "Send Ctrl+L", send_shortcut_once("CTRL", "L"))
+
+o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
+
+-- Every other free SUPER+<letter> sends Ctrl+<letter> to the focused
+-- window. Excludes SUPER+T and SUPER+W on purpose: those are left unbound
+-- here so Ghostty's/Sublime's own native tab bindings (configured in
+-- config/ghostty and sublime/) receive the raw keypress instead.
+for _, letter in ipairs({ "A", "B", "D", "E", "H", "I", "K", "M", "N", "P", "R", "U", "Z" }) do
+  o.bind("SUPER + " .. letter, "Send Ctrl+" .. letter, send_shortcut_once("CTRL", letter))
+end
 
 -- Guard "Toggle window split" (default: bindings/tiling.lua): togglesplit is
 -- a dwindle-only layoutmsg, so it throws a Lua runtime error ("no such
