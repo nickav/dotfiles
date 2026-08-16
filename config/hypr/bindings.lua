@@ -180,6 +180,32 @@ for _, letter in ipairs({ "A", "B", "E", "H", "I", "K", "M", "N", "P", "R", "U",
   o.bind("SUPER + " .. letter, "Send Ctrl+" .. letter, send_shortcut_once("CTRL", letter))
 end
 
+-- SUPER+RETURN takes the focused app into account: apps in
+-- NATIVE_SUPER_KEY_APPS (Ghostty/Sublime) get the raw SUPER+Return forwarded
+-- to them, so they're free to bind it themselves later; every other app
+-- falls back to the default "open a new terminal" behavior.
+hl.unbind("SUPER + RETURN")
+o.bind("SUPER + RETURN", "Terminal (default) / Send native to app", function()
+  local window = hl.get_active_window()
+  local class = window and window.class
+  local is_native = false
+  for _, app_class in ipairs(NATIVE_SUPER_KEY_APPS) do
+    if class == app_class then
+      is_native = true
+      break
+    end
+  end
+
+  if is_native then
+    hl.dispatch(hl.dsp.send_key_state({ mods = "SUPER", key = "Return", state = "down", window = "activewindow" }))
+    hl.timer(function()
+      hl.dispatch(hl.dsp.send_key_state({ mods = "SUPER", key = "Return", state = "up", window = "activewindow" }))
+    end, { timeout = 50, type = "oneshot" })
+  else
+    hl.dispatch(hl.dsp.exec_cmd("omarchy-launch-terminal"))
+  end
+end)
+
 -- Guard "Toggle window split" (default: bindings/tiling.lua): togglesplit is
 -- a dwindle-only layoutmsg, so it throws a Lua runtime error ("no such
 -- layoutmsg for scrolling") when the active workspace is using the

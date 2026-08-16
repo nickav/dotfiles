@@ -74,6 +74,12 @@ function install() {
 	# Wire up sublime's own installer alongside the config/ symlinks.
 	cmd ./sublime/install_linux.sh
 
+	# NOTE: ~/.local/share/applications/sublime_text.desktop is a manual,
+	# untracked override (Exec uses `subl --new-window %F`) so launching
+	# Sublime from the app menu always opens a new window instead of just
+	# focusing the single running instance. Not symlinked from this repo -
+	# recreate it by hand on a fresh machine if that behavior is wanted.
+
 	# Omarchy's nvim theme hook (lua/plugins/theme.lua) is a symlink to the
 	# live theme file. It must be absolute (not relative) since config/nvim
 	# is reached through the ~/.config/nvim symlink, so a relative target

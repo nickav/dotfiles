@@ -33,6 +33,8 @@ keybind = super+w=close_tab:this
 keybind = ctrl+w=close_tab:this
 keybind = super+d=new_split:right
 keybind = super+shift+d=new_split:down
+keybind = ctrl+d=new_split:right
+keybind = ctrl+shift+d=new_split:down
 keybind = ctrl+[=goto_split:previous
 keybind = ctrl+]=goto_split:next
 keybind = control+1=goto_tab:1
