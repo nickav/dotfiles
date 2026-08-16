@@ -155,6 +155,16 @@ o.bind("SUPER + SHIFT + O", "Send Ctrl+Shift+O", send_shortcut_once("CTRL SHIFT"
 hl.unbind("SUPER + L") -- was: Toggle workspace layout
 o.bind("SUPER + L", "Send Ctrl+L", send_shortcut_once("CTRL", "L"))
 
+-- Move "Lock system" off SUPER+CTRL+L (was colliding with the workspace
+-- layout toggle we want there) onto SUPER+ALT+L. (The power button can't be
+-- used: systemd-logind grabs it directly, so Hyprland never sees the key.)
+hl.unbind("SUPER + CTRL + L") -- was: Lock system
+o.bind("SUPER + ALT + L", "Lock system", "omarchy-system-lock")
+
+-- SUPER+CTRL+L toggles the active workspace between dwindle and the
+-- niri-like scrolling layout.
+o.bind("SUPER + CTRL + L", "Toggle workspace layout", "omarchy-hyprland-workspace-layout-toggle")
+
 o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
 
 -- Every other free SUPER+<letter> sends Ctrl+<letter> to the focused

@@ -46,6 +46,8 @@ keybind = control+8=goto_tab:8
 keybind = control+9=goto_tab:9
 keybind = super+shift+[=goto_split:previous
 keybind = super+shift+]=goto_split:next
+keybind = super+[=goto_split:previous
+keybind = super+]=goto_split:next
 # Send Shift+Enter as CSI-u so TUIs can distinguish it from Enter.
 keybind = shift+enter=csi:13;2u
 # Legacy encoding sends Alt+Shift+Enter the same as Alt+Enter; send CSI-u so tmux can match M-S-Enter.

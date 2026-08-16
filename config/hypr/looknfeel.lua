@@ -59,5 +59,9 @@ hl.config({
     -- A single window/column stretches to fill the whole workspace
     -- instead of sitting at column_width.
     fullscreen_on_one_column = true,
+
+    -- Exactly half the screen width, so two windows fill it edge-to-edge
+    -- with no leftover sliver of empty space.
+    column_width = 0.5,
   },
 })
