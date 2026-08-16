@@ -35,8 +35,6 @@ keybind = super+d=new_split:right
 keybind = super+shift+d=new_split:down
 keybind = alt+d=new_split:right
 keybind = alt+shift+d=new_split:down
-keybind = ctrl+[=goto_split:previous
-keybind = ctrl+]=goto_split:next
 keybind = alt+[=goto_split:previous
 keybind = alt+]=goto_split:next
 keybind = control+1=goto_tab:1
