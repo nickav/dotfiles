@@ -8,6 +8,10 @@ hl.config({
     -- Swap Alt and Super/Meta keys; make Caps Lock act as Ctrl.
     kb_options = "altwin:swap_alt_win,ctrl:nocaps",
 
+    -- Increase sensitivity for mouse/trackpad (default: 0).
+    sensitivity = 0.5,
+    accel_profile = "adaptive",
+
     touchpad = {
       -- Use bottom-right corner click for right-click instead of two-finger click.
       clickfinger_behavior = false,
