@@ -70,6 +70,20 @@ local function send_shortcut_chain(steps)
   end
 end
 
+-- Lua patterns have no alternation ("|" is literal, not a regex OR), so this
+-- is a table of exact classes plus the two wildcard-id families, not one
+-- regex. Mirrors Omarchy's own "+terminal" tag match (default/hypr/apps/
+-- terminals.lua), which isn't readable from here since that's a window
+-- rule, not a queryable property.
+local TERMINAL_CLASSES = { "Alacritty", "kitty", "com.mitchellh.ghostty", "foot", "org.codeberg.dnkl.foot", "wezterm" }
+
+local function is_terminal_class(class)
+  for _, c in ipairs(TERMINAL_CLASSES) do
+    if class == c then return true end
+  end
+  return class:match("^org%.omarchy%.") ~= nil or class:match("^TUI%.") ~= nil
+end
+
 -- Apps with their own native SUPER+<key> binding (Ghostty/Sublime, configured
 -- in config/ghostty and sublime/) get the raw SUPER+<key> forwarded to them
 -- unchanged, via the "activewindow" window target so it's delivered directly
@@ -255,10 +269,30 @@ o.bind("SUPER + SHIFT + DOWN", "Send Ctrl+Shift+End (select to end of document)"
 
 -- SUPER+BACKSPACE was "Toggle window transparency" (bindings/utilities.lua);
 -- freed here for delete-to-beginning-of-line, to match the SUPER+LEFT (go to
--- beginning of line) binding above. SUPER+DELETE mirrors it forward.
+-- beginning of line) binding above. SUPER+DELETE mirrors it forward. In a
+-- terminal, Shift+Home/End only makes a terminal-level visual selection that
+-- the shell's readline buffer doesn't see, so a following Backspace/Delete
+-- just erases one character rather than the "selection" - readline's own
+-- Ctrl+U/Ctrl+K (kill to start/end of line) is used there instead.
 hl.unbind("SUPER + BACKSPACE")
-o.bind("SUPER + BACKSPACE", "Delete to beginning of line", send_shortcut_chain({ { "SHIFT", "Home" }, { "", "BackSpace" } }))
-o.bind("SUPER + DELETE", "Delete to end of line", send_shortcut_chain({ { "SHIFT", "End" }, { "", "Delete" } }))
+
+local function terminal_or_chain(terminal_key, chain_steps)
+  local terminal_action = send_shortcut_once("CTRL", terminal_key)
+  local chain_action = send_shortcut_chain(chain_steps)
+  return function()
+    local window = hl.get_active_window()
+    if is_terminal_class(window and window.class or "") then
+      terminal_action()
+    else
+      chain_action()
+    end
+  end
+end
+
+o.bind("SUPER + BACKSPACE", "Delete to beginning of line (Ctrl+U in terminal)",
+  terminal_or_chain("U", { { "SHIFT", "Home" }, { "", "BackSpace" } }))
+o.bind("SUPER + DELETE", "Delete to end of line (Ctrl+K in terminal)",
+  terminal_or_chain("K", { { "SHIFT", "End" }, { "", "Delete" } }))
 
 -- CTRL+Left/Right (move by word) is already unbound by Hyprland/Omarchy, so
 -- it already passes through untouched to whatever the focused app does with
@@ -273,7 +307,25 @@ o.bind("ALT + SHIFT + RIGHT", "Send Ctrl+Shift+Right (select word right)", send_
 
 -- ALT+Backspace/Delete delete a whole word, same pairing as ALT+Left/Right
 -- above (Ctrl+Backspace/Delete is the underlying Linux word-delete already
--- native to most apps; ALT+Backspace/Delete themselves are unbound/inert).
-o.bind("ALT + BACKSPACE", "Send Ctrl+Backspace (delete word left)", send_shortcut_once("CTRL", "BackSpace"))
-o.bind("ALT + DELETE", "Send Ctrl+Delete (delete word right)", send_shortcut_once("CTRL", "Delete"))
+-- native to most apps; ALT+Backspace/Delete themselves are unbound/inert) -
+-- except in a terminal. Ctrl+Arrow has a standard escape sequence readline
+-- understands, but Ctrl+Backspace/Delete doesn't, so Ghostty falls back to
+-- plain backspace/delete and the Ctrl modifier is silently dropped. Terminal
+-- windows keep the raw ALT+Backspace/Delete instead, which Ghostty already
+-- encodes as Meta+Backspace/Delete - readline's own default word-delete.
+local function forward_terminal_or_send_ctrl(key)
+  return function()
+    local window = hl.get_active_window()
+    local class = window and window.class or ""
+    local mods = is_terminal_class(class) and "ALT" or "CTRL"
+    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down", window = "activewindow" }))
+
+    hl.timer(function()
+      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up", window = "activewindow" }))
+    end, { timeout = 50, type = "oneshot" })
+  end
+end
+
+o.bind("ALT + BACKSPACE", "Delete word left (Ctrl+Backspace / native in terminal)", forward_terminal_or_send_ctrl("BackSpace"))
+o.bind("ALT + DELETE", "Delete word right (Ctrl+Delete / native in terminal)", forward_terminal_or_send_ctrl("Delete"))
 
