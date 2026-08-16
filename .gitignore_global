@@ -17,3 +17,5 @@ notes*.md
 *.sublime-workspace
 
 *.patch
+
+.claude

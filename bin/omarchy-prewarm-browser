@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Resolve and launch the current xdg default browser with no window, so
+# autostart.lua can spawn it hidden on a special workspace at login. This
+# mirrors omarchy-launch-browser's own default-browser resolution, but
+# skips its systemd-run wrapper: that extra process hop breaks Hyprland's
+# exec-time workspace/silent assignment (the window lands on the active
+# workspace instead of the hidden one), so it's not usable here.
+set -euo pipefail
+
+if [ "$(powerprofilesctl get 2>/dev/null)" = "power-saver" ]; then
+  exit 0
+fi
+
+default_browser=$(env -u BROWSER xdg-settings get default-web-browser 2>/dev/null || true)
+[ -n "$default_browser" ] || default_browser=$(xdg-mime query default x-scheme-handler/https 2>/dev/null || true)
+[ -n "$default_browser" ] || exit 0
+
+desktop_file=""
+for dir in "$HOME/.local" "$HOME/.nix-profile" /usr; do
+  candidate="$dir/share/applications/$default_browser"
+  if [ -f "$candidate" ]; then
+    desktop_file="$candidate"
+    break
+  fi
+done
+[ -n "$desktop_file" ] || exit 0
+
+browser_exec=$(sed -n 's/^Exec=\([^ ]*\).*/\1/p' "$desktop_file" | head -1)
+[ -n "$browser_exec" ] || exit 0
+
+exec uwsm-app -- "$browser_exec"

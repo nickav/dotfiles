@@ -76,6 +76,7 @@ function install() {
 	# PATH, so hyprctl can exec them by name.
 	mkdir -p "$HOME/.local/bin";
 	cmd ln -sf "$dir/bin/omarchy-launch-focused-app-copy" "$HOME/.local/bin/omarchy-launch-focused-app-copy";
+	cmd ln -sf "$dir/bin/omarchy-prewarm-browser" "$HOME/.local/bin/omarchy-prewarm-browser";
 
 	# Wire up sublime's own installer alongside the config/ symlinks.
 	cmd ./sublime/install_linux.sh
