@@ -12,3 +12,24 @@ local function toggle_neotree()
 end
 vim.keymap.set("n", "<C-k>", toggle_neotree, { desc = "Toggle Explorer NeoTree" })
 vim.keymap.set("n", "<C-b>", toggle_neotree, { desc = "Toggle Explorer NeoTree" })
+
+-- Cycle between window panes. NOTE: <C-[> and <C-]> don't work for this -
+-- Ghostty itself binds those keys to its own split navigation
+-- (config/ghostty: ctrl+[=goto_split:previous, ctrl+]=goto_split:next), so
+-- they never reach Neovim at all.
+vim.keymap.set("n", "<C-Left>", "<C-w>W", { desc = "Cycle to previous pane" })
+vim.keymap.set("n", "<C-Right>", "<C-w>w", { desc = "Cycle to next pane" })
+
+-- Alt+D / Alt+Shift+D for vertical/horizontal splits. Not Ctrl+D: that's
+-- Neovim's default "scroll down half page". Not Super+D: Ghostty and
+-- Hyprland already use that for the terminal's own native split
+-- (bindings.lua leaves SUPER+D unbound for this reason).
+vim.keymap.set("n", "<A-d>", "<C-w>v", { desc = "Vertical split" })
+vim.keymap.set("n", "<A-S-d>", "<C-w>s", { desc = "Horizontal split" })
+
+-- Alt+W closes the current split/pane.
+vim.keymap.set("n", "<A-w>", "<C-w>c", { desc = "Close split" })
+
+-- Alt+[ / Alt+] cycle between open splits.
+vim.keymap.set("n", "<A-[>", "<C-w>W", { desc = "Cycle to previous pane" })
+vim.keymap.set("n", "<A-]>", "<C-w>w", { desc = "Cycle to next pane" })

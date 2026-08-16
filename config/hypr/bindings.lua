@@ -165,6 +165,10 @@ o.bind("SUPER + ALT + L", "Lock system", "omarchy-system-lock")
 -- niri-like scrolling layout.
 o.bind("SUPER + CTRL + L", "Toggle workspace layout", "omarchy-hyprland-workspace-layout-toggle")
 
+-- SUPER+F11 also toggles fullscreen, same as SUPER+F.
+o.bind("SUPER + F11", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+o.bind("ALT + F11", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+
 o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
 
 -- Every other free SUPER+<letter> sends Ctrl+<letter> to the focused
