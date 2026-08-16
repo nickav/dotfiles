@@ -77,6 +77,13 @@ function install() {
 	mkdir -p "$HOME/.local/bin";
 	cmd ln -sf "$dir/bin/omarchy-launch-focused-app-copy" "$HOME/.local/bin/omarchy-launch-focused-app-copy";
 	cmd ln -sf "$dir/bin/omarchy-prewarm-browser" "$HOME/.local/bin/omarchy-prewarm-browser";
+	cmd ln -sf "$dir/bin/omarchy-power-profile-watch" "$HOME/.local/bin/omarchy-power-profile-watch";
+
+	# Auto-switch power-profiles-daemon profile on AC plug/unplug and low battery.
+	mkdir -p "$HOME/.config/systemd/user";
+	cmd ln -sf "$dir/systemd/omarchy-power-profile-watch.service" "$HOME/.config/systemd/user/omarchy-power-profile-watch.service";
+	cmd systemctl --user daemon-reload;
+	cmd systemctl --user enable --now omarchy-power-profile-watch.service;
 
 	# Wire up sublime's own installer alongside the config/ symlinks.
 	cmd ./sublime/install_linux.sh

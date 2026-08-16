@@ -1,0 +1,13 @@
+[Unit]
+Description=Auto-switch power profile on AC plug/unplug and low battery
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/omarchy-power-profile-watch
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

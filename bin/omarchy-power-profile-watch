@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Auto-switch the power-profiles-daemon profile on AC plug/unplug and low
+# battery, but only as an edge-triggered nudge: each rule fires once per
+# transition, then leaves the profile alone so a manual override (e.g.
+# switching to performance while unplugged for a call) sticks until the
+# next real transition.
+#
+#   AC plugged in            -> performance
+#   AC unplugged              -> balanced
+#   battery drops below 25%,
+#   while unplugged           -> power-saver
+set -euo pipefail
+
+battery_threshold=25
+poll_interval=20
+
+ac_path=$(compgen -G '/sys/class/power_supply/AC*/online' | head -1)
+battery_path=$(compgen -G '/sys/class/power_supply/BAT*/capacity' | head -1)
+
+read_ac() { cat "$ac_path" 2>/dev/null || echo 1; }
+read_capacity() { cat "$battery_path" 2>/dev/null || echo 100; }
+
+last_ac=$(read_ac)
+if [ "$last_ac" = 1 ]; then
+  powerprofilesctl set performance
+else
+  powerprofilesctl set balanced
+fi
+fired_low=0
+
+while true; do
+  sleep "$poll_interval"
+
+  ac=$(read_ac)
+  capacity=$(read_capacity)
+
+  if [ "$ac" != "$last_ac" ]; then
+    if [ "$ac" = 1 ]; then
+      powerprofilesctl set performance
+    else
+      powerprofilesctl set balanced
+    fi
+    last_ac="$ac"
+    fired_low=0
+  fi
+
+  if [ "$ac" = 0 ] && [ "$capacity" -lt "$battery_threshold" ]; then
+    if [ "$fired_low" = 0 ]; then
+      powerprofilesctl set power-saver
+      fired_low=1
+    fi
+  elif [ "$capacity" -ge "$battery_threshold" ]; then
+    fired_low=0
+  fi
+done
