@@ -1,5 +1,5 @@
 [core]
-	excludesfile = /Users/nick/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	autocrlf = input
 	pager = less -FXe
 	whitespace = cr-at-eol
@@ -61,20 +61,18 @@
 	trustExitCode = true
 [commit]
 	template = /Users/nick/.stCommitMsg
-[url "git@github.com:plato-app"]
-	insteadOf = https://github.com/plato-app
 [http]
 	sslVerify = true
 	sslBackend = openssl
-[url "git@github.com:"]
-	insteadOf = https://github.com/
+#[url "git@github.com:"]
+#	insteadOf = https://github.com/
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
-[credential]
-	helper = osxkeychain
+#[credential]
+#	helper = osxkeychain
 [init]
 	defaultBranch = main
 [safe]
