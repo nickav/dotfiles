@@ -1,0 +1,13 @@
+[Unit]
+Description=Auto-reload Ghostty config on file changes
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/omarchy-ghostty-config-watch
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

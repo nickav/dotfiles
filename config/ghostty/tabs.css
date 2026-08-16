@@ -13,7 +13,7 @@ dnd tab {
 
 tabbar tab button.image-button {
   min-width: 16px;
-  min-height: 24px;
+  min-height: 32px;
   padding: 0;
   margin: 0;
 }
@@ -25,5 +25,5 @@ dnd tab indicator {
 
 tabbar .tab-label,
 tabbar label {
-  font-size: 12px;
+  font-size: 14px;
 }

@@ -33,3 +33,17 @@ vim.keymap.set("n", "<A-w>", "<C-w>c", { desc = "Close split" })
 -- Alt+[ / Alt+] cycle between open splits.
 vim.keymap.set("n", "<A-[>", "<C-w>W", { desc = "Cycle to previous pane" })
 vim.keymap.set("n", "<A-]>", "<C-w>w", { desc = "Cycle to next pane" })
+
+-- Tab / Shift+Tab cycle buffers, same as LazyVim's default <S-h>/<S-l>.
+vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
+vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
+
+-- t then n/p cycle vim tabs (tabpages), not to be confused with buffers above.
+vim.keymap.set("n", "tn", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+vim.keymap.set("n", "tp", "<cmd>tabprevious<cr>", { desc = "Prev Tab" })
+
+-- t then t opens a new tab.
+vim.keymap.set("n", "tt", "<cmd>tabnew<cr>", { desc = "New Tab" })
+
+-- t then w closes the current tab (w = close, same convention as <A-w> for splits).
+vim.keymap.set("n", "tw", "<cmd>tabclose<cr>", { desc = "Close Tab" })

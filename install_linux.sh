@@ -78,12 +78,16 @@ function install() {
 	cmd ln -sf "$dir/bin/omarchy-launch-focused-app-copy" "$HOME/.local/bin/omarchy-launch-focused-app-copy";
 	cmd ln -sf "$dir/bin/omarchy-prewarm-browser" "$HOME/.local/bin/omarchy-prewarm-browser";
 	cmd ln -sf "$dir/bin/omarchy-power-profile-watch" "$HOME/.local/bin/omarchy-power-profile-watch";
+	cmd ln -sf "$dir/bin/omarchy-ghostty-config-watch" "$HOME/.local/bin/omarchy-ghostty-config-watch";
 
-	# Auto-switch power-profiles-daemon profile on AC plug/unplug and low battery.
+	# Auto-switch power-profiles-daemon profile on AC plug/unplug and low battery,
+	# and auto-reload Ghostty's config on save (needs inotify-tools).
 	mkdir -p "$HOME/.config/systemd/user";
 	cmd ln -sf "$dir/systemd/omarchy-power-profile-watch.service" "$HOME/.config/systemd/user/omarchy-power-profile-watch.service";
+	cmd ln -sf "$dir/systemd/omarchy-ghostty-config-watch.service" "$HOME/.config/systemd/user/omarchy-ghostty-config-watch.service";
 	cmd systemctl --user daemon-reload;
 	cmd systemctl --user enable --now omarchy-power-profile-watch.service;
+	cmd systemctl --user enable --now omarchy-ghostty-config-watch.service;
 
 	# Wire up sublime's own installer alongside the config/ symlinks.
 	cmd ./sublime/install_linux.sh

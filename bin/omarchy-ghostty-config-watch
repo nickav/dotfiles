@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Ghostty has no built-in file-watcher for its config (only a manual
+# reload_config keybind), but it does reload on SIGUSR2. This watches
+# ~/.config/ghostty for writes and signals any running Ghostty process,
+# so editing the config file (directly or via `ghostty +edit-config`)
+# reloads it immediately without needing to focus a terminal and hit
+# the reload keybind.
+set -euo pipefail
+
+watch_dir="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty"
+
+inotifywait -m -q -e close_write,create,delete,move -r "$watch_dir" |
+while read -r _; do
+  pkill -SIGUSR2 -x ghostty || true
+done
