@@ -7,6 +7,11 @@ hl.config({
   input = {
     -- Swap Alt and Super/Meta keys; make Caps Lock act as Ctrl.
     kb_options = "altwin:swap_alt_win,ctrl:nocaps",
+
+    touchpad = {
+      -- Use bottom-right corner click for right-click instead of two-finger click.
+      clickfinger_behavior = false,
+    },
   },
 })
 
