@@ -1,8 +1,8 @@
 -- Change the default Omarchy look'n'feel.
 
 -- Cursor size (Omarchy default is 24).
-hl.env("XCURSOR_SIZE", "20")
-hl.env("HYPRCURSOR_SIZE", "20")
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_SIZE", "24")
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#general
 hl.config({
