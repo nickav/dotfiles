@@ -85,6 +85,8 @@ o.bind("CTRL + J", "Down arrow", send_key_once("Down"), { repeating = true })
 o.bind("CTRL + K", "Up arrow", send_key_once("Up"), { repeating = true })
 o.bind("CTRL + L", "Right arrow", send_key_once("Right"), { repeating = true })
 
+o.bind("CTRL + SHIFT + ESCAPE", "Task manager", "xdg-terminal-exec btop")
+
 -- Free up SUPER+T for a Ghostty new-tab binding; move floating-toggle
 -- (default: bindings/tiling.lua) to SUPER+Y instead.
 hl.unbind("SUPER + T")
