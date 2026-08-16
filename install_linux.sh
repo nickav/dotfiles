@@ -71,6 +71,12 @@ function install() {
 		fi
 	fi
 
+	# Symlink custom bin scripts referenced by hypr bindings.lua (e.g.
+	# SUPER+D's app-copy launcher) into ~/.local/bin, which is already on
+	# PATH, so hyprctl can exec them by name.
+	mkdir -p "$HOME/.local/bin";
+	cmd ln -sf "$dir/bin/omarchy-launch-focused-app-copy" "$HOME/.local/bin/omarchy-launch-focused-app-copy";
+
 	# Wire up sublime's own installer alongside the config/ symlinks.
 	cmd ./sublime/install_linux.sh
 

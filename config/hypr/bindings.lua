@@ -52,6 +52,24 @@ local function send_shortcut_once(mods, key)
   end
 end
 
+-- Sends a chain of shortcuts in sequence, each waiting for the previous
+-- key's up-event before starting. Used for compound edits that don't have a
+-- single dispatcher, like "select to beginning of line, then delete".
+local function send_shortcut_chain(steps)
+  return function()
+    local function run(i)
+      if i > #steps then return end
+      local mods, key = steps[i][1], steps[i][2]
+      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
+      hl.timer(function()
+        hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
+        hl.timer(function() run(i + 1) end, { timeout = 20, type = "oneshot" })
+      end, { timeout = 50, type = "oneshot" })
+    end
+    run(1)
+  end
+end
+
 -- Apps with their own native SUPER+<key> binding (Ghostty/Sublime, configured
 -- in config/ghostty and sublime/) get the raw SUPER+<key> forwarded to them
 -- unchanged, via the "activewindow" window target so it's delivered directly
@@ -113,6 +131,11 @@ hl.unbind("SUPER + SHIFT + D")         -- Docker (lazydocker)
 -- different keys. Logical SUPER resolves post-XKB-swap to the physical Alt key.
 o.bind("SUPER + bracketright", "Focus on next window", hl.dsp.window.cycle_next())
 o.bind("SUPER + bracketleft", "Focus on previous window", hl.dsp.window.cycle_next({ next = false }))
+
+-- Recover left/right window-swapping here (bindings/tiling.lua's SUPER+SHIFT+
+-- LEFT/RIGHT was freed above for macOS-style text navigation).
+o.bind("SUPER + SHIFT + bracketright", "Swap window to the right", hl.dsp.window.swap({ direction = "r" }))
+o.bind("SUPER + SHIFT + bracketleft", "Swap window to the left", hl.dsp.window.swap({ direction = "l" }))
 
 dofile(os.getenv("HOME") .. "/.config/omarchy/plugins/io.github.pablo-merino.altswitch/altswitch.lua")
 
@@ -179,6 +202,9 @@ for _, letter in ipairs({ "A", "B", "E", "H", "I", "K", "M", "N", "P", "R", "U",
   o.bind("SUPER + " .. letter, "Send Ctrl+" .. letter, send_shortcut_once("CTRL", letter))
 end
 
+-- SUPER+SHIFT+Z sends Ctrl+Shift+Z (redo), matching SUPER+Z (undo) above.
+o.bind("SUPER + SHIFT + Z", "Send Ctrl+Shift+Z (redo)", send_shortcut_once("CTRL SHIFT", "Z"))
+
 -- SUPER+D launches a new copy of the focused app, via its own .desktop
 -- "New Window" action (see bin/omarchy-launch-focused-app-copy) if it
 -- declares one, otherwise a new terminal. This takes over Ghostty's/
@@ -201,4 +227,53 @@ o.bind("SUPER + J", "Toggle window split", function()
     hl.dispatch(hl.dsp.layout("togglesplit"))
   end
 end)
+
+-- macOS-style text navigation.
+--
+-- SUPER+arrows was window focus (bindings/tiling.lua) and SUPER+SHIFT+arrows
+-- was window swap; both are given up here in favor of Cmd-style line/document
+-- navigation. (SUPER+bracketleft/bracketright still cycle focus.)
+-- SUPER+CTRL+arrows (grouped-window focus) and SUPER+ALT+arrows (move into
+-- group / move workspace to monitor) are unaffected: different combos.
+hl.unbind("SUPER + LEFT")
+hl.unbind("SUPER + RIGHT")
+hl.unbind("SUPER + UP")
+hl.unbind("SUPER + DOWN")
+hl.unbind("SUPER + SHIFT + LEFT")
+hl.unbind("SUPER + SHIFT + RIGHT")
+hl.unbind("SUPER + SHIFT + UP")
+hl.unbind("SUPER + SHIFT + DOWN")
+
+o.bind("SUPER + LEFT", "Send Home (beginning of line)", send_shortcut_once("", "Home"))
+o.bind("SUPER + RIGHT", "Send End (end of line)", send_shortcut_once("", "End"))
+o.bind("SUPER + UP", "Send Ctrl+Home (beginning of document)", send_shortcut_once("CTRL", "Home"))
+o.bind("SUPER + DOWN", "Send Ctrl+End (end of document)", send_shortcut_once("CTRL", "End"))
+o.bind("SUPER + SHIFT + LEFT", "Send Shift+Home (select to beginning of line)", send_shortcut_once("SHIFT", "Home"))
+o.bind("SUPER + SHIFT + RIGHT", "Send Shift+End (select to end of line)", send_shortcut_once("SHIFT", "End"))
+o.bind("SUPER + SHIFT + UP", "Send Ctrl+Shift+Home (select to beginning of document)", send_shortcut_once("CTRL SHIFT", "Home"))
+o.bind("SUPER + SHIFT + DOWN", "Send Ctrl+Shift+End (select to end of document)", send_shortcut_once("CTRL SHIFT", "End"))
+
+-- SUPER+BACKSPACE was "Toggle window transparency" (bindings/utilities.lua);
+-- freed here for delete-to-beginning-of-line, to match the SUPER+LEFT (go to
+-- beginning of line) binding above. SUPER+DELETE mirrors it forward.
+hl.unbind("SUPER + BACKSPACE")
+o.bind("SUPER + BACKSPACE", "Delete to beginning of line", send_shortcut_chain({ { "SHIFT", "Home" }, { "", "BackSpace" } }))
+o.bind("SUPER + DELETE", "Delete to end of line", send_shortcut_chain({ { "SHIFT", "End" }, { "", "Delete" } }))
+
+-- CTRL+Left/Right (move by word) is already unbound by Hyprland/Omarchy, so
+-- it already passes through untouched to whatever the focused app does with
+-- it (word navigation, by default, in virtually everything). ALT+Left/Right
+-- gets the same word-navigation treatment here for apps that don't already
+-- give Alt that meaning themselves; this does take over Alt+Left/Right as
+-- Back/Forward history navigation in browsers like Brave.
+o.bind("ALT + LEFT", "Send Ctrl+Left (word left)", send_shortcut_once("CTRL", "Left"))
+o.bind("ALT + RIGHT", "Send Ctrl+Right (word right)", send_shortcut_once("CTRL", "Right"))
+o.bind("ALT + SHIFT + LEFT", "Send Ctrl+Shift+Left (select word left)", send_shortcut_once("CTRL SHIFT", "Left"))
+o.bind("ALT + SHIFT + RIGHT", "Send Ctrl+Shift+Right (select word right)", send_shortcut_once("CTRL SHIFT", "Right"))
+
+-- ALT+Backspace/Delete delete a whole word, same pairing as ALT+Left/Right
+-- above (Ctrl+Backspace/Delete is the underlying Linux word-delete already
+-- native to most apps; ALT+Backspace/Delete themselves are unbound/inert).
+o.bind("ALT + BACKSPACE", "Send Ctrl+Backspace (delete word left)", send_shortcut_once("CTRL", "BackSpace"))
+o.bind("ALT + DELETE", "Send Ctrl+Delete (delete word right)", send_shortcut_once("CTRL", "Delete"))
 
