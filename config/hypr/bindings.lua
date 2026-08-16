@@ -173,37 +173,21 @@ o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
 
 -- Every other free SUPER+<letter> sends Ctrl+<letter> to the focused
 -- window. Excludes SUPER+T and SUPER+W, which have their own conditional
--- forward_native_or_send_ctrl bindings above, and SUPER+D, which is left
--- unbound so Ghostty's/Sublime's own native split bindings (configured in
--- config/ghostty and sublime/) receive the raw keypress instead.
+-- forward_native_or_send_ctrl bindings above, and SUPER+D, which launches
+-- a copy of the focused app instead (see below).
 for _, letter in ipairs({ "A", "B", "E", "H", "I", "K", "M", "N", "P", "R", "U", "Z" }) do
   o.bind("SUPER + " .. letter, "Send Ctrl+" .. letter, send_shortcut_once("CTRL", letter))
 end
 
--- SUPER+RETURN takes the focused app into account: apps in
--- NATIVE_SUPER_KEY_APPS (Ghostty/Sublime) get the raw SUPER+Return forwarded
--- to them, so they're free to bind it themselves later; every other app
--- falls back to the default "open a new terminal" behavior.
-hl.unbind("SUPER + RETURN")
-o.bind("SUPER + RETURN", "Terminal (default) / Send native to app", function()
+-- SUPER+D launches a new copy of the focused app, via its own .desktop
+-- "New Window" action (see bin/omarchy-launch-focused-app-copy) if it
+-- declares one, otherwise a new terminal. This takes over Ghostty's/
+-- Sublime's own native SUPER+D (new split / clone file).
+o.bind("SUPER + D", "Launch a copy of the focused app (default: terminal)", function()
   local window = hl.get_active_window()
-  local class = window and window.class
-  local is_native = false
-  for _, app_class in ipairs(NATIVE_SUPER_KEY_APPS) do
-    if class == app_class then
-      is_native = true
-      break
-    end
-  end
+  local class = window and window.class or ""
 
-  if is_native then
-    hl.dispatch(hl.dsp.send_key_state({ mods = "SUPER", key = "Return", state = "down", window = "activewindow" }))
-    hl.timer(function()
-      hl.dispatch(hl.dsp.send_key_state({ mods = "SUPER", key = "Return", state = "up", window = "activewindow" }))
-    end, { timeout = 50, type = "oneshot" })
-  else
-    hl.dispatch(hl.dsp.exec_cmd("omarchy-launch-terminal"))
-  end
+  hl.dispatch(hl.dsp.exec_cmd("omarchy-launch-focused-app-copy " .. class))
 end)
 
 -- Guard "Toggle window split" (default: bindings/tiling.lua): togglesplit is

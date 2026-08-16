@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Launch a new instance of the app whose window class is $1, using that
+# app's own ".desktop New Window" action if it declares one. Falls back to
+# a new terminal when the class is unknown or has no such action.
+set -euo pipefail
+
+class="${1:-}"
+app_dirs=("$HOME/.local/share/applications" /usr/local/share/applications /usr/share/applications)
+
+find_desktop_file() {
+  local dir file
+  for dir in "${app_dirs[@]}"; do
+    [ -d "$dir" ] || continue
+    for file in "$dir"/*.desktop; do
+      [ -f "$file" ] || continue
+      grep -Fxq "StartupWMClass=${class}" "$file" && { printf '%s\n' "$file"; return 0; }
+    done
+  done
+  for dir in "${app_dirs[@]}"; do
+    [ -f "$dir/${class}.desktop" ] && { printf '%s\n' "$dir/${class}.desktop"; return 0; }
+  done
+  return 1
+}
+
+new_window_exec() {
+  local file="$1" in_section=0 line
+  while IFS= read -r line; do
+    if [ "$line" = "[Desktop Action new-window]" ]; then
+      in_section=1
+      continue
+    fi
+    if [ "$in_section" = 1 ]; then
+      case "$line" in
+        \[*\]) break ;;
+        Exec=*) printf '%s\n' "${line#Exec=}"; return 0 ;;
+      esac
+    fi
+  done < "$file"
+  return 1
+}
+
+cmd=""
+
+# Terminal classes go straight to omarchy-launch-terminal so the new window
+# inherits the focused terminal's cwd; their .desktop "New Window" action
+# (if any) doesn't know about that and would drop it.
+terminal_class_re='^(Alacritty|kitty|com\.mitchellh\.ghostty|foot|org\.codeberg\.dnkl\.foot|wezterm|org\.omarchy\..*|TUI\..*)$'
+
+if [[ -n "$class" && ! "$class" =~ $terminal_class_re ]] && file=$(find_desktop_file); then
+  cmd=$(new_window_exec "$file") || cmd=""
+fi
+
+if [ -z "$cmd" ]; then
+  exec omarchy-launch-terminal
+fi
+
+# Strip desktop-entry field codes (%f, %F, %u, %U, %i, %c, %k, ...).
+cmd=$(printf '%s' "$cmd" | sed -E 's/%[a-zA-Z%]//g')
+
+exec setsid uwsm-app -- $cmd
