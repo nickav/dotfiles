@@ -2,5 +2,21 @@
     "variables":
     {
         "dark_bg": "color(var(--background) blend(white 90%))",
-    }
+    },
+    "rules":
+    [
+        {
+            "class": "label_control",
+            "parents": [{"class": "status_bar"}],
+            "font.size": 12
+        },
+        {
+            "class": "quick_panel_label",
+            "font.size": 14
+        },
+        {
+            "class": "quick_panel_path_label",
+            "font.size": 14
+        }
+    ]
 }

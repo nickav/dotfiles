@@ -47,3 +47,15 @@ vim.keymap.set("n", "tt", "<cmd>tabnew<cr>", { desc = "New Tab" })
 
 -- t then w closes the current tab (w = close, same convention as <A-w> for splits).
 vim.keymap.set("n", "tw", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+
+-- Neovide-only: Ctrl+Tab / Ctrl+1..9 ride on keys a terminal (and Ghostty's
+-- own tab keybinds) would intercept before Neovim ever sees them, so they
+-- only make sense for the GUI, where Neovide gets the raw key event.
+if vim.g.neovide then
+  vim.keymap.set("n", "<C-Tab>", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+  vim.keymap.set("n", "<C-S-Tab>", "<cmd>tabprevious<cr>", { desc = "Prev Tab" })
+  for i = 1, 8 do
+    vim.keymap.set("n", "<C-" .. i .. ">", "<cmd>tabnext " .. i .. "<cr>", { desc = "Go to Tab " .. i })
+  end
+  vim.keymap.set("n", "<C-9>", "<cmd>tablast<cr>", { desc = "Go to Last Tab" })
+end
