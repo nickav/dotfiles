@@ -88,6 +88,7 @@ doskey ns=npm start
 doskey e=exit
 doskey em=emacs -nw $*
 doskey vi=vim $*
+doskey b=.\build.bat
 
 :: cl commands
 :: "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x64

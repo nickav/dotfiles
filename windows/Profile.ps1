@@ -107,3 +107,5 @@ function appify {
   )
   & "C:\ProgramData\chocolatey\tools\shimgen.exe" --output="C:\apps\$AppName" --path="$SourcePath"
 }
+
+function b { .\build.bat }
