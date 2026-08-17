@@ -79,6 +79,15 @@ function install() {
 	cmd ln -sf "$dir/bin/omarchy-prewarm-browser" "$HOME/.local/bin/omarchy-prewarm-browser";
 	cmd ln -sf "$dir/bin/omarchy-power-profile-watch" "$HOME/.local/bin/omarchy-power-profile-watch";
 	cmd ln -sf "$dir/bin/omarchy-ghostty-config-watch" "$HOME/.local/bin/omarchy-ghostty-config-watch";
+	cmd ln -sf "$dir/bin/razer-blade-14-patch.sh" "$HOME/.local/bin/razer-blade-14-patch.sh";
+
+	# Pacman hook that reapplies the Razer Blade 14 DKMS patch whenever
+	# razer-laptop-control-dkms-git updates (its -git source gets wiped and
+	# re-pulled from upstream on every rebuild). Needs root, so it's not part
+	# of the ~/.config symlink loop above.
+	if [ -d /etc/pacman.d/hooks ]; then
+		cmd sudo ln -sf "$dir/pacman-hooks/95-razer-blade-14-patch.hook" /etc/pacman.d/hooks/95-razer-blade-14-patch.hook;
+	fi
 
 	# Auto-switch power-profiles-daemon profile on AC plug/unplug and low battery,
 	# and auto-reload Ghostty's config on save (needs inotify-tools).

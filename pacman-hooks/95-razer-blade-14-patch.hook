@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = razer-laptop-control-dkms-git
+
+[Action]
+Description = Reapplying Razer Blade 14 (0x02C5) DKMS patch...
+When = PostTransaction
+Exec = /usr/bin/bash -c '/home/mango/dev/dotfiles/bin/razer-blade-14-patch.sh'
