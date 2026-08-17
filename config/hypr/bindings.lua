@@ -208,6 +208,31 @@ o.bind("ALT + F11", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen
 
 o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
 
+-- CTRL+F1/F2/F3 as media keys (mute, volume down, volume up), matching the
+-- XF86Audio* defaults' commands.
+o.bind("CTRL + F1", "Mute", "omarchy-audio-output-volume mute-toggle", { locked = true })
+o.bind("CTRL + F2", "Volume down", "omarchy-audio-output-volume lower", { locked = true, repeating = true })
+o.bind("CTRL + F3", "Volume up", "omarchy-audio-output-volume raise", { locked = true, repeating = true })
+
+-- CTRL+F5/F6/F7 as media keys (previous, play/pause, next), matching the
+-- XF86Audio*/omarchy-shell media defaults' commands.
+o.bind("CTRL + F5", "Previous track", "omarchy-shell media previous", { locked = true })
+o.bind("CTRL + F6", "Play/Pause", "omarchy-shell media playPause", { locked = true })
+o.bind("CTRL + F7", "Next track", "omarchy-shell media next", { locked = true })
+
+-- CTRL+F8/F9 as display brightness keys, matching the XF86MonBrightness*
+-- defaults' commands. (Bare F9 is already bound to push-to-talk dictation.)
+o.bind("CTRL + F8", "Brightness down", "omarchy-brightness-display 5%-", { locked = true, repeating = true })
+o.bind("CTRL + F9", "Brightness up", "omarchy-brightness-display +5%", { locked = true, repeating = true })
+
+-- F10/F11 as keyboard backlight keys, matching the XF86KbdBrightness*
+-- defaults' commands.
+o.bind("CTRL + F10", "Keyboard brightness down", "omarchy-brightness-keyboard down", { locked = true, repeating = true })
+o.bind("CTRL + F11", "Keyboard brightness up", "omarchy-brightness-keyboard up", { locked = true, repeating = true })
+
+-- CTRL+F12 takes a screenshot, matching the PRINT default's command.
+o.bind("CTRL + F12", "Screenshot", "omarchy-capture-screenshot")
+
 -- Every other free SUPER+<letter> sends Ctrl+<letter> to the focused
 -- window. Excludes SUPER+T and SUPER+W, which have their own conditional
 -- forward_native_or_send_ctrl bindings above, and SUPER+D, which launches
