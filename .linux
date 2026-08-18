@@ -1,5 +1,7 @@
 # linux-only overrides, sourced by .bashrc / .zshrc when $(uname) = Linux
 
+export PATH="$HOME/.config/bin:$PATH"
+
 alias vi='nvim'
 alias vim='nvim'
 export EDITOR='nvim'

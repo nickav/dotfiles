@@ -86,7 +86,7 @@ function install() {
 	# re-pulled from upstream on every rebuild). Needs root, so it's not part
 	# of the ~/.config symlink loop above.
 	if [ -d /etc/pacman.d/hooks ]; then
-		cmd sudo ln -sf "$dir/pacman-hooks/95-razer-blade-14-patch.hook" /etc/pacman.d/hooks/95-razer-blade-14-patch.hook;
+		cmd sudo ln -sf "$dir/linux/pacman/hooks/95-razer-blade-14-patch.hook" /etc/pacman.d/hooks/95-razer-blade-14-patch.hook;
 	fi
 
 	# Auto-switch power-profiles-daemon profile on AC plug/unplug and low battery,
