@@ -52,6 +52,13 @@ function install() {
 
   mkdir -p $HOME/.vim
   ln -sf $dir/snippets $HOME/.vim/snippets
+
+	mkdir -p "$HOME/Library/Preferences"
+	if [ $print_only ]; then
+		echo "ln -sf $dir/macos/iterm/com.googlecode.iterm2.plist $HOME/Library/Preferences/com.googlecode.iterm2.plist";
+	else
+		ln -sf $dir/macos/iterm/com.googlecode.iterm2.plist $HOME/Library/Preferences/com.googlecode.iterm2.plist;
+	fi
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then

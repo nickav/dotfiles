@@ -92,8 +92,8 @@ function install() {
 	# Auto-switch power-profiles-daemon profile on AC plug/unplug and low battery,
 	# and auto-reload Ghostty's config on save (needs inotify-tools).
 	mkdir -p "$HOME/.config/systemd/user";
-	cmd ln -sf "$dir/systemd/omarchy-power-profile-watch.service" "$HOME/.config/systemd/user/omarchy-power-profile-watch.service";
-	cmd ln -sf "$dir/systemd/omarchy-ghostty-config-watch.service" "$HOME/.config/systemd/user/omarchy-ghostty-config-watch.service";
+	cmd ln -sf "$dir/linux/systemd/omarchy-power-profile-watch.service" "$HOME/.config/systemd/user/omarchy-power-profile-watch.service";
+	cmd ln -sf "$dir/linux/systemd/omarchy-ghostty-config-watch.service" "$HOME/.config/systemd/user/omarchy-ghostty-config-watch.service";
 	cmd systemctl --user daemon-reload;
 	cmd systemctl --user enable --now omarchy-power-profile-watch.service;
 	cmd systemctl --user enable --now omarchy-ghostty-config-watch.service;
