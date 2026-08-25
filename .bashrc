@@ -1,17 +1,15 @@
 #
 # .bashrc is run everytime a new shell window is opened
 #
+
+# per-device overrides not checked into source control
+[ -f ~/.extra ] && source ~/.extra
+
 alias sudo='sudo '
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-
-# quick google search
-function s() {
-	q="$@"
-	open /Applications/Google\ Chrome.app/ "http://www.google.com/search?q=$q";
-}
 
 # enable full color on tmux
 TERM=xterm-256color
@@ -62,3 +60,10 @@ PROMPT_COMMAND='echo -ne "\033]0;\007" && [ ! -z $TMUX ] && tmux set -g set-titl
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 PATH=$PATH:$HOME/bin
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export PATH="$HOME/dev/_lib/Odin:$PATH"
+

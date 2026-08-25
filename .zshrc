@@ -143,8 +143,6 @@ fi
 export HISTCONTROL=ignoreboth
 
 export PATH="/Users/nick/bin:$PATH"
-export PATH="/usr/local/opt/llvm/bin:$PATH"
-export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/nick/bin/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nick/bin/google-cloud-sdk/path.zsh.inc'; fi
@@ -158,11 +156,9 @@ if [ -f '/Users/nick/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-export PATH="$(brew --prefix llvm@16)/bin:$PATH"
 export PATH="$PATH:$(go env GOPATH)/bin"
 
 export PATH="$PATH:/Users/nick/bin/odin/"
-export PATH="$(brew --prefix)/path/to/python3.10:$PATH"
 
 eval "$(fnm env)"
 alias python=python3
@@ -176,3 +172,18 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 export ZVM_INSTALL="$HOME/.zvm/self"
 export PATH="$PATH:$HOME/.zvm/bin"
 export PATH="$PATH:$ZVM_INSTALL/"
+
+export PATH=/Users/nick/.nimble/bin:$PATH
+
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+eval "$(/Users/nick/.local/bin/mise activate zsh)"
+export PATH="$HOME/.local/bin:$PATH"
+
+# opencode
+export PATH=/Users/nick/.opencode/bin:$PATH
+
+export PATH="$HOME/dev/_lib/Odin/:$PATH"
+
+export PATH="$HOME/dev/_lib/av_transcribe:$PATH"
+
+export EMSDK_QUIET=1

@@ -3,8 +3,6 @@
 #
 
 export PATH=/Users/nick/bin:$PATH
-export PATH=$PATH:/usr/local/mysql/bin
-export PATH=/usr/local/opt/ruby/bin:$PATH
 export PATH=/usr/local/bin:$PATH
 
 # load bashrc
@@ -32,7 +30,7 @@ fi;
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh;
 
-export PATH=/usr/local/Cellar:$PATH
+export PATH="$HOME/dev/_lib/Odin/:$PATH"
 
 #if [ -f ~/.cargo/env ]; then
 #	source ~/.cargo/env
