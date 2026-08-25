@@ -1,0 +1,13 @@
+[Unit]
+Description=Set PCIe ASPM policy to powersave
+DefaultDependencies=no
+After=sysinit.target
+Before=basic.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sh -c 'echo powersave > /sys/module/pcie_aspm/parameters/policy'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target
