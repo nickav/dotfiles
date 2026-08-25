@@ -12,10 +12,6 @@ pushd %build_folder%
     ${0}
     %time% odin build ../src -out:main.exe -subsystem:windows -debug || goto :error
     %time% .\main.exe || goto :error
-popd
-
-exit /B 0
-
 :error
 set "err=%errorlevel%"
 popd
