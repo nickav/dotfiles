@@ -2,15 +2,15 @@
     <content><![CDATA[#!/bin/bash
 set -e
 
-project_root="$(cd "$(dirname "$0")" && pwd -P)"
-build_folder=$project_root/build
+project_root="\$(cd "\$(dirname "\$0")" && pwd -P)"
+build_folder=\$project_root/build
 
 time=""
 [ -x ~/bin/ntime ] && time=~/bin/ntime
 
-mkdir -p $build_folder
-pushd $build_folder
-    ${0}
+mkdir -p \$build_folder
+pushd \$build_folder
+    ${1}
 popd]]></content>
     <tabTrigger>build</tabTrigger>
     <scope>source.shell.bash</scope>
