@@ -83,3 +83,67 @@ vim.keymap.set("n", "<leader>p", function() Snacks.picker.projects() end, { desc
 vim.api.nvim_create_user_command("OpenProject", function()
   Snacks.picker.projects()
 end, { desc = "Open Project" })
+
+local function build_cmd()
+  local root = LazyVim.root()
+  return { "bash", root .. "/build.sh" }, root
+end
+
+local function run_build()
+  local cmd, root = build_cmd()
+  if vim.fn.filereadable(cmd[2]) == 0 then
+    vim.notify("No build.sh in " .. root, vim.log.levels.WARN)
+    return
+  end
+  local existing = Snacks.terminal.get(cmd, { cwd = root, create = false })
+  if existing then
+    local job = vim.b[existing.buf].terminal_job_id
+    if job and vim.fn.jobwait({ job }, 0)[1] == -1 then
+      vim.notify("Build already running", vim.log.levels.WARN)
+      existing:show():focus()
+      return
+    end
+    existing:close()
+  end
+  Snacks.terminal.open(cmd, { cwd = root, win = { position = "bottom", height = 15 } }):focus()
+end
+
+local function kill_build()
+  local cmd, root = build_cmd()
+  local term = Snacks.terminal.get(cmd, { cwd = root, create = false })
+  if not term then
+    vim.notify("No build running", vim.log.levels.INFO)
+    return
+  end
+  local job = vim.b[term.buf].terminal_job_id
+  if not job then
+    vim.notify("No build running", vim.log.levels.INFO)
+    return
+  end
+  local pid = vim.api.nvim_get_chan_info(job).pid
+  if pid then
+    vim.uv.kill(-pid, "sigkill")
+  else
+    vim.fn.jobstop(job)
+  end
+end
+
+vim.keymap.set({ "n", "t" }, "<F5>", run_build, { desc = "Run build.sh" })
+vim.keymap.set({ "n", "t" }, "<S-F5>", kill_build, { desc = "Kill build.sh" })
+
+local function diagnostic_goto(next, severity)
+  return function()
+    vim.diagnostic.jump({
+      count = next and 1 or -1,
+      severity = severity and vim.diagnostic.severity[severity] or nil,
+    })
+  end
+end
+
+vim.keymap.set("n", "<F8>", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+vim.keymap.set("n", "<S-F8>", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+
+vim.keymap.set("n", "<leader>rr", function()
+  dofile(vim.fn.stdpath("config") .. "/lua/config/keymaps.lua")
+  vim.notify("Reloaded keymaps.lua")
+end, { desc = "Reload Keymaps" })
