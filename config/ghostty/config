@@ -18,6 +18,7 @@ gtk-custom-css = ~/.config/ghostty/tabs.css
 # Cursor styling
 cursor-style = "block"
 cursor-style-blink = false
+copy-on-select = true
 
 # Cursor styling + SSH session terminfo
 # (all shell integration options must be passed together)
