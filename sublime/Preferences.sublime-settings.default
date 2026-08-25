@@ -1,0 +1,116 @@
+{
+	"color_scheme": "Monokai.sublime-color-scheme",
+	"file_exclude_patterns":
+	[
+		"*.pyc",
+		"*.pyo",
+		"*.exe",
+		"*.dll",
+		"*.obj",
+		"*.o",
+		"*.a",
+		"*.lib",
+		"*.so",
+		"*.dylib",
+		"*.ncb",
+		"*.sdf",
+		"*.suo",
+		"*.pdb",
+		"*.idb",
+		".DS_Store",
+		"*.class",
+		"*.psd",
+		"*.db",
+		"*.sublime-workspace",
+		"*.swp",
+		"*.#*",
+		"*.zip",
+		"*.un~"
+	],
+	"folder_exclude_patterns":
+	[
+		"node_modules",
+		".git",
+		// "bin",
+		"build",
+		".build",
+		"_build",
+		"_site",
+		// "_archive",
+		"_deps",
+		"_toolchain",
+		"_tmp",
+		"dist",
+		// "playbit/*/third_party",
+		// "third_party",
+		"target",
+		"vendor",
+		"zig-out",
+	],
+	"ignored_packages":
+	[
+		// "Vintage",
+/*"Package Control",*/
+/*"Odin",*/
+/*"Odin",*/
+/*"RainbowBrackets",*/
+/*"Zig Language",*/
+/*"Dart",*/
+/*"Package Control",*/
+/*"Package Control",*/
+/*"ZigUnofficial",*/
+/*"GameMaker Language (GML) Bundle",*/
+/*"MarkdownPreview",*/
+/*"MarkdownPreview",*/
+/*"LSP",*/
+/*"LSP-clangd",*/
+/*"LSP-clangd",*/
+/*"LSP",*/
+/*"LSP",*/
+/*"HexViewer",*/
+/*"Handlebars",*/
+/*"Mustache",*/
+/*"Mustache",*/
+/*"LSP",*/
+/*"Vue",*/
+/*"rsms-theme",*/
+/*"LSP",*/
+/*"Package Control",*/
+/*"LSP",*/
+/*"Package Control",*/
+/*"MarkdownPreview",*/
+/*"Package Control",*/
+/*"LSP",*/
+/*"LSP",*/
+/*"LSP",*/
+/*"Package Control",*/
+/*"LSP",*/
+/*"Kotlin",*/
+/*"Handlebars",*/
+/*"Handlebars",*/
+/*"ZigUnofficial",*/
+	],
+	"scroll_past_end": true,
+	"scroll_speed": 2.0,
+	"tab_size": 4,
+	"theme": "Adaptive.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"vintage_ctrl_keys": true,
+	"vintage_start_in_command_mode": true,
+	"relative_line_numbers": true,
+	"font_size": 14,
+	"highlight_line": true,
+	"ui_scale": 1,
+	"index_files": true,
+	"index_exclude_gitignore": true,
+	"show_errors_inline": true,
+	/*"font_size": 14,*/
+	"update_check": false,
+	"auto_complete_selector": true,
+	"ignored_words":
+	[
+		"we’re"
+	],
+	"themed_title_bar": true,
+    "gtk_client_side_window_decorations": false,
+}

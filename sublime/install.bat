@@ -22,7 +22,6 @@ pushd "%APPDATA%\Sublime Text\Packages\User\"
     DefinitionPreview.py
     clear_selection.py
     Monokai.sublime-color-scheme
-    Preferences.sublime-settings
     Node.sublime-build
     Shell.sublime-build
     BuildBat.sublime-snippet 
@@ -34,5 +33,7 @@ pushd "%APPDATA%\Sublime Text\Packages\User\"
     if exist %%x del %%x
     mklink /H %%x "%cwd%%%x"
   )
+
+  if not exist Preferences.sublime-settings copy "%cwd%Preferences.sublime-settings.default" Preferences.sublime-settings
 
 popd

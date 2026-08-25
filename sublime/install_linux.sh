@@ -7,3 +7,7 @@ echo $cwd
 # Symlink the entire directory as Sublime's User package (mirrors install.sh's mac strategy).
 rm -rf "$target"
 ln -s "$cwd" "$target"
+
+if [ ! -f "$cwd/Preferences.sublime-settings" ]; then
+  cp "$cwd/Preferences.sublime-settings.default" "$cwd/Preferences.sublime-settings"
+fi

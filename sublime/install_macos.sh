@@ -5,6 +5,11 @@ echo $cwd
 # NOTE(nick): strategy 2 - symlink entire directory
 rm -rf "/Users/nick/Library/Application Support/Sublime Text/Packages/User"
 ln -s $cwd "/Users/nick/Library/Application Support/Sublime Text/Packages/User"
+
+if [ ! -f "$cwd/Preferences.sublime-settings" ]; then
+  cp "$cwd/Preferences.sublime-settings.default" "$cwd/Preferences.sublime-settings"
+fi
+
 exit
 
 # NOTE(nick): strategy 1 - link individual files
