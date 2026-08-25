@@ -2,10 +2,18 @@
     <content><![CDATA[@echo off
 
 set project_root=%~dp0%
+set build_folder=%project_root%\build\
 
-pushd %project_root%
+set "time="
+if exist "C:\apps\ntime.exe" set "time=C:\apps\ntime.exe"
+
+if not exist %build_folder% (mkdir %build_folder%)
+pushd %build_folder%
     ${0}
+    IF %errorlevel% NEQ 0 (popd && goto end)
 popd
+
+:end
 exit /B %errorlevel%]]></content>
     <tabTrigger>build</tabTrigger>
     <scope>source.dosbatch</scope>
