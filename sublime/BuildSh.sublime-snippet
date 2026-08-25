@@ -10,7 +10,7 @@ time=""
 
 mkdir -p \$build_folder
 pushd \$build_folder
-    ${1}
+    ${0}
 popd]]></content>
     <tabTrigger>build</tabTrigger>
     <scope>source.shell.bash</scope>

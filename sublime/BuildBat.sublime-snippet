@@ -10,11 +10,16 @@ if exist "C:\apps\ntime.exe" set "time=C:\apps\ntime.exe"
 if not exist %build_folder% (mkdir %build_folder%)
 pushd %build_folder%
     ${0}
-    IF %errorlevel% NEQ 0 (popd && goto end)
+    %time% odin build ../src -out:main.exe -subsystem:windows -debug || goto :error
+    %time% .\main.exe || goto :error
 popd
 
-:end
-exit /B %errorlevel%]]></content>
+exit /B 0
+
+:error
+set "err=%errorlevel%"
+popd
+exit /B %err%]]></content>
     <tabTrigger>build</tabTrigger>
     <scope>source.dosbatch</scope>
     <description>template for build.bat files</description>
