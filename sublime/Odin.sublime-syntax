@@ -73,7 +73,7 @@ contexts:
       scope: keyword.operator.odin
     - match: \b(nil|true|false)\b
       scope: constant.language.odin
-    - match: \b(self|it|index)\b
+    - match: \b(self|it|index|style)\b
       scope: variable.language.odin
     - match: '\b(\d(\d|_)*(\.\d(\d|_)*)?)((e|E)(\+|-)?\d+)?[ijk]?\b'
       scope: constant.numeric.odin
@@ -87,6 +87,8 @@ contexts:
       scope: keyword.function.odin
     - match: '([#]\s*{{identifier}})'
       scope: keyword.tag.odin
+    - match: '\b(Vector2|Vector3|Vector4)\b'
+      scope: storage.type.odin
 
     # file tags such as #+build -- Note the special rule for comments. File tags
     # don't follow normal grammar rules.
@@ -186,6 +188,12 @@ contexts:
         2: constant.numeric.odin
         3: punctuation.definition.brackets.end.odin punctuation.separator.odin
     - include: basic-types
+
+    - match: '(:)\s*(\^\s*)?({{identifier}})(?!\s*[:\(])'
+      captures:
+        1: keyword.operator.odin
+        2: keyword.operator.pointer.odin
+        3: storage.type.odin
 
     - match: '(\$)\s*({{identifier}})'
       captures:
