@@ -140,6 +140,8 @@ local function diagnostic_goto(next, severity)
   end
 end
 
+vim.keymap.set("n", "<F6>", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+vim.keymap.set("n", "<S-F6>", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
 vim.keymap.set("n", "<F8>", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
 vim.keymap.set("n", "<S-F8>", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
 
