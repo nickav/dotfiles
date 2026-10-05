@@ -2,12 +2,17 @@
 # NOTE(nick): you need to run this (in Power Shell admin):
 # Set-ExecutionPolicy RemoteSigned
 #
+# To install this profile (runs in every PowerShell host/tab):
+# New-Item -ItemType Directory -Force (Split-Path $PROFILE.CurrentUserAllHosts)
+# New-Item -ItemType HardLink -Path $PROFILE.CurrentUserAllHosts -Target C:\dev\dotfiles\windows\Profile.ps1
+#
 
 $env:Path += ";C:\Program Files\nodejs;C:\Users\Nick\AppData\Roaming\npm"
 $env:Path += ";C:\apps"
 $env:Path += ";C:\Program Files\LLVM\bin"
 $env:Path += ";C:\Program Files\Go\bin\;C:\Users\Nick\go\bin"
 $env:Path += ";C:\Users\Nick\.cargo\bin"
+$env:Path += ";C:\Users\Nick\.local\bin"
 
 Set-Location C:\dev
 
